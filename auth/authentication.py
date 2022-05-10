@@ -10,27 +10,27 @@ load_dotenv()
 
 class Authentication():
     security = HTTPBearer()
-    passwordContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
-    secretKEY = os.environ["JWT_SECRET"]
+    password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+    secret_key = os.environ["JWT_SECRET"]
 
-    def hashPassword(self, password):
-        return self.passwordContext.hash(password)
+    def hash_password(self, password):
+        return self.password_context.hash(password)
 
-    def verifyPassword(self, password, hashedPassword):
-        return self.passwordContext.verify(password, hashedPassword)
+    def verify_password(self, password, hashed_password):
+        return self.password_context.verify(password, hashed_password)
 
-    def encodeJWT(self, user):
+    def encode_jwt(self, user):
         payload = {
             "exp": datetime.utcnow() + timedelta(days=0, minutes=5),
             "iat": datetime.utcnow(),
             "sub": user
         }
 
-        return jwt.encode(payload, self.secretKEY, algorithm="HS256")
+        return jwt.encode(payload, self.secret_key, algorithm="HS256")
 
-    def decodeJWT(self, token):
+    def decode_jwt(self, token):
         try:
-            payload = jwt.decode(token, self.secretKEY, algorithms=["HS256"])
+            payload = jwt.decode(token, self.secret_key, algorithms=["HS256"])
 
             return payload['sub']
         except jwt.ExpiredSignatureError:
@@ -38,5 +38,5 @@ class Authentication():
         except jwt.InvalidTokenError:
             return HTTPException(status_code=401, detail="Invalid token")
 
-    def authWrapper(self, auth: HTTPAuthorizationCredentials = Security(security)):
-        return self.decodeJWT(auth.credentials)
+    def auth_wrapper(self, auth: HTTPAuthorizationCredentials = Security(security)):
+        return self.decode_jwt(auth.credentials)

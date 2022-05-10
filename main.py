@@ -12,21 +12,21 @@ user = {
 }
 
 @app.post("/login")
-def login(authDetailes: AuthDetails):
-    if authDetailes.username != user["username"]:
+def login(auth_details: AuthDetails):
+    if auth_details.username != user["username"]:
         raise HTTPException(status_code=401, detail="Wrong user")
 
-    if not authentication.verifyPassword(authDetailes.password, user["hashedPassword"]):
+    if not authentication.verify_password(auth_details.password, user["hashedPassword"]):
         raise HTTPException(status_code=401, detail="Wrong password")
     
-    token = authentication.encodeJWT(user["username"])
+    token = authentication.encode_jwt(user["username"])
 
     return { "token" : token }
 
 @app.get("/noauth")
-def noauthRoute():
+def no_auth():
     return "No need to auth"
 
 @app.get("/withauth")
-def withauthRoute(username = Depends(authentication.authWrapper)):
+def with_auth(username = Depends(authentication.auth_wrapper)):
     return { "name" : username }
