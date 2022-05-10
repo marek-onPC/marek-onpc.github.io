@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from auth.authentication import Authentication
+from auth.schemas import AuthDetails
 
 app = FastAPI()
 
