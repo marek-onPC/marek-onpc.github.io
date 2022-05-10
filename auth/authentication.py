@@ -26,7 +26,7 @@ class Authentication():
             "sub": user
         }
 
-        return jwt.encode(payload, self.secretKEY, alg="HS256")
+        return jwt.encode(payload, self.secretKEY, algorithm="HS256")
 
     def decodeJWT(self, token):
         try:
