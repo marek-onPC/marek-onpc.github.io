@@ -1,9 +1,13 @@
+from typing import Dict
 from fastapi import Depends, FastAPI, HTTPException
 from auth.authentication import Authentication
 from auth.schemas import AuthDetails
+from db.db_client import DatabaseClient
+import bson.json_util as json_util
 
 app = FastAPI()
 authentication = Authentication()
+db_client = DatabaseClient()
 
 user = {
     "username": "name",
@@ -23,10 +27,20 @@ def login(auth_details: AuthDetails):
 
     return { "token" : token }
 
+
 @app.get("/noauth")
-def no_auth():
+def no_auth() -> str:
     return "No need to auth"
 
+
 @app.get("/withauth")
-def with_auth(username = Depends(authentication.auth_wrapper)):
+def with_auth(username = Depends(authentication.auth_wrapper)) -> Dict:
     return { "name" : username }
+
+
+@app.get("/login")
+def no_auth() -> Dict:
+    response = db_client.db_find_one("users", {"user" : "mareksmieja@gmail.com"})
+    response_json = json_util._json_convert(response)
+
+    return response_json
