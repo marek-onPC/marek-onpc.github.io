@@ -13,6 +13,7 @@ httptools==0.4.0
 idna==3.3
 iniconfig==1.1.1
 jwcrypto==1.2
+mongomock==4.0.0
 packaging==21.3
 passlib==1.7.4
 pluggy==1.0.0
@@ -25,6 +26,8 @@ pyparsing==3.0.9
 pytest==7.1.2
 python-dotenv==0.20.0
 PyYAML==6.0
+sentinels==1.0.0
+six==1.16.0
 sniffio==1.2.0
 starlette==0.18.0
 tomli==2.0.1
