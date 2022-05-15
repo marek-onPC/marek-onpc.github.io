@@ -12,7 +12,7 @@ db_uri = os.environ["DB_URI"]
 db_name = os.environ["DB_NAME"]
 db_client = DatabaseClient(db_uri, db_name)
 
-router = APIRouter()
+router = APIRouter(prefix="/api")
 authentication = Authentication()
 
 
