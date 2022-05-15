@@ -1,14 +1,11 @@
-import os
 from typing import Any, Dict
-from dotenv import load_dotenv
 from gridfs import Collection
 from pymongo import MongoClient
 
-load_dotenv()
-
 class DatabaseClient:
-    db_uri = os.environ["DB_URI"]
-    db_name = os.environ["DB_NAME"]
+    def __init__(self, db_uri: str, db_name: str) -> None:
+        self.db_uri = db_uri
+        self.db_name = db_name
 
 
     def db_connection(self, collection_name: str) -> Collection:
@@ -19,8 +16,7 @@ class DatabaseClient:
         return collection
 
 
-    def db_find_one(self, collection_name: str, item_to_find: Dict) -> Any:
-        collection = self.db_connection(collection_name)
+    def db_find_one(self, collection: Collection, item_to_find: Dict) -> Any:
         result = collection.find_one(item_to_find)
 
         return result

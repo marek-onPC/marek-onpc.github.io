@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from typing import Dict
 from fastapi import Depends, FastAPI, HTTPException
 from auth.authentication import Authentication
@@ -5,9 +7,14 @@ from auth.schemas import AuthDetails
 from db.db_client import DatabaseClient
 import bson.json_util as json_util
 
+load_dotenv()
+
+db_uri = os.environ["DB_URI"]
+db_name = os.environ["DB_NAME"]
+
 app = FastAPI()
 authentication = Authentication()
-db_client = DatabaseClient()
+db_client = DatabaseClient(db_uri, db_name)
 
 user = {
     "username": "name",
