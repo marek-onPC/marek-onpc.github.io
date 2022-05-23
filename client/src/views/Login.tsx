@@ -1,9 +1,36 @@
-import { ReactElement } from "react";
+import { ReactElement, SetStateAction } from "react";
+import { useNavigate } from "react-router-dom";
+import { HTTPMethods } from "../types";
+import { fetchClientWithoutAuthorization } from "../utils/fetchClient";
 
-const Login = (): ReactElement => {
-  return(
+type Props = {
+  setLoginToken: SetStateAction<any>;
+}
+
+const Login = ({ setLoginToken }: Props): ReactElement => {
+  const history = useNavigate();
+
+
+  const login = async (): Promise<any> => {
+    try {
+      const jwt = await fetchClientWithoutAuthorization(
+        "/login",
+        HTTPMethods.POST,
+        { credentials }
+      );
+
+      setLoginToken(jwt);
+      history("/dashboard");
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+
+  return (
     <div>
       Login
+      <p onClick={login}>Click to login</p>
     </div>
   );
 };

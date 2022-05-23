@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -8,14 +8,24 @@ import {
 import Home from "./views/Home";
 import Login from "./views/Login";
 import Dashboard from "./views/Dashboard";
+import { AuthContext } from "./utils/AuthContext";
+import Authorization from "./components/Authorization";
 
 const AppRoutes = (): ReactElement => {
+  const [jwt, setJwt] = useState<string | null>(null);
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-    </Routes>
+    <AuthContext.Provider value={{ jwt, setJwt }}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login setLoginToken={setJwt} />} />
+        <Route path="/dashboard" element={
+          <Authorization>
+            <Dashboard />
+          </Authorization>
+        } />
+      </Routes>
+    </AuthContext.Provider>
   )
 }
 
