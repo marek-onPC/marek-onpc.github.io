@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from auth.authentication import Authentication
 
 from api import login
+from api import authpath
 
 load_dotenv()
 
@@ -14,3 +15,4 @@ app = FastAPI()
 authentication = Authentication()
 
 app.include_router(login.router)
+app.include_router(authpath.router)

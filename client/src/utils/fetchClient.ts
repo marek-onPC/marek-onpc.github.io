@@ -1,6 +1,6 @@
-import { HTTPMethods } from "../types"
+import { HTTPMethods } from "../types";
 
-const fetchClientWithoutAuthorization = async (
+const fetchClientWithoutToken = async (
   url: string,
   httpMethod: HTTPMethods,
   data: object
@@ -22,4 +22,25 @@ const fetchClientWithoutAuthorization = async (
   return response;
 }
 
-export { fetchClientWithoutAuthorization }
+const fetchClientGet = async (
+  url: string,
+  token: string,
+): Promise<any> => {
+  const response = await fetch(`/api${url}`, {
+    method: HTTPMethods.GET,
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+  })
+    .then(data => {
+      return data.json();
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
+  return response;
+}
+
+export { fetchClientWithoutToken, fetchClientGet }
