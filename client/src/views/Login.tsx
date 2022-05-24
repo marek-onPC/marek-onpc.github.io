@@ -1,7 +1,6 @@
 import { ReactElement, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
-import { HTTPMethods } from "../types";
-import { fetchClientWithoutToken } from "../utils/fetchClient";
+import { fetchClientPostWithoutToken } from "../utils/fetchClient";
 
 type Props = {
   setLoginToken: SetStateAction<any>;
@@ -13,9 +12,8 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
 
   const login = async (): Promise<any> => {
     try {
-      const jwt = await fetchClientWithoutToken(
+      const jwt = await fetchClientPostWithoutToken(
         "/login",
-        HTTPMethods.POST,
         { credentials }
       );
 

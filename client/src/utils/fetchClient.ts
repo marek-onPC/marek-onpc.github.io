@@ -1,12 +1,11 @@
 import { HTTPMethods } from "../types";
 
-const fetchClientWithoutToken = async (
+const fetchClientPostWithoutToken = async (
   url: string,
-  httpMethod: HTTPMethods,
   data: object
 ): Promise<any> => {
   const response = await fetch(`/api${url}`, {
-    method: httpMethod,
+    method: HTTPMethods.POST,
     headers: {
       "Content-Type": "application/json"
     },
@@ -43,4 +42,4 @@ const fetchClientGet = async (
   return response;
 }
 
-export { fetchClientWithoutToken, fetchClientGet }
+export { fetchClientPostWithoutToken, fetchClientGet }
