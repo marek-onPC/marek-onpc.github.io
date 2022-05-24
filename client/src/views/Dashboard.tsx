@@ -1,27 +1,26 @@
 import { ReactElement, useEffect, useContext } from "react";
 import { fetchClientGet } from "../utils/fetchClient";
 import { AuthContext } from "../utils/AuthContext";
-import { DynamicContext } from "../types";
 
 const Dashboard = (): ReactElement => {
-  const token: DynamicContext = useContext(AuthContext);
+  const token: string = useContext(AuthContext);
 
-  const getUserName = async () => {
+  const getUserName = async (): Promise<void> => {
     try {
       const response = await fetchClientGet(
         "/authpath",
-        token.jwt.token
+        token
       );
-
-      console.log(response)
+      
+      console.log(response);
     }
     catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
   useEffect(() => {
-    getUserName()
+    getUserName();
   });
 
   return (

@@ -12,10 +12,10 @@ import { AuthContext } from "./utils/AuthContext";
 import Authorization from "./components/Authorization";
 
 const AppRoutes = (): ReactElement => {
-  const [jwt, setJwt] = useState<string | null>(null);
+  const [jwt, setJwt] = useState<string>("");
 
   return (
-    <AuthContext.Provider value={{ jwt, setJwt }}>
+    <AuthContext.Provider value={jwt}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login setLoginToken={setJwt} />} />

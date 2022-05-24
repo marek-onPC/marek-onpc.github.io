@@ -9,15 +9,14 @@ type Props = {
 const Login = ({ setLoginToken }: Props): ReactElement => {
   const history = useNavigate();
 
-
-  const login = async (): Promise<any> => {
+  const login = async (): Promise<void> => {
     try {
       const jwt = await fetchClientPostWithoutToken(
         "/login",
         { credentials }
       );
 
-      setLoginToken(jwt);
+      setLoginToken(jwt.token);
       history("/dashboard");
     }
     catch (error) {
