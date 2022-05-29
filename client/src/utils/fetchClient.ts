@@ -11,8 +11,14 @@ const fetchClientPostWithoutToken = async (
     },
     body: JSON.stringify(data)
   })
-    .then(data => {
-      return data.json();
+    .then(async (data) => {
+      const responseStatus = data.status;
+      const responseData = await data.json();
+
+      return {
+        status: responseStatus,
+        data: responseData
+      };
     })
     .catch((error) => {
       console.error('Error:', error);

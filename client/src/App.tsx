@@ -32,7 +32,7 @@ const AppRoutes = (): ReactElement => {
 const App = (): ReactElement => {
   return (
     <Router>
-      <nav>
+      {/* <nav>
         <ul>
           <li>
             <Link to="/">Home</Link>
@@ -44,7 +44,7 @@ const App = (): ReactElement => {
             <Link to="/dashboard">Dashboard</Link>
           </li>
         </ul>
-      </nav>
+      </nav> */}
       <AppRoutes />
     </Router>
   )
