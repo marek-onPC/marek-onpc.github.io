@@ -10,6 +10,8 @@ import Login from "./views/Login";
 import Dashboard from "./views/Dashboard";
 import { AuthContext } from "./utils/AuthContext";
 import Authorization from "./components/Authorization";
+import { Box, ThemeProvider } from "@mui/material";
+import { ThemeContext } from "./utils/ThemeContext";
 
 const AppRoutes = (): ReactElement => {
   const [jwt, setJwt] = useState<string>("");
@@ -31,8 +33,10 @@ const AppRoutes = (): ReactElement => {
 
 const App = (): ReactElement => {
   return (
-    <Router>
-      {/* <nav>
+    <ThemeProvider theme={ThemeContext}>
+      <Box sx={{ bgcolor: "secondary.main" }}>
+        <Router>
+          {/* <nav>
         <ul>
           <li>
             <Link to="/">Home</Link>
@@ -45,9 +49,12 @@ const App = (): ReactElement => {
           </li>
         </ul>
       </nav> */}
-      <AppRoutes />
-    </Router>
-  )
-}
+          <AppRoutes />
+        </Router>
+      </Box>
+
+    </ThemeProvider>
+  );
+};
 
 export default App;

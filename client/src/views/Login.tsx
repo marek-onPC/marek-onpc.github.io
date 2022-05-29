@@ -76,11 +76,20 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
           }}
         >
           <TextField
-            helperText="Enter you username and password"
+            sx={{
+              backgroundColor: "#fff",
+              borderRadius: 1
+            }}
+            variant="filled"
             label="Username"
             onChange={updateUsername}
           />
           <TextField
+            sx={{
+              backgroundColor: "#fff",
+              borderRadius: 1
+            }}
+            variant="filled"
             label="Password"
             type="password"
             onChange={updatePassword}
@@ -93,7 +102,7 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
           onClick={login}
           variant="contained"
           loading={isLoginInProgress}>
-          Loading
+          Login
         </LoadingButton>
       </Box>
     </div>
