@@ -34,7 +34,15 @@ const AppRoutes = (): ReactElement => {
 const App = (): ReactElement => {
   return (
     <ThemeProvider theme={ThemeContext}>
-      <Box sx={{ bgcolor: "secondary.main" }}>
+      <Box
+        sx={{
+          width: "100%",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          bgcolor: "secondary.main"
+        }}
+      >
         <Router>
           {/* <nav>
         <ul>

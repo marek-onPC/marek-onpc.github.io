@@ -12,6 +12,9 @@ const fetchClientPostWithoutToken = async (
     body: JSON.stringify(data)
   })
     .then(async (data) => {
+      if (data.status !== 200) {
+        throw new Error(data.statusText);
+      }
       const responseStatus = data.status;
       const responseData = await data.json();
 
@@ -20,9 +23,6 @@ const fetchClientPostWithoutToken = async (
         data: responseData
       };
     })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
 
   return response;
 }
@@ -39,11 +39,12 @@ const fetchClientGet = async (
     },
   })
     .then(data => {
+      if (data.status !== 200) {
+        throw new Error(data.statusText);
+      }
+
       return data.json();
     })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
 
   return response;
 }
