@@ -3,7 +3,7 @@ import { Alert, Box, TextField } from "@mui/material";
 import { ChangeEvent, ReactElement, SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthCredentials } from "../types";
-import { fetchClientPostWithoutToken } from "../utils/fetchClient";
+import { fetchClientPostWithoutToken } from "../helpers/fetchClient";
 
 type Props = {
   setLoginToken: SetStateAction<any>;

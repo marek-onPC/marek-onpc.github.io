@@ -38,12 +38,17 @@ const fetchClientGet = async (
       "Content-Type": "application/json"
     },
   })
-    .then(data => {
+    .then(async (data) => {
       if (data.status !== 200) {
         throw new Error(data.statusText);
       }
+      const responseStatus = data.status;
+      const responseData = await data.json();
 
-      return data.json();
+      return {
+        status: responseStatus,
+        data: responseData
+      };
     })
 
   return response;

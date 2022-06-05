@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useContext } from "react";
-import { fetchClientGet } from "../utils/fetchClient";
+import { fetchClientGet } from "../helpers/fetchClient";
 import { AuthContext } from "../utils/AuthContext";
 
 const Dashboard = (): ReactElement => {
