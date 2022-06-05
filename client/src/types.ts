@@ -1,3 +1,5 @@
+import { IconDefinition } from "@fortawesome/free-brands-svg-icons";
+
 export type AuthCredentials = {
   username: string;
   password: string;
@@ -5,6 +7,15 @@ export type AuthCredentials = {
 
 export type DynamicContext = {
   [key: string]: any
+}
+
+type IconSet = {
+  icon: IconDefinition;
+  "color": string;
+}
+
+export type MultipleIconSet = {
+  [key: string]: IconSet
 }
 
 export enum HTTPMethods {
