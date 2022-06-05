@@ -6,15 +6,10 @@ import {
   faVuejs,
   faSass,
   faPhp,
-  faHtml5,
-  faNpm,
-  faGitAlt,
-  faLinkedin,
-  faGithub
 } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MultipleIconSet } from "../types";
-import { Box, Collapse, Container, Fade, Typography } from "@mui/material";
+import { Box, Container, Fade, Typography } from "@mui/material";
 
 const Home = (): ReactElement => {
   const ICONS: MultipleIconSet = {
@@ -85,28 +80,26 @@ const Home = (): ReactElement => {
           </div>
         </Fade>
         <div>
-          {
-            Object.values(ICONS).map((icon, index) =>
-              <Fade
-                key={index}
-                in={true}
-                timeout={1000}
-                style={{ transitionDelay: `${index * 100 + 1500}ms` }}
-              >
-                <div>
-                  <FontAwesomeIcon
-                    style={{
-                      paddingRight: 10,
-                    }}
-                    icon={icon.icon}
-                    color={icon.color}
-                    pull="left"
-                    size="3x"
-                  />
-                </div>
-              </Fade>
-            )
-          }
+          {Object.values(ICONS).map((icon, index) =>
+            <Fade
+              key={index}
+              in={true}
+              timeout={1000}
+              style={{ transitionDelay: `${index * 100 + 1500}ms` }}
+            >
+              <div>
+                <FontAwesomeIcon
+                  style={{
+                    paddingRight: 10,
+                  }}
+                  icon={icon.icon}
+                  color={icon.color}
+                  pull="left"
+                  size="3x"
+                />
+              </div>
+            </Fade>
+          )}
         </div>
       </Box>
     </Container >
