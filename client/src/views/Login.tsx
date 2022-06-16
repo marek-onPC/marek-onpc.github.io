@@ -43,11 +43,11 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
         "/login",
         user
       );
-
-      setIsLoginInProgress(false);
       setLoginToken(response.data.token);
-      history("/dashboard");
 
+      setTimeout(() => {
+        history("/dashboard");
+      }, 500)
     } catch (error) {
       console.error(error);
       setIsLoginInProgress(false);
@@ -80,6 +80,7 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
             backgroundColor: "#fff",
             borderRadius: 1
           }}
+          name="username"
           variant="filled"
           label="Username"
           onChange={updateUsername}
@@ -89,6 +90,7 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
             backgroundColor: "#fff",
             borderRadius: 1
           }}
+          name="password"
           variant="filled"
           label="Password"
           type="password"
