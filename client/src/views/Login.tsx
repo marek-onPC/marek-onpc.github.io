@@ -49,7 +49,6 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
         history("/dashboard");
       }, 500)
     } catch (error) {
-      console.error(error);
       setIsLoginInProgress(false);
       setIsLoginError(true);
     }

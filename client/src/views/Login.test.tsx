@@ -5,15 +5,9 @@ import {
 } from "react-router-dom";
 import { DUMMY_USER } from "../setupTests";
 import Login from "./Login";
-import * as router from "react-router-dom";
 
 describe(("Login page"), () => {
   let mockSetLoginToken: jest.Mock;
-
-  jest.mock("react-router-dom", () => ({
-    ...(jest.requireActual("react-router-dom")),
-    useNavigate: jest.fn(),
-  }));
 
   beforeEach(() => {
     mockSetLoginToken = jest.fn();
@@ -41,5 +35,27 @@ describe(("Login page"), () => {
     await waitFor(() => {
       expect(mockSetLoginToken).toHaveBeenCalled();
     });
+  })
+
+  it("login with invalid login data", async () => {
+    const { container } = render(
+      <Router>
+        <Login setLoginToken={mockSetLoginToken} />
+      </Router>
+    );
+
+    const usernameInput = container.querySelector('input[name="username"]');
+    const passwordInput = container.querySelector('input[name="password"]');
+    const submitButton = screen.getByRole("button", { name: /login/i });
+
+    expect(usernameInput).toBeInTheDocument();
+    expect(passwordInput).toBeInTheDocument();
+    expect(submitButton).toBeInTheDocument();
+
+    await userEvent.type(usernameInput as Element, DUMMY_USER.password);
+    await userEvent.type(passwordInput as Element, DUMMY_USER.username);
+    userEvent.click(submitButton);
+
+    expect(await screen.findByText(/error occurred on login, try again/i))
   })
 })
