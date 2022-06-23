@@ -43,6 +43,10 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
         "/login",
         user
       );
+
+      window.localStorage.setItem(
+        process.env.REACT_APP_LOCAL_STORAGE_TOKEN as string, response.data.token
+      );
       setLoginToken(response.data.token);
 
       setTimeout(() => {

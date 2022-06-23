@@ -13,8 +13,17 @@ import Authorization from "./components/Authorization";
 import { Box, ThemeProvider } from "@mui/material";
 import { ThemeContext } from "./utils/ThemeContext";
 
+let initialAuthContext = "";
+const LOGIN_TOKEN = window.localStorage.getItem(
+  process.env.REACT_APP_LOCAL_STORAGE_TOKEN as string
+);
+
+if (LOGIN_TOKEN) {
+  initialAuthContext = LOGIN_TOKEN;
+};
+
 const AppRoutes = (): ReactElement => {
-  const [jwt, setJwt] = useState<string>("");
+  const [jwt, setJwt] = useState<string>(initialAuthContext);
 
   return (
     <AuthContext.Provider value={jwt}>
