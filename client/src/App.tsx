@@ -1,4 +1,5 @@
 import { ReactElement, useState } from "react";
+import { Buffer } from "buffer";
 import {
   BrowserRouter as Router,
   Route,
@@ -19,7 +20,14 @@ const LOGIN_TOKEN = window.localStorage.getItem(
 );
 
 if (LOGIN_TOKEN) {
-  initialAuthContext = LOGIN_TOKEN;
+  const LOGIN_TOKEN_PAYLOAD = LOGIN_TOKEN.split('.')[1];
+  const DECODED_PAYLOAD = Buffer.from(LOGIN_TOKEN_PAYLOAD, 'base64');
+  const TOKEN_EXPIRATION = JSON.parse(DECODED_PAYLOAD.toString())["exp"] * 1000;
+  const CURRENT_TIME = new Date();
+
+  if (TOKEN_EXPIRATION > CURRENT_TIME.getTime()) {
+    initialAuthContext = LOGIN_TOKEN;
+  }
 };
 
 const AppRoutes = (): ReactElement => {
