@@ -33,7 +33,7 @@ const ICONS: MultipleIconSet = {
   },
   faPhp: {
     icon: faPhp,
-    color: '#4B8BBE'
+    color: '#B0B3D6'
   },
   faSass: {
     icon: faSass,
