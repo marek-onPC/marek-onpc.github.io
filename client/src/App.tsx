@@ -4,14 +4,13 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Link
 } from "react-router-dom";
 import Home from "./views/Home";
 import Login from "./views/Login";
 import Dashboard from "./views/Dashboard";
 import { AuthContext } from "./utils/AuthContext";
 import Authorization from "./components/Authorization";
-import { Box, ThemeProvider } from "@mui/material";
+import { Box, ThemeProvider, Typography } from "@mui/material";
 import { ThemeContext } from "./utils/ThemeContext";
 
 let initialAuthContext = "";
@@ -37,10 +36,28 @@ const AppRoutes = (): ReactElement => {
     <AuthContext.Provider value={jwt}>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login setLoginToken={setJwt} />} />
-        <Route path="/dashboard" element={
+        <Route path="login" element={<Login setLoginToken={setJwt} />} />
+        <Route path="dashboard" element={
           <Authorization>
-            <Dashboard />
+            <Dashboard>
+              <Typography variant="h2" color="white">welcome back</Typography>
+              <Typography variant="h3" color="white">in</Typography>
+              <Typography variant="h4" color="white">dashboard</Typography>
+            </Dashboard>
+          </Authorization>
+        } />
+        <Route path="dashboard/notes" element={
+          <Authorization>
+            <Dashboard>
+              <Typography variant="h4" color="white">notes</Typography>
+            </Dashboard>
+          </Authorization>
+        } />
+        <Route path="dashboard/categories" element={
+          <Authorization>
+            <Dashboard>
+              <Typography variant="h4" color="white">categories</Typography>
+            </Dashboard>
           </Authorization>
         } />
       </Routes>
@@ -61,23 +78,9 @@ const App = (): ReactElement => {
         }}
       >
         <Router>
-          {/* <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-        </ul>
-      </nav> */}
           <AppRoutes />
         </Router>
       </Box>
-
     </ThemeProvider>
   );
 };
