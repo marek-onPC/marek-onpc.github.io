@@ -11,23 +11,19 @@ type Props = {
 const Dashboard = ({ children }: Props): ReactElement => {
   const token: string = useContext(AuthContext);
 
-  const getUserName = async (): Promise<void> => {
-    try {
-      const response = await fetchClientGet(
-        "/authpath",
-        token
-      );
+  // const getUserName = async (): Promise<void> => {
+  //   try {
+  //     const response = await fetchClientGet(
+  //       "/authpath",
+  //       token
+  //     );
 
-      console.log(response);
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    getUserName();
-  });
+  //     console.log(response);
+  //   }
+  //   catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   return (
     <Container
