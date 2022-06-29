@@ -1,30 +1,12 @@
 import { ButtonGroup, Container, Button, Box } from "@mui/material";
-import { ReactElement, useEffect, useContext, ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { fetchClientGet } from "../helpers/fetchClient";
-import { AuthContext } from "../utils/AuthContext";
 
 type Props = {
   children: ReactNode;
 }
 
 const Dashboard = ({ children }: Props): ReactElement => {
-  const token: string = useContext(AuthContext);
-
-  // const getUserName = async (): Promise<void> => {
-  //   try {
-  //     const response = await fetchClientGet(
-  //       "/authpath",
-  //       token
-  //     );
-
-  //     console.log(response);
-  //   }
-  //   catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
   return (
     <Container
       sx={{

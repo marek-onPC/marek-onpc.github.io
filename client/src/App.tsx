@@ -7,11 +7,12 @@ import {
 } from "react-router-dom";
 import Home from "./views/Home";
 import Login from "./views/Login";
-import Dashboard from "./views/Dashboard";
+import Dashboard from "./views/Dashboard/Dashboard";
 import { AuthContext } from "./utils/AuthContext";
 import Authorization from "./components/Authorization";
 import { Box, ThemeProvider, Typography } from "@mui/material";
 import { ThemeContext } from "./utils/ThemeContext";
+import Notes from "./views/Dashboard/Notes";
 
 let initialAuthContext = "";
 const LOGIN_TOKEN = window.localStorage.getItem(
@@ -50,6 +51,7 @@ const AppRoutes = (): ReactElement => {
           <Authorization>
             <Dashboard>
               <Typography variant="h4" color="white">notes</Typography>
+              <Notes />
             </Dashboard>
           </Authorization>
         } />

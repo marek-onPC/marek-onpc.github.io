@@ -1,3 +1,4 @@
+import json
 import os
 from dotenv import load_dotenv
 from fastapi import Depends, APIRouter, HTTPException
@@ -25,6 +26,6 @@ def notes(username = Depends(authentication.auth_wrapper)):
         for sample in result:
             notes.append(sample)
 
-        return notes
+        return json.dumps(notes, default=str)
     else:
         raise HTTPException(status_code=401, detail="Unauthorized")
