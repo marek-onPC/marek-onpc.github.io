@@ -20,3 +20,9 @@ class DatabaseClient:
         result = collection.find_one(item_to_find)
 
         return result
+
+
+    def db_find_all(self, collection: Collection) -> Any:
+        result = collection.find()
+
+        return result

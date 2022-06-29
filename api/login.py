@@ -10,6 +10,7 @@ load_dotenv()
 
 db_uri = os.environ["DB_URI"]
 db_name = os.environ["DB_NAME"]
+db_collection_name = os.environ["DB_COLL_USERS"]
 db_client = DatabaseClient(db_uri, db_name)
 
 router = APIRouter(prefix="/api")
@@ -18,10 +19,9 @@ authentication = Authentication()
 
 @router.post("/login")
 def login(auth_details: AuthDetails) -> Dict:
-    collection_name = "users"
-    collection = db_client.db_connection(collection_name)
+    collection = db_client.db_connection(db_collection_name)
 
-    user = collection.find_one({
+    user = db_client.db_find_one(collection, {
         "user": auth_details.username
     })
 

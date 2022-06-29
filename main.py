@@ -3,8 +3,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from auth.authentication import Authentication
 
-from api import login
-from api import authpath
+from api import login, authpath, notes
 
 load_dotenv()
 
@@ -16,3 +15,4 @@ authentication = Authentication()
 
 app.include_router(login.router)
 app.include_router(authpath.router)
+app.include_router(notes.router)

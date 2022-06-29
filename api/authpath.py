@@ -1,9 +1,7 @@
 import os
-from typing import Dict
 from dotenv import load_dotenv
 from fastapi import Depends, APIRouter
 from auth.authentication import Authentication
-from auth.schemas import AuthDetails
 from db.db_client import DatabaseClient
 
 load_dotenv()
