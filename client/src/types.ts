@@ -18,6 +18,19 @@ export type MultipleIconSet = {
   [key: string]: IconSet
 }
 
+export type NoteType = {
+  _id: string;
+  title: string;
+  categories: Array<string>;
+  content: string;
+}
+
+export type NoteCardType = {
+  _id: string;
+  title: string;
+  categories: Array<string>;
+}
+
 export enum HTTPMethods {
   POST = "POST",
   GET = "GET",

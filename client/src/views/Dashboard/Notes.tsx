@@ -1,9 +1,12 @@
+import { Box, LinearProgress } from "@mui/material";
 import { ReactElement, useContext, useEffect, useState } from "react";
+import NoteCard from "../../components/NoteCard";
 import { fetchClientGet } from "../../helpers/fetchClient";
+import { NoteCardType } from "../../types";
 import { AuthContext } from "../../utils/AuthContext";
 
 const Notes = (): ReactElement => {
-  const [notes, setNotes] = useState<Array<unknown> | null>(null);
+  const [notes, setNotes] = useState<Array<NoteCardType> | null>(null);
   const token: string = useContext(AuthContext);
 
   const getNotes = async (): Promise<void> => {
@@ -24,14 +27,24 @@ const Notes = (): ReactElement => {
   });
 
   return (
-    <div>
+    <Box
+      component="div"
+      sx={{
+        width: "100%",
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+      }}
+    >
       {notes
-        ? notes.map(note => 
-          // prepare type for note object
-        <p>{note.title}</p>)
-        : <>Loading...</>
+        ? notes.map((note, index) =>
+          <NoteCard key={index} _id={note._id} title={note.title} categories={note.categories} />
+        )
+        : <Box sx={{ maxWidth: "500px", width: '100%', marginTop: "50px" }}>
+          <LinearProgress />
+        </Box>
       }
-    </div>
+    </Box>
   )
 }
 
