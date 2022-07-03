@@ -28,7 +28,7 @@ export type NoteType = {
 export type NoteCardType = {
   _id: string;
   title: string;
-  categories: Array<string>;
+  categories?: Array<string>;
 }
 
 export enum HTTPMethods {

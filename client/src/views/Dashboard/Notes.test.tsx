@@ -16,8 +16,10 @@ describe("Dashboard's Notes page", () => {
       </Router>
     );
 
-    const title = await screen.findByText(note.title);
-    expect(title).toBeInTheDocument();
-    expect
+    const addNoteCard = await screen.findByText("Add new note");
+    expect(addNoteCard).toBeInTheDocument();
+
+    const noteTitle = await screen.findByText(note.title);
+    expect(noteTitle).toBeInTheDocument();
   })
 });

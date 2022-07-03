@@ -37,9 +37,12 @@ const Notes = (): ReactElement => {
       }}
     >
       {notes
-        ? notes.map((note, index) =>
-          <NoteCard key={index} _id={note._id} title={note.title} categories={note.categories} />
-        )
+        ? <>
+          <NoteCard _id="new-note" title="Add new note" categories={["and assign category"]} isGreen={true} />
+          {notes.map((note, index) =>
+            <NoteCard key={index} _id={note._id} title={note.title} categories={note.categories} />
+          )}
+        </>
         : <Box sx={{ maxWidth: "500px", width: '100%', marginTop: "50px" }}>
           <LinearProgress />
         </Box>
