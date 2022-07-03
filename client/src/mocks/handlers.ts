@@ -1,6 +1,6 @@
 import { rest } from 'msw';
-import { DUMMY_TOKEN } from '../setupTests';
-import { AuthCredentials } from '../types';
+import { DUMMY_NOTES, DUMMY_TOKEN } from '../setupTests';
+import { AuthCredentials, NoteType } from '../types';
 
 const authorizedCallHandler = (dummyToken: string) => {
   return rest.get("/api/authtest", (req, res, ctx) => {
@@ -39,6 +39,13 @@ const _loginHandler = rest.post("/api/login", (req, res, ctx) => {
   )
 });
 
-export const handlers = [_loginHandler];
+const _notesHandler = rest.get("/api/notes", (req, res, ctx) => {
+  return res(
+    ctx.status(200),
+    ctx.json(JSON.stringify(DUMMY_NOTES)),
+  )
+});
+
+export const handlers = [_loginHandler, _notesHandler];
 
 export { authorizedCallHandler };

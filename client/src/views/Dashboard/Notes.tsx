@@ -24,7 +24,7 @@ const Notes = (): ReactElement => {
 
   useEffect(() => {
     getNotes();
-  });
+  }, []);
 
   return (
     <Box
