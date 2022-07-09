@@ -1,5 +1,5 @@
 import { Box, LinearProgress } from "@mui/material";
-import { ReactElement, useContext, useEffect, useState } from "react";
+import { ReactElement, useCallback, useContext, useEffect, useState } from "react";
 import NoteCard from "../../components/NoteCard";
 import { fetchClientGet } from "../../helpers/fetchClient";
 import { NoteCardType } from "../../types";
@@ -9,7 +9,7 @@ const Notes = (): ReactElement => {
   const [notes, setNotes] = useState<Array<NoteCardType> | null>(null);
   const token: string = useContext(AuthContext);
 
-  const getNotes = async (): Promise<void> => {
+  const getNotes = useCallback(async (): Promise<void> => {
     try {
       const notes = await fetchClientGet(
         "/notes",
@@ -20,11 +20,11 @@ const Notes = (): ReactElement => {
     catch (error) {
       console.log(error);
     }
-  }
+  }, [token])
 
   useEffect(() => {
     getNotes();
-  }, []);
+  }, [getNotes]);
 
   return (
     <Box
@@ -40,7 +40,7 @@ const Notes = (): ReactElement => {
         ? <>
           <NoteCard _id="new-note" title="Add new note" categories={["and assign category"]} isGreen={true} />
           {notes.map((note, index) =>
-            <NoteCard key={index} _id={note._id} title={note.title} categories={note.categories} />
+            <NoteCard key={index} _id={note._id} title={note.title} categories={note.categories} isDashboard={true} />
           )}
         </>
         : <Box sx={{ maxWidth: "500px", width: '100%', marginTop: "50px" }}>

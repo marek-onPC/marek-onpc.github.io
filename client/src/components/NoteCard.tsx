@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 interface Props extends NoteCardType { isDashboard?: boolean, isGreen?: boolean }
 
 const NoteCard = ({ _id, title, categories, isDashboard = false, isGreen = false }: Props): ReactElement => {
-  const URL = `note?id=${_id}`;
+  const URL = isDashboard ? `edit-note?id=${_id}` : `note?id=${_id}`;
   const theme = useTheme();
 
   return (
