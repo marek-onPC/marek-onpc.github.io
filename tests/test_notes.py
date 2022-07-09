@@ -74,7 +74,29 @@ def test_get_notes(expected_notes: list) -> None:
 
     for sample in result:
         notes.append(sample)
-    
-    print(notes)
-    print(expected_notes)
+
     assert notes == expected_notes
+
+@pytest.mark.parametrize(
+    "expected_note", [
+        [
+            {
+                "_id": 2,
+                "title": "Second entry",
+                "date": "2022-06-28T15:00:00.000+00:00",
+                "categories":
+                [
+                    "category0",
+                    "category1"
+                ],
+                "content": "content"
+            }
+        ]
+    ]
+)
+def test_get_notes(expected_note: list) -> None:
+    result = db_client.db_find_one(mock_collection, {
+            "_id" : 2
+        })
+
+    assert result == expected_note[0]
