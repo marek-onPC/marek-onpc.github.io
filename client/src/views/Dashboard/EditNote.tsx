@@ -1,12 +1,12 @@
 import { Box, LinearProgress, TextField } from "@mui/material";
-import { ReactElement, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { KeyboardEventHandler, ReactElement, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { fetchClientGet } from "../../helpers/fetchClient";
 import { NoteType } from "../../types";
 import { AuthContext } from "../../utils/AuthContext";
 import { Editor } from '@tinymce/tinymce-react';
 
 const EditNote = (): ReactElement => {
-  const [note, setNote] = useState<NoteType>();
+  const [note, setNote] = useState<NoteType | null>(null);
   const token: string = useContext(AuthContext);
   const tinyMceKey = process.env.REACT_APP_TINY_MCE_KEY as string;
   const editorRef = useRef(null);
@@ -39,10 +39,20 @@ const EditNote = (): ReactElement => {
     }
   }, []);
 
-  const log = () => {
+  const updateTitle = (newValue: string) => {
+    setNote((prevState) => prevState ? { ...prevState, title: newValue } : prevState)
+  }
+
+  const updateContent = () => {
     if (editorRef.current) {
-      // @ts-ignore
-      console.log(editorRef.current.getContent());
+      setNote((prevState) => prevState ?
+        {
+          ...prevState,
+          // @ts-ignore
+          content: editorRef.current.getContent()
+        }
+        : prevState
+      )
     }
   };
 
@@ -74,13 +84,14 @@ const EditNote = (): ReactElement => {
               sx={{
                 width: "100%",
                 backgroundColor: "#fff",
-                borderRadius: 1
+                borderRadius: 1,
+                marginBottom: "25px"
               }}
               name="noteTitle"
               variant="filled"
               label="Note title"
               value={note.title}
-              onChange={() => { console.log("test") }}
+              onChange={event => updateTitle(event.target.value)}
             />
             <>
               <Editor
@@ -104,7 +115,7 @@ const EditNote = (): ReactElement => {
                 }}
               />
             </>
-            <a onClick={log}>Log editor content</a>
+            <a onClick={updateContent}>Log editor content</a>
 
           </Box>
         </Box>

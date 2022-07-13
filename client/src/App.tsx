@@ -59,7 +59,6 @@ const AppRoutes = (): ReactElement => {
         <Route path="dashboard/notes/edit-note" element={
           <Authorization>
             <Dashboard>
-              <Typography variant="h4" color="white">edit-note</Typography>
               <EditNote />
             </Dashboard>
           </Authorization>
