@@ -25,20 +25,9 @@ const Dashboard = ({ children }: Props): ReactElement => {
               color: "inherit",
               textDecoration: "none",
             }}
-            to="/dashboard/notes"
+            to="/dashboard"
           >
             Notes
-          </Link>
-        </Button>
-        <Button>
-          <Link
-            style={{
-              color: "inherit",
-              textDecoration: "none",
-            }}
-            to="/dashboard/categories"
-          >
-            Categories
           </Link>
         </Button>
         <Button

@@ -1,4 +1,4 @@
-import { Box, LinearProgress, TextField } from "@mui/material";
+import { Box, Button, LinearProgress, TextField } from "@mui/material";
 import { KeyboardEventHandler, ReactElement, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { fetchClientGet } from "../../helpers/fetchClient";
 import { NoteType } from "../../types";
@@ -43,6 +43,11 @@ const EditNote = (): ReactElement => {
     setNote((prevState) => prevState ? { ...prevState, title: newValue } : prevState)
   }
 
+  const updateCategories = (newValue: string) => {
+    const newCategories = newValue.split(",");
+    setNote((prevState) => prevState ? { ...prevState, categories: newCategories } : prevState)
+  }
+
   const updateContent = () => {
     if (editorRef.current) {
       setNote((prevState) => prevState ?
@@ -53,6 +58,7 @@ const EditNote = (): ReactElement => {
         }
         : prevState
       )
+      console.log(note)
     }
   };
 
@@ -93,6 +99,19 @@ const EditNote = (): ReactElement => {
               value={note.title}
               onChange={event => updateTitle(event.target.value)}
             />
+            <TextField
+              sx={{
+                width: "100%",
+                backgroundColor: "#fff",
+                borderRadius: 1,
+                marginBottom: "25px"
+              }}
+              name="categories"
+              variant="filled"
+              label="Categories (separate with ; only and no spaces)"
+              value={note.categories.toString()}
+              onChange={event => updateCategories(event.target.value)}
+            />
             <>
               <Editor
                 apiKey={tinyMceKey}
@@ -115,8 +134,17 @@ const EditNote = (): ReactElement => {
                 }}
               />
             </>
-            <a onClick={updateContent}>Log editor content</a>
-
+            <Button
+              sx={{
+                width: "max-content",
+                marginTop: "25px",
+                marginBottom: "25px"
+              }}
+              variant="contained"
+              onClick={updateContent}
+            >
+              Save
+            </Button>
           </Box>
         </Box>
         : <Box sx={{ maxWidth: "500px", width: '100%', marginTop: "50px" }}>

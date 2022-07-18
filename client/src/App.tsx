@@ -42,31 +42,15 @@ const AppRoutes = (): ReactElement => {
         <Route path="dashboard" element={
           <Authorization>
             <Dashboard>
-              <Typography variant="h2" color="white">welcome back</Typography>
-              <Typography variant="h3" color="white">in</Typography>
-              <Typography variant="h4" color="white">dashboard</Typography>
-            </Dashboard>
-          </Authorization>
-        } />
-        <Route path="dashboard/notes" element={
-          <Authorization>
-            <Dashboard>
               <Typography variant="h4" color="white">notes</Typography>
               <Notes />
             </Dashboard>
           </Authorization>
         } />
-        <Route path="dashboard/notes/edit-note" element={
+        <Route path="dashboard/edit-note" element={
           <Authorization>
             <Dashboard>
               <EditNote />
-            </Dashboard>
-          </Authorization>
-        } />
-        <Route path="dashboard/categories" element={
-          <Authorization>
-            <Dashboard>
-              <Typography variant="h4" color="white">categories</Typography>
             </Dashboard>
           </Authorization>
         } />

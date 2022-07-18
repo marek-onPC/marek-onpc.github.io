@@ -40,23 +40,4 @@ describe("Dashboard page (to manage notes)", () => {
       expect(window.location.href).toEqual(redirectionUriToBeExpected);
     });
   });
-
-  it("goes to categories page if Categories button is clicked", async () => {
-    const redirectionUriToBeExpected = "http://localhost/dashboard/categories";
-    render(
-      <Router>
-        <Dashboard>
-          <h1>dashboard</h1>
-        </Dashboard>
-      </Router>
-    );
-
-    const categoriesButton = screen.getByText(/categories/i);
-    expect(categoriesButton).toBeInTheDocument();
-    userEvent.click(categoriesButton);
-
-    await waitFor(() => {
-      expect(window.location.href).toEqual(redirectionUriToBeExpected);
-    });
-  });
 });
