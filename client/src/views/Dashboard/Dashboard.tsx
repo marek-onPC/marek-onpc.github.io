@@ -35,7 +35,7 @@ const Dashboard = ({ children }: Props): ReactElement => {
             window.localStorage.removeItem(
               process.env.REACT_APP_LOCAL_STORAGE_TOKEN as string
             );
-            window.location.replace("/dashboard");
+            window.location.replace("/login");
           }}
         >
           Logout

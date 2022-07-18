@@ -1,5 +1,5 @@
 import { Box, Button, LinearProgress, TextField } from "@mui/material";
-import { KeyboardEventHandler, ReactElement, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { ReactElement, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { fetchClientGet } from "../../helpers/fetchClient";
 import { NoteType } from "../../types";
 import { AuthContext } from "../../utils/AuthContext";
@@ -7,6 +7,7 @@ import { Editor } from '@tinymce/tinymce-react';
 
 const EditNote = (): ReactElement => {
   const [note, setNote] = useState<NoteType | null>(null);
+  const [isNewNote, setIsNewNote] = useState<boolean>(false);
   const token: string = useContext(AuthContext);
   const tinyMceKey = process.env.REACT_APP_TINY_MCE_KEY as string;
   const editorRef = useRef(null);
@@ -37,7 +38,7 @@ const EditNote = (): ReactElement => {
     catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [token]);
 
   const updateTitle = (newValue: string) => {
     setNote((prevState) => prevState ? { ...prevState, title: newValue } : prevState)
@@ -63,7 +64,17 @@ const EditNote = (): ReactElement => {
   };
 
   useEffect(() => {
-    getNote();
+    if (getNoteIdFromParam() !== "") {
+      getNote();
+    } else {
+      setIsNewNote(true);
+      setNote({
+        _id: "",
+        title: "",
+        categories: [""],
+        content: ""
+      })
+    }
   }, [getNote]);
   return (
     <Box

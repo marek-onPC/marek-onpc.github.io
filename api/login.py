@@ -3,7 +3,7 @@ from typing import Dict
 from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException
 from auth.authentication import Authentication
-from auth.schemas import AuthDetails
+from schemas.schemas import AuthDetails
 from db.db_client import DatabaseClient
 
 load_dotenv()
