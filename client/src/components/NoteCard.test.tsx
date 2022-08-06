@@ -8,17 +8,17 @@ import NoteCard from "./NoteCard";
 
 describe("NoteCard component", () => {
   const DUMMY_NOTE: NoteCardType = {
-    _id: "idString",
+    id: "idString",
     title: "Note title",
     categories: ["categoryOne, categoryTwo"]
   }
 
   it("shows note card", async () => {
-    const redirectionUriToBeExpected = `http://localhost/note?id=${DUMMY_NOTE._id}`;
+    const redirectionUriToBeExpected = `http://localhost/note?id=${DUMMY_NOTE.id}`;
 
     render(
       <Router>
-        <NoteCard _id={DUMMY_NOTE._id} title={DUMMY_NOTE.title} categories={DUMMY_NOTE.categories} />
+        <NoteCard id={DUMMY_NOTE.id} title={DUMMY_NOTE.title} categories={DUMMY_NOTE.categories} />
       </Router>
     );
 

@@ -24,6 +24,10 @@ def notes(username = Depends(authentication.auth_wrapper)):
         result = db_client.db_find_all(collection)
 
         for sample in result:
+            if sample["_id"]:  
+                sample["id"] = sample["_id"]
+                del sample["_id"]
+
             notes.append(sample)
 
         return json.dumps(notes, default=str)

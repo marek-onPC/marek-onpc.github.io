@@ -17,19 +17,19 @@ const DUMMY_USER: AuthCredentials = {
 const DUMMY_TOKEN = "TOKEN_STRING_1234567890";
 const DUMMY_NOTES: Array<NoteType> = [
   {
-    _id: "id1",
+    id: "id1",
     title: "Post one",
     categories: ["categoryOne, categoryTwo"],
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
   },
   {
-    _id: "id2",
+    id: "id2",
     title: "Note two",
     categories: ["categoryTwo, categoryThree"],
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
   },
   {
-    _id: "id3",
+    id: "id3",
     title: "Entry three",
     categories: ["categoryOne, categoryThree"],
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."

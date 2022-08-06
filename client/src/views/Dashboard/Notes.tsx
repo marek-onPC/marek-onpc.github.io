@@ -38,9 +38,9 @@ const Notes = (): ReactElement => {
     >
       {notes
         ? <>
-          <NoteCard _id="" title="Add new note" categories={["and assign category"]} isGreen={true} isDashboard={true} />
+          <NoteCard id="" title="Add new note" categories={["and assign category"]} isGreen={true} isDashboard={true} />
           {notes.map((note, index) =>
-            <NoteCard key={index} _id={note._id} title={note.title} categories={note.categories} isDashboard={true} />
+            <NoteCard key={index} id={note.id} title={note.title} categories={note.categories} isDashboard={true} />
           )}
         </>
         : <Box sx={{ maxWidth: "500px", width: '100%', marginTop: "50px" }}>

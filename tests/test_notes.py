@@ -157,9 +157,6 @@ def test_db_update_note(note_to_update: NoteSchema, expected_result: List) -> No
     for sample in result:
         notes.append(sample)
 
-    print(notes)
-    print("-----")
-    print(expected_result)
     assert notes == expected_result
 
 

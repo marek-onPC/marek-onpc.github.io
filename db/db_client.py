@@ -44,11 +44,13 @@ class DatabaseClient:
     def db_update_note(self, collection: Collection, note_data: NoteSchema) -> Any:
         result = collection.update_one(
             { "_id" : ObjectId(note_data["_id"]) },
-            { "$set" : {
-            "title" : note_data["title"],
-            "categories" : note_data["categories"],
-            "content" : note_data["content"]
-            }}
+            { "$set" : 
+                {
+                    "title" : note_data["title"],
+                    "categories" : note_data["categories"],
+                    "content" : note_data["content"]
+                }
+            }
         )
 
 

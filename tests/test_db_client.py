@@ -5,7 +5,6 @@ import os
 from dotenv import load_dotenv
 from typing import Dict, List
 from db.db_client import DatabaseClient
-from schemas.schemas import NoteSchema
 
 load_dotenv()
 

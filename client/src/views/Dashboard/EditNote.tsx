@@ -1,13 +1,15 @@
-import { Box, Button, LinearProgress, TextField } from "@mui/material";
+import { Alert, Box, LinearProgress, TextField } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { ReactElement, useCallback, useContext, useEffect, useRef, useState } from "react";
-import { fetchClientGet } from "../../helpers/fetchClient";
+import { fetchClientGet, fetchClientPost } from "../../helpers/fetchClient";
 import { NoteType } from "../../types";
 import { AuthContext } from "../../utils/AuthContext";
 import { Editor } from '@tinymce/tinymce-react';
 
 const EditNote = (): ReactElement => {
   const [note, setNote] = useState<NoteType | null>(null);
-  const [isNewNote, setIsNewNote] = useState<boolean>(false);
+  const [isNoteSaving, setIsNoteSaving] = useState<boolean>(false);
+  const [isSavingError, setIsSavingError] = useState<boolean>(false);
   const token: string = useContext(AuthContext);
   const tinyMceKey = process.env.REACT_APP_TINY_MCE_KEY as string;
   const editorRef = useRef(null);
@@ -62,13 +64,32 @@ const EditNote = (): ReactElement => {
     }
   };
 
+  const saveNote = async () => {
+    if (!!note) {
+      try {
+        setIsNoteSaving(true);
+        setIsSavingError(false)
+
+        await fetchClientPost(
+          `/note`,
+          token,
+          note,
+        );
+      } catch (error) {
+        setIsSavingError(true)
+      }
+      setIsNoteSaving(false)
+    } else {
+      console.log("Note not yet loaded")
+    }
+  };
+
   useEffect(() => {
     if (getNoteIdFromParam() !== "") {
       getNote();
     } else {
-      setIsNewNote(true);
       setNote({
-        _id: "",
+        id: "",
         title: "",
         categories: [""],
         content: ""
@@ -96,6 +117,18 @@ const EditNote = (): ReactElement => {
               justifyContent: "center",
             }}
           >
+            {isSavingError
+              ? <Alert
+                sx={{
+                  width: "100%",
+                  maxWidth: 250,
+                  margin: "0px auto 50px"
+                }}
+                severity="error"
+              >
+                Error occurred on saving, try again.
+              </Alert>
+              : null}
             <TextField
               sx={{
                 width: "100%",
@@ -118,7 +151,7 @@ const EditNote = (): ReactElement => {
               }}
               name="categories"
               variant="filled"
-              label="Categories (separate with ; only and no spaces)"
+              label="Categories (separate with , only and no spaces)"
               value={note.categories.toString()}
               onChange={event => updateCategories(event.target.value)}
             />
@@ -142,20 +175,21 @@ const EditNote = (): ReactElement => {
                     'removeformat | help',
                   content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                 }}
-                onKeyUp={updateContent}
+                onBlur={updateContent}
               />
             </>
-            <Button
+            <LoadingButton
               sx={{
                 width: "max-content",
                 marginTop: "25px",
                 marginBottom: "25px"
               }}
               variant="contained"
-              onClick={updateContent}
+              onClick={saveNote}
+              loading={isNoteSaving}
             >
               Save
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
         : <Box sx={{ maxWidth: "500px", width: '100%', marginTop: "50px" }}>

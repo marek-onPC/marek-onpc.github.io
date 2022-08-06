@@ -1,4 +1,4 @@
-import { HTTPMethods } from "../types";
+import { HTTPMethods, NoteType } from "../types";
 
 const fetchClientPostWithoutToken = async (
   url: string,
@@ -54,4 +54,31 @@ const fetchClientGet = async (
   return response;
 }
 
-export { fetchClientPostWithoutToken, fetchClientGet }
+const fetchClientPost = async (
+  url: string,
+  token: string,
+  payload: NoteType
+): Promise<any> => {
+  const response = await fetch(`/api${url}`, {
+    method: HTTPMethods.POST,
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(async (data) => {
+      if (data.status !== 200) {
+        throw new Error(data.statusText);
+      }
+      const responseStatus = data.status;
+
+      return {
+        status: responseStatus,
+      };
+    })
+
+  return response;
+}
+
+export { fetchClientPostWithoutToken, fetchClientGet, fetchClientPost }

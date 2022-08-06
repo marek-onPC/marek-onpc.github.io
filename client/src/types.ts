@@ -19,14 +19,14 @@ export type MultipleIconSet = {
 }
 
 export type NoteType = {
-  _id: string;
+  id: string;
   title: string;
   categories: Array<string>;
   content: string;
 }
 
 export type NoteCardType = {
-  _id: string;
+  id: string;
   title: string;
   categories?: Array<string>;
 }

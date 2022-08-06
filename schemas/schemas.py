@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 from pydantic import BaseModel
 
 
@@ -8,7 +8,7 @@ class AuthDetails(BaseModel):
 
 
 class NoteSchema(BaseModel):
-    _id: Optional[str]
+    id: Optional[str]
     title: str
-    categories: Dict[str, str]
+    categories: List[str]
     content: str
