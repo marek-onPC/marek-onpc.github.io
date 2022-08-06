@@ -1,9 +1,11 @@
+import json
 import mongomock
 import pytest
 import os
 from dotenv import load_dotenv
-from typing import Dict
+from typing import Dict, List
 from db.db_client import DatabaseClient
+from schemas.schemas import NoteSchema
 
 load_dotenv()
 
@@ -32,6 +34,7 @@ documents = [
 mock_collection.insert_many(documents)
 # END OF DATABASE MOCK PREPARATION -----------------------
 
+
 @pytest.mark.parametrize(
     "user_to_find", [
         {
@@ -49,3 +52,36 @@ def test_db_find_one(user_to_find: Dict) -> None:
     result = db_client.db_find_one(mock_collection, user_to_find)
 
     assert result["user"] == user_to_find["user"]
+
+
+@pytest.mark.parametrize(
+    "expected_result", [
+        [
+            {
+                "_id": 1,
+                "user": "john",
+                "hashedPassword": "$2b$12$jwzb6rl2uspKNkJqNhv.z.kC36N.F3tQ5JzfywEgp422hufoHc7/C",
+                # password is "password"
+            },
+            {
+                "_id": 2,
+                "user": "mark",
+                "hashedPassword": "$2b$12$jwzb6rl2uspKNkJqNhv.z.kC36N.F3tQ5JzfywEgp422hufoHc7/C",
+            },
+            {
+                "_id": 3,
+                "user": "george",
+                "hashedPassword": "$2b$12$jwzb6rl2uspKNkJqNhv.z.kC36N.F3tQ5JzfywEgp422hufoHc7/C",
+            }
+        ]
+    ]
+)
+def test_db_find_all(expected_result: List) -> None:
+    result = []
+
+    response = db_client.db_find_all(mock_collection)
+
+    for sample in response:
+        result.append(sample)
+
+    assert result == expected_result

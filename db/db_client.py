@@ -1,4 +1,5 @@
 from typing import Any, Dict
+from bson import ObjectId
 from gridfs import Collection
 from pymongo import MongoClient
 
@@ -32,9 +33,23 @@ class DatabaseClient:
 
     def db_add_note(self, collection: Collection, note_data: NoteSchema) -> Any:
         result = collection.insert_one({
-            "title" : note_data.title,
-            "categories" : note_data.categories,
-            "content" : note_data.content
+            "title" : note_data["title"],
+            "categories" : note_data["categories"],
+            "content" : note_data["content"]
         })
+
+        return result
+
+
+    def db_update_note(self, collection: Collection, note_data: NoteSchema) -> Any:
+        result = collection.update_one(
+            { "_id" : ObjectId(note_data["_id"]) },
+            { "$set" : {
+            "title" : note_data["title"],
+            "categories" : note_data["categories"],
+            "content" : note_data["content"]
+            }}
+        )
+
 
         return result

@@ -37,17 +37,19 @@ def get_note(note_data: NoteSchema, username = Depends(authentication.auth_wrapp
     if username:
         if note_data._id == "":
             collection = db_client.db_connection(db_collection_name)
-
             result = db_client.db_add_note(collection, {
-                "title": note_data.title,
-                "categories": note_data.categories,
-                "content": note_data.content
+                "title": note_data["title"],
+                "categories": note_data["categories"],
+                "content": note_data["content"]
             })
-
-            # ADD NEW POST
         else:
-            # UPDATE POST
-            print("update")
+            collection = db_client.db_connection(db_collection_name)
+            result = db_client.db_update_note(collection, {
+                "_id": note_data["_id"],
+                "title": note_data["title"],
+                "categories": note_data["categories"],
+                "content": note_data["content"]
+            })
 
         return json.dumps(result, default=str)
     else:

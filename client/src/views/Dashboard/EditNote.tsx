@@ -57,9 +57,8 @@ const EditNote = (): ReactElement => {
           // @ts-ignore
           content: editorRef.current.getContent()
         }
-        : prevState
+        : note
       )
-      console.log(note)
     }
   };
 
@@ -143,6 +142,7 @@ const EditNote = (): ReactElement => {
                     'removeformat | help',
                   content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                 }}
+                onKeyUp={updateContent}
               />
             </>
             <Button
