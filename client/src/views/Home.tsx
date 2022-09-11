@@ -75,7 +75,7 @@ const Home = (): ReactElement => {
     <Container
       sx={{
         width: "100%",
-        height: "100vh"
+        height: "calc(100vh - 20px)"
       }}
       maxWidth="xl"
       ref={vantaRef}
@@ -160,6 +160,9 @@ const Home = (): ReactElement => {
           >
             <div
               style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 20,
                 marginLeft: "auto",
                 marginTop: "auto",
                 marginBottom: "auto"

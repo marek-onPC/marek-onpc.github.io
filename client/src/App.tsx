@@ -15,6 +15,8 @@ import { ThemeContext } from "./utils/ThemeContext";
 import Notes from "./views/Dashboard/Notes";
 import EditNote from "./views/Dashboard/EditNote";
 import PublicNotes from "./views/PublicNotes";
+import About from "./views/About";
+import Project from "./views/Project";
 
 let initialAuthContext = "";
 const LOGIN_TOKEN = window.localStorage.getItem(
@@ -40,6 +42,8 @@ const AppRoutes = (): ReactElement => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="notes" element={<PublicNotes />} />
+        <Route path="about" element={<About />} />
+        <Route path="project" element={<Project />} />
         <Route path="login" element={<Login setLoginToken={setJwt} />} />
         <Route path="dashboard" element={
           <Authorization>
@@ -66,11 +70,12 @@ const App = (): ReactElement => {
     <ThemeProvider theme={ThemeContext}>
       <Box
         sx={{
-          width: "100%",
-          minHeight: "100vh",
+          width: "calc(100% - 10px)",
+          minHeight: "calc(100vh - 10px)",
           display: "flex",
           flexDirection: "column",
-          bgcolor: "secondary.main"
+          bgcolor: "secondary.main",
+          border: "5px solid #42b883"
         }}
       >
         <Router>

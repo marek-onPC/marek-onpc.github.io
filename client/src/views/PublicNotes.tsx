@@ -28,12 +28,10 @@ const PublicNotes = (): ReactElement => {
     <Container
       sx={{
         width: "100%",
-        minHeight: "100vh",
         display: "flex",
         flexWrap: "wrap",
         justifyContent: "center",
         paddingTop: "50px",
-        border: "5px solid #42b883"
       }}
       maxWidth="xl"
     >
@@ -101,7 +99,6 @@ const PublicNotes = (): ReactElement => {
             justifyContent: "center",
           }}
         >
-
           {notes
             ? <>
               {notes.map((note, index) =>
@@ -115,10 +112,6 @@ const PublicNotes = (): ReactElement => {
         </Box>
       </Box>
     </Container>
-
-
-
-
   )
 }
 
