@@ -14,6 +14,7 @@ import { Box, ThemeProvider, Typography } from "@mui/material";
 import { ThemeContext } from "./utils/ThemeContext";
 import Notes from "./views/Dashboard/Notes";
 import EditNote from "./views/Dashboard/EditNote";
+import PublicNotes from "./views/PublicNotes";
 
 let initialAuthContext = "";
 const LOGIN_TOKEN = window.localStorage.getItem(
@@ -38,6 +39,7 @@ const AppRoutes = (): ReactElement => {
     <AuthContext.Provider value={jwt}>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="notes" element={<PublicNotes />} />
         <Route path="login" element={<Login setLoginToken={setJwt} />} />
         <Route path="dashboard" element={
           <Authorization>

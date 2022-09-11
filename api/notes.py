@@ -17,19 +17,17 @@ authentication = Authentication()
 
 
 @router.get("/notes")
-def notes(username = Depends(authentication.auth_wrapper)):
-    if username:
-        notes = []
-        collection = db_client.db_connection(db_collection_name)
-        result = db_client.db_find_all(collection)
+def notes():
+    notes = []
+    collection = db_client.db_connection(db_collection_name)
+    result = db_client.db_find_all(collection)
 
-        for sample in result:
-            if sample["_id"]:  
-                sample["id"] = sample["_id"]
-                del sample["_id"]
+    for sample in result:
+        if sample["_id"]:  
+            sample["id"] = sample["_id"]
+            del sample["_id"]
 
-            notes.append(sample)
+        notes.append(sample)
 
-        return json.dumps(notes, default=str)
-    else:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+    return json.dumps(notes, default=str)
+

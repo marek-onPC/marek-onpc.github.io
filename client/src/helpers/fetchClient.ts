@@ -27,6 +27,31 @@ const fetchClientPostWithoutToken = async (
   return response;
 }
 
+const fetchClientGetWithoutToken = async (
+  url: string,
+): Promise<any> => {
+  const response = await fetch(`/api${url}`, {
+    method: HTTPMethods.GET,
+    headers: {
+      "Content-Type": "application/json"
+    },
+  })
+    .then(async (data) => {
+      if (data.status !== 200) {
+        throw new Error(data.statusText);
+      }
+      const responseStatus = data.status;
+      const responseData = await data.json();
+
+      return {
+        status: responseStatus,
+        data: responseData
+      };
+    })
+
+  return response;
+}
+
 const fetchClientGet = async (
   url: string,
   token: string,
@@ -81,4 +106,4 @@ const fetchClientPost = async (
   return response;
 }
 
-export { fetchClientPostWithoutToken, fetchClientGet, fetchClientPost }
+export { fetchClientPostWithoutToken, fetchClientGetWithoutToken, fetchClientGet, fetchClientPost }
