@@ -20,20 +20,17 @@ authentication = Authentication()
 
 
 @router.get("/note/{note_id}")
-def get_note(note_id: str, username = Depends(authentication.auth_wrapper)):
-    if username:
-        collection = db_client.db_connection(db_collection_name)
-        result = db_client.db_find_one(collection, {
-            "_id" : ObjectId(note_id)
-        })
+def get_note(note_id: str):
+    collection = db_client.db_connection(db_collection_name)
+    result = db_client.db_find_one(collection, {
+        "_id" : ObjectId(note_id)
+    })
 
-        if result["_id"]:  
-            result["id"] = result["_id"]
-            del result["_id"]
+    if result["_id"]:  
+        result["id"] = result["_id"]
+        del result["_id"]
 
-        return json.dumps(result, default=str)
-    else:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+    return json.dumps(result, default=str)
 
 
 @router.post("/note")

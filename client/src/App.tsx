@@ -17,6 +17,7 @@ import EditNote from "./views/Dashboard/EditNote";
 import PublicNotes from "./views/PublicNotes";
 import About from "./views/About";
 import Project from "./views/Project";
+import PublicNote from "./views/PublicNote";
 
 let initialAuthContext = "";
 const LOGIN_TOKEN = window.localStorage.getItem(
@@ -42,6 +43,7 @@ const AppRoutes = (): ReactElement => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="notes" element={<PublicNotes />} />
+        <Route path="notes/note" element={<PublicNote />} />
         <Route path="about" element={<About />} />
         <Route path="project" element={<Project />} />
         <Route path="login" element={<Login setLoginToken={setJwt} />} />

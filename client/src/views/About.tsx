@@ -15,63 +15,84 @@ const About = (): ReactElement => {
       maxWidth="xl"
     >
       <ButtonGroup variant="contained" style={{ maxHeight: 50 }}>
-        <Button>
-          <Link
+        <Link
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+          to="/"
+        >
+          <Button
             style={{
-              color: "inherit",
-              textDecoration: "none",
+              borderTopRightRadius: 0,
+              borderBottomRightRadius: 0,
             }}
-            to="/"
           >
             Home
-          </Link>
-        </Button>
-        <Button>
-          <Link
+          </Button>
+        </Link>
+        <Link
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+          to="/notes"
+        >
+          <Button
             style={{
-              color: "inherit",
-              textDecoration: "none",
+              borderRadius: 0,
             }}
-            to="/notes"
           >
             Notes
-          </Link>
-        </Button>
-        <Button>
-          <Link
+          </Button>
+        </Link>
+        <Link
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+          to="/about"
+        >
+          <Button
             style={{
-              color: "inherit",
-              textDecoration: "none",
+              borderRadius: 0,
             }}
-            to="/about"
           >
             About
-          </Link>
-        </Button>
-        <Button>
-          <Link
+          </Button>
+        </Link>
+        <Link
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+          to="/project"
+        >
+          <Button
             style={{
-              color: "inherit",
-              textDecoration: "none",
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
             }}
-            to="/project"
           >
             Project
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </ButtonGroup>
       <Container
         sx={{
           width: "100%",
           marginTop: "50px",
-          paddingTop: "50px",
-          paddingBottom: "50px",
+          marginBottom: "50px",
+          paddingTop: "12px",
+          paddingBottom: "12px",
           background: "white",
-          borderRadius: 2.5
+          borderRadius: 2.5,
+          lineHeight: "26px",
         }}
         maxWidth="md"
       >
-        <p>Hi! I am Marek, a Frontend Developer interested in web dev technologies, mainly in practical use of JavaScript with JS frameworks, and some back-end dev with PHP.</p>
+        <h1>Hello there!</h1>
+        <p>I am Marek, a Frontend Developer interested in web dev technologies, mainly in practical use of JavaScript with JS frameworks, and some back-end dev with PHP.</p>
         <p>This website is my side project to collect useful information with which I came across during my personal and commercial work, and save it in a form of easily accessible notes.</p>
         <p>My main project though, on which I am mainly working during my spare time, is a WordPress Gutenberg extension plugin called Gutenberg Plus, which allows user to use new useful blocks in WordPress main content editor – Gutenberg.
           Plugin is created by using JSX syntax known from React, with an environment based on NPM and Gulp toolkit.</p>

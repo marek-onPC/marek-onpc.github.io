@@ -36,50 +36,68 @@ const PublicNotes = (): ReactElement => {
       maxWidth="xl"
     >
       <ButtonGroup variant="contained" style={{ maxHeight: 50 }}>
-        <Button>
-          <Link
+        <Link
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+          to="/"
+        >
+          <Button
             style={{
-              color: "inherit",
-              textDecoration: "none",
+              borderTopRightRadius: 0,
+              borderBottomRightRadius: 0,
             }}
-            to="/"
           >
             Home
-          </Link>
-        </Button>
-        <Button>
-          <Link
+          </Button>
+        </Link>
+        <Link
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+          to="/notes"
+        >
+          <Button
             style={{
-              color: "inherit",
-              textDecoration: "none",
+              borderRadius: 0,
             }}
-            to="/notes"
           >
             Notes
-          </Link>
-        </Button>
-        <Button>
-          <Link
+          </Button>
+        </Link>
+        <Link
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+          to="/about"
+        >
+          <Button
             style={{
-              color: "inherit",
-              textDecoration: "none",
+              borderRadius: 0,
             }}
-            to="/about"
           >
             About
-          </Link>
-        </Button>
-        <Button>
-          <Link
+          </Button>
+        </Link>
+        <Link
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+          to="/project"
+        >
+          <Button
             style={{
-              color: "inherit",
-              textDecoration: "none",
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
             }}
-            to="/project"
           >
             Project
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </ButtonGroup>
       <Box
         sx={{

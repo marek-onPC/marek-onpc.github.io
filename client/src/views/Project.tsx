@@ -15,59 +15,79 @@ const Project = (): ReactElement => {
       maxWidth="xl"
     >
       <ButtonGroup variant="contained" style={{ maxHeight: 50 }}>
-        <Button>
-          <Link
+        <Link
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+          to="/"
+        >
+          <Button
             style={{
-              color: "inherit",
-              textDecoration: "none",
+              borderTopRightRadius: 0,
+              borderBottomRightRadius: 0,
             }}
-            to="/"
           >
             Home
-          </Link>
-        </Button>
-        <Button>
-          <Link
+          </Button>
+        </Link>
+        <Link
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+          to="/notes"
+        >
+          <Button
             style={{
-              color: "inherit",
-              textDecoration: "none",
+              borderRadius: 0,
             }}
-            to="/notes"
           >
             Notes
-          </Link>
-        </Button>
-        <Button>
-          <Link
+          </Button>
+        </Link>
+        <Link
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+          to="/about"
+        >
+          <Button
             style={{
-              color: "inherit",
-              textDecoration: "none",
+              borderRadius: 0,
             }}
-            to="/about"
           >
             About
-          </Link>
-        </Button>
-        <Button>
-          <Link
+          </Button>
+        </Link>
+        <Link
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+          to="/project"
+        >
+          <Button
             style={{
-              color: "inherit",
-              textDecoration: "none",
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
             }}
-            to="/project"
           >
             Project
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </ButtonGroup>
       <Container
         sx={{
           width: "100%",
           marginTop: "50px",
-          paddingTop: "50px",
-          paddingBottom: "50px",
+          marginBottom: "50px",
+          paddingTop: "12px",
+          paddingBottom: "12px",
           background: "white",
-          borderRadius: 2.5
+          borderRadius: 2.5,
+          lineHeight: "26px",
         }}
         maxWidth="md"
       >
@@ -87,14 +107,14 @@ const Project = (): ReactElement => {
         </ul>
         <h3>Development process</h3>
         <ul>
-          <ol>Checking which future could be created/fixed/adjusted (currently based mostly on my own experience with content management)</ol>
-          <ol>Looking for affordable way of implementing it, with keeping the backwards compatibility</ol>
-          <ol>Coding, coding, coding</ol>
-          <ol>Testing the feature on different WP instances</ol>
-          <ol>Release</ol>
+          <li>Checking which future could be created/fixed/adjusted (currently based mostly on my own experience with content management)</li>
+          <li>Looking for affordable way of implementing it, with keeping the backwards compatibility</li>
+          <li>Coding, coding, coding</li>
+          <li>Testing the feature on different WP instances</li>
+          <li>Release</li>
         </ul>
       </Container>
-    </Container>
+    </Container >
   )
 }
 

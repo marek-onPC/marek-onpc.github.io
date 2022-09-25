@@ -96,6 +96,7 @@ const EditNote = (): ReactElement => {
       })
     }
   }, [getNote]);
+
   return (
     <Box
       component="div"

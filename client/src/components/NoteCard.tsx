@@ -13,10 +13,10 @@ const NoteCard = ({ id, title, categories, isDashboard = false, isGreen = false 
     <Link to={URL} style={{ textDecoration: "none", margin: "10px" }}>
       <Card sx={{ minWidth: 275, background: isGreen ? theme.palette.primary.main : null }}>
         <CardContent>
-          <Typography variant="h5" component="div" sx={{ color: isGreen ? "#fff" : null }}>
+          <Typography variant="h5" component="div" sx={{ color: isGreen ? "#fff" : null, fontWeight: 600 }}>
             {title}
           </Typography>
-          <Typography sx={{ mb: 1.5, color: isGreen ? "#fff" : null }}>
+          <Typography sx={{ mb: 1.5, color: isGreen ? "#fff" : null, fontSize: "14px" }}>
             {categories ? categories.map(category => {
               return (
                 <span key={category}>{category} </span>
