@@ -86,9 +86,10 @@ const About = (): ReactElement => {
           paddingTop: "12px",
           paddingBottom: "12px",
           background: "white",
-          borderRadius: 2.5,
+          borderRadius: 1.75,
           lineHeight: "26px",
         }}
+        className="content-body"
         maxWidth="md"
       >
         <h1>Hello there!</h1>
