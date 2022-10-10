@@ -129,7 +129,7 @@ const PublicNote = (): ReactElement => {
             component="h1"
             color="primary"
             fontWeight={400}
-            style={{ marginTop: "45px" }}
+            style={{ marginTop: "45px", textAlign: "center" }}
           >
             {note.title}
           </Typography>

@@ -170,7 +170,7 @@ const EditNote = (): ReactElement => {
                     'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
                     'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
                   ],
-                  toolbar: 'undo redo | blocks | ' +
+                  toolbar: 'undo redo | blocks | code | link | ' +
                     'bold italic forecolor | alignleft aligncenter ' +
                     'alignright alignjustify | bullist numlist outdent indent | ' +
                     'removeformat | help',

@@ -10,7 +10,7 @@ const NoteCard = ({ id, title, categories, isDashboard = false, isGreen = false 
   const theme = useTheme();
 
   return (
-    <Link to={URL} style={{ textDecoration: "none", margin: "10px" }}>
+    <Link to={URL} style={{ textDecoration: "none", margin: "10px", width: isDashboard ? "auto" : "45%" }}>
       <Card sx={{ minWidth: 275, background: isGreen ? theme.palette.primary.main : null }}>
         <CardContent>
           <Typography variant="h5" component="div" sx={{ color: isGreen ? "#fff" : null, fontWeight: 600 }}>
