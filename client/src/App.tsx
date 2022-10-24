@@ -2,6 +2,7 @@ import { ReactElement, useState } from "react";
 import { Buffer } from "buffer";
 import {
   BrowserRouter as Router,
+  HashRouter,
   Route,
   Routes,
 } from "react-router-dom";
@@ -80,9 +81,9 @@ const App = (): ReactElement => {
           border: "5px solid #42b883"
         }}
       >
-        <Router>
+        <HashRouter>
           <AppRoutes />
-        </Router>
+        </HashRouter>
       </Box>
     </ThemeProvider>
   );
