@@ -12,7 +12,7 @@ db_uri = os.environ["DB_URI"]
 db_name = os.environ["DB_NAME"]
 
 origins = [
-    "https://site-and-notes.herokuapp.com",
+    "https://marek-onpc.github.io/site-and-notes",
 ]
 
 app = FastAPI()
