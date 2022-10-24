@@ -8,7 +8,8 @@ const PublicNote = (): ReactElement => {
   const [note, setNote] = useState<NoteType | null>(null);
 
   const getNoteIdFromParam = (): string | null => {
-    const params = new URLSearchParams(window.location.search)
+    const [query] = window.location.href.split('#')[1].split('?')
+    const params = new URLSearchParams(query)
 
     if (params) {
       return params.get("id");
