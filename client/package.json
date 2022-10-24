@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "homepage": "https://marek-onPC.github.io/site-and-notes",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.0",
@@ -31,6 +32,8 @@
     "vanta": "^0.5.22"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -55,6 +58,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^4.0.0",
     "msw": "^0.42.0"
   }
 }
