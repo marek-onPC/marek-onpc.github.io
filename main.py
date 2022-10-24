@@ -13,6 +13,7 @@ db_name = os.environ["DB_NAME"]
 
 origins = [
     "https://marek-onpc.github.io",
+    "http://localhost:3000"
 ]
 
 app = FastAPI()
