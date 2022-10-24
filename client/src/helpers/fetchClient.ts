@@ -1,8 +1,6 @@
 import { HTTPMethods, NoteType } from "../types";
 
-const API_URL = window.localStorage.getItem(
-  process.env.REACT_APP_SERVER as string
-);
+const API_URL = process.env.REACT_APP_SERVER as string;
 
 const fetchClientPostWithoutToken = async (
   url: string,
