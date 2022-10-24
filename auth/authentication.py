@@ -24,7 +24,7 @@ class Authentication:
 
     def encode_jwt(self, user: str) -> str:
         payload = {
-            "exp": datetime.utcnow() + timedelta(days=0, minutes=30),
+            "exp": datetime.utcnow() + timedelta(days=0, hours=8),
             "iat": datetime.utcnow(),
             "sub": user
         }
