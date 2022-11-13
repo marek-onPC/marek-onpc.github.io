@@ -1,8 +1,64 @@
-import { ButtonGroup, Button, Container } from "@mui/material";
+import { ButtonGroup, Button, Container, Typography } from "@mui/material";
 import { ReactElement } from "react";
 import { Link } from "react-router-dom";
+import {
+  faJs,
+  faReact,
+  faPython,
+  faVuejs,
+  faSass,
+  faPhp,
+  faNpm,
+  faGitAlt,
+  faCss3Alt,
+} from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { MultipleIconSet } from "../types";
+import AOS from "aos";
+import 'aos/dist/aos.css';
+
+const ICONS: MultipleIconSet = {
+  faJs: {
+    icon: faJs,
+    color: '#F0DB4F'
+  },
+  faReact: {
+    icon: faReact,
+    color: '#61DBFB'
+  },
+  faVuejs: {
+    icon: faVuejs,
+    color: '#42B883'
+  },
+  faPython: {
+    icon: faPython,
+    color: '#4B8BBE'
+  },
+  faPhp: {
+    icon: faPhp,
+    color: '#B0B3D6'
+  },
+  faSass: {
+    icon: faSass,
+    color: '#CC6699'
+  },
+  faNpm: {
+    icon: faNpm,
+    'color': '#CB3837'
+  },
+  faGitAlt: {
+    icon: faGitAlt,
+    'color': '#F34F29'
+  },
+  faCss3Alt: {
+    icon: faCss3Alt,
+    'color': '#2965F1'
+  },
+}
 
 const About = (): ReactElement => {
+  AOS.init();
+
   return (
     <Container
       sx={{
@@ -55,26 +111,11 @@ const About = (): ReactElement => {
         >
           <Button
             style={{
-              borderRadius: 0,
-            }}
-          >
-            About
-          </Button>
-        </Link>
-        <Link
-          style={{
-            color: "inherit",
-            textDecoration: "none",
-          }}
-          to="/project"
-        >
-          <Button
-            style={{
               borderTopLeftRadius: 0,
               borderBottomLeftRadius: 0,
             }}
           >
-            Project
+            About
           </Button>
         </Link>
       </ButtonGroup>
@@ -85,18 +126,214 @@ const About = (): ReactElement => {
           marginBottom: "50px",
           paddingTop: "12px",
           paddingBottom: "12px",
-          background: "white",
-          borderRadius: 1.75,
-          lineHeight: "26px",
         }}
-        className="content-body"
-        maxWidth="md"
       >
-        <h1>Hello there!</h1>
-        <p>I am Marek, a Frontend Developer interested in web dev technologies, mainly in practical use of JavaScript with JS frameworks, and some back-end dev with PHP.</p>
-        <p>This website is my side project to collect useful information with which I came across during my personal and commercial work, and save it in a form of easily accessible notes.</p>
-        <p>My main project though, on which I am mainly working during my spare time, is a WordPress Gutenberg extension plugin called Gutenberg Plus, which allows user to use new useful blocks in WordPress main content editor – Gutenberg.
-          Plugin is created by using JSX syntax known from React, with an environment based on NPM and Gulp toolkit.</p>
+        <div
+          data-aos="fade-up"
+          data-aos-easing="ease-out-cubic"
+          data-aos-duration="2000"
+          style={{ display: "flex", flexDirection: "column", margin: "0 0 150px 0" }}
+        >
+          <Typography variant="h3" component="p" color="primary" fontWeight={100} sx={{ margin: "10px auto 25px" }}>
+            in few words:
+          </Typography>
+          <Typography variant="h5" component="p" color="primary" fontWeight={300} sx={{ margin: "10px 10px" }}>
+            i'm software developer, like to code casually, started from front-end, now full-stack
+          </Typography>
+          <Typography variant="h5" component="p" color="primary" fontWeight={300} sx={{ margin: "10px auto" }}>
+            i like to code casually, started from front-end, now full-stack
+          </Typography>
+          <Typography variant="h5" component="p" color="primary" fontWeight={300} sx={{ margin: "10px 0 10px auto" }}>
+            in my free time: cooking, gaming and watching/reading history related stuff
+          </Typography>
+        </div>
+        <Typography
+          data-aos="fade-up-left"
+          data-aos-easing="ease-out-cubic"
+          data-aos-duration="2000"
+          data-aos-delay="500"
+          data-aos-anchor-placement="center-bottom"
+          variant="h3"
+          component="h3"
+          color="primary"
+          fontWeight={100}
+          sx={{ marginBottom: 1 }}
+        >
+          #software_developer
+        </Typography>
+        <Typography
+          data-aos="fade-up-right"
+          data-aos-easing="ease-out-cubic"
+          data-aos-duration="2000"
+          data-aos-delay="500"
+          data-aos-anchor-placement="center-bottom"
+          variant="h3"
+          component="h3"
+          align="right"
+          color="primary"
+          fontWeight={100}
+          sx={{ marginBottom: 1 }}
+        >
+          #web_dev
+        </Typography>
+        <div
+          data-aos="fade-down"
+          data-aos-easing="ease-out-cubic"
+          data-aos-duration="2000"
+          data-aos-delay="500"
+          data-aos-anchor-placement="center-bottom"
+          style={{ display: "flex", justifyContent: "space-evenly", margin: "75px 0" }}
+        >
+          <FontAwesomeIcon
+            style={{
+              padding: "0 20px",
+            }}
+            icon={ICONS.faJs.icon}
+            color={ICONS.faJs.color}
+            size="4x"
+          />
+          <FontAwesomeIcon
+            style={{
+              padding: "0 20px",
+            }}
+            icon={ICONS.faReact.icon}
+            color={ICONS.faReact.color}
+            size="4x"
+          />
+          <FontAwesomeIcon
+            style={{
+              padding: "0 20px",
+            }}
+            icon={ICONS.faVuejs.icon}
+            color={ICONS.faVuejs.color}
+            size="4x"
+          />
+        </div>
+        <Typography
+          data-aos="zoom-in"
+          data-aos-easing="ease-out-cubic"
+          data-aos-duration="2000"
+          data-aos-delay="500"
+          data-aos-anchor-placement="center-bottom"
+          variant="h3"
+          component="h3"
+          align="center"
+          color="primary"
+          fontWeight={100}
+          sx={{ marginBottom: 1 }}
+        >
+          #casual_gamer
+        </Typography>
+        <Typography
+          data-aos="fade-up-left"
+          data-aos-easing="ease-out-cubic"
+          data-aos-duration="2000"
+          data-aos-delay="500"
+          data-aos-anchor-placement="center-bottom"
+          variant="h3"
+          component="h3"
+          color="primary"
+          fontWeight={100}
+          sx={{ marginBottom: 1 }}
+        >
+          #cooking
+        </Typography>
+        <div
+          data-aos="fade-down"
+          data-aos-easing="ease-out-cubic"
+          data-aos-duration="2000"
+          data-aos-delay="500"
+          data-aos-anchor-placement="center-bottom"
+          style={{ display: "flex", justifyContent: "space-evenly", margin: "75px 0" }}
+        >
+          <FontAwesomeIcon
+            style={{
+              padding: "0 20px",
+            }}
+            icon={ICONS.faPython.icon}
+            color={ICONS.faPython.color}
+            size="4x"
+          />
+          <FontAwesomeIcon
+            style={{
+              padding: "0 20px",
+            }}
+            icon={ICONS.faPhp.icon}
+            color={ICONS.faPhp.color}
+            size="4x"
+          />
+          <FontAwesomeIcon
+            style={{
+              padding: "0 20px",
+            }}
+            icon={ICONS.faNpm.icon}
+            color={ICONS.faNpm.color}
+            size="4x"
+          />
+        </div>
+        <Typography
+          data-aos="fade-up-right"
+          data-aos-easing="ease-out-cubic"
+          data-aos-duration="2000"
+          data-aos-delay="500"
+          data-aos-anchor-placement="center-bottom"
+          variant="h3"
+          component="h3"
+          align="right"
+          color="primary"
+          fontWeight={100}
+          sx={{ marginBottom: 1 }}
+        >
+          #full_stack
+        </Typography>
+        <Typography
+          data-aos="zoom-in"
+          data-aos-easing="ease-out-cubic"
+          data-aos-duration="2000"
+          data-aos-delay="500"
+          data-aos-anchor-placement="center-bottom"
+          variant="h3"
+          component="h3"
+          align="center"
+          color="primary"
+          fontWeight={100}
+          sx={{ marginBottom: 1 }}
+        >
+          #polish_english_japanese
+        </Typography>
+        <div
+          data-aos="fade-down"
+          data-aos-easing="ease-out-cubic"
+          data-aos-duration="2000"
+          data-aos-delay="500"
+          data-aos-anchor-placement="center-bottom"
+          style={{ display: "flex", justifyContent: "space-evenly", margin: "75px 0" }}
+        >
+          <FontAwesomeIcon
+            style={{
+              padding: "0 20px",
+            }}
+            icon={ICONS.faCss3Alt.icon}
+            color={ICONS.faCss3Alt.color}
+            size="4x"
+          />
+          <FontAwesomeIcon
+            style={{
+              padding: "0 20px",
+            }}
+            icon={ICONS.faSass.icon}
+            color={ICONS.faSass.color}
+            size="4x"
+          />
+          <FontAwesomeIcon
+            style={{
+              padding: "0 20px",
+            }}
+            icon={ICONS.faGitAlt.icon}
+            color={ICONS.faGitAlt.color}
+            size="4x"
+          />
+        </div>
       </Container>
     </Container>
   )

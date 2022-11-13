@@ -178,7 +178,8 @@ const Home = (): ReactElement => {
                 <Button
                   variant="contained"
                   style={{
-                    width: 150
+                    width: 150,
+                    height: 50
                   }}
                 >
                   Notes
@@ -194,26 +195,11 @@ const Home = (): ReactElement => {
                 <Button
                   variant="contained"
                   style={{
-                    width: 150
+                    width: 150,
+                    height: 50
                   }}
                 >
                   About
-                </Button>
-              </Link>
-              <Link
-                style={{
-                  color: "inherit",
-                  textDecoration: "none",
-                }}
-                to="/project"
-              >
-                <Button
-                  variant="contained"
-                  style={{
-                    width: 150
-                  }}
-                >
-                  Project
                 </Button>
               </Link>
             </div>

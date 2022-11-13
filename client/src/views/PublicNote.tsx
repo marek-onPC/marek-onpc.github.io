@@ -100,26 +100,11 @@ const PublicNote = (): ReactElement => {
         >
           <Button
             style={{
-              borderRadius: 0,
-            }}
-          >
-            About
-          </Button>
-        </Link>
-        <Link
-          style={{
-            color: "inherit",
-            textDecoration: "none",
-          }}
-          to="/project"
-        >
-          <Button
-            style={{
               borderTopLeftRadius: 0,
               borderBottomLeftRadius: 0,
             }}
           >
-            Project
+            About
           </Button>
         </Link>
       </ButtonGroup>
