@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "homepage": "https://marek-onPC.github.io/site-and-notes",
+  "homepage": "https://marek-onPC.github.io/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.0",
