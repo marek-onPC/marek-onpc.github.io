@@ -138,13 +138,13 @@ const About = (): ReactElement => {
             in few words:
           </Typography>
           <Typography variant="h5" component="p" color="primary" fontWeight={300} sx={{ margin: "10px 10px" }}>
-            i'm software developer, like to code casually, started from front-end, now full-stack
+            i am a software developer
           </Typography>
           <Typography variant="h5" component="p" color="primary" fontWeight={300} sx={{ margin: "10px auto" }}>
             i like to code casually, started from front-end, now full-stack
           </Typography>
           <Typography variant="h5" component="p" color="primary" fontWeight={300} sx={{ margin: "10px 0 10px auto" }}>
-            in my free time: cooking, gaming and watching/reading history related stuff
+            my free time: cooking, gaming and watching history documentaries
           </Typography>
         </div>
         <Typography
