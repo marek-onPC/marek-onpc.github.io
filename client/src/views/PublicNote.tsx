@@ -5,6 +5,7 @@ import { fetchClientGetWithoutToken } from "../helpers/fetchClient";
 import { NoteType } from "../types";
 import Prism from "prismjs";
 import "prismjs/components/prism-markup-templating";
+import "prismjs/components/prism-sql";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-typescript";
 import "prismjs/components/prism-jsx";
