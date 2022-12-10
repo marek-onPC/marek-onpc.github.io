@@ -1,8 +1,19 @@
 import { ButtonGroup, Button, Container, Box, LinearProgress, Typography, Chip, Stack } from "@mui/material";
-import { ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement, useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchClientGetWithoutToken } from "../helpers/fetchClient";
 import { NoteType } from "../types";
+import Prism from "prismjs";
+import "prismjs/components/prism-markup-templating";
+import "prismjs/components/prism-javascript";
+import "prismjs/components/prism-typescript";
+import "prismjs/components/prism-jsx";
+import "prismjs/components/prism-tsx";
+import "prismjs/components/prism-php";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-css";
+import "prismjs/components/prism-scss";
+import "prismjs/themes/prism-tomorrow.css";
 
 const PublicNote = (): ReactElement => {
   const [note, setNote] = useState<NoteType | null>(null);
@@ -34,6 +45,10 @@ const PublicNote = (): ReactElement => {
       console.log(error);
     }
   }, []);
+
+  useLayoutEffect(() => {
+    Prism.highlightAll();
+  }, [note])
 
   useEffect(() => {
     if (getNoteIdFromParam() !== "") {
