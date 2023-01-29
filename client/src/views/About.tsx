@@ -1,4 +1,4 @@
-import { ButtonGroup, Button, Container, Typography } from "@mui/material";
+import { ButtonGroup, Button, Container, Typography, Fade } from "@mui/material";
 import { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -7,10 +7,7 @@ import {
   faPython,
   faVuejs,
   faSass,
-  faPhp,
-  faNpm,
-  faGitAlt,
-  faCss3Alt,
+  faPhp
 } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MultipleIconSet } from "../types";
@@ -42,300 +39,134 @@ const ICONS: MultipleIconSet = {
     icon: faSass,
     color: '#CC6699'
   },
-  faNpm: {
-    icon: faNpm,
-    'color': '#CB3837'
-  },
-  faGitAlt: {
-    icon: faGitAlt,
-    'color': '#F34F29'
-  },
-  faCss3Alt: {
-    icon: faCss3Alt,
-    'color': '#2965F1'
-  },
 }
 
 const About = (): ReactElement => {
   AOS.init();
 
   return (
-    <Container
-      sx={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        paddingTop: "50px",
-      }}
-      maxWidth="xl"
-    >
-      <ButtonGroup variant="contained" style={{ maxHeight: 50 }}>
-        <Link
-          style={{
-            color: "inherit",
-            textDecoration: "none",
-          }}
-          to="/"
-        >
-          <Button
-            style={{
-              borderTopRightRadius: 0,
-              borderBottomRightRadius: 0,
-            }}
-          >
-            Home
-          </Button>
-        </Link>
-        <Link
-          style={{
-            color: "inherit",
-            textDecoration: "none",
-          }}
-          to="/notes"
-        >
-          <Button
-            style={{
-              borderRadius: 0,
-            }}
-          >
-            Notes
-          </Button>
-        </Link>
-        <Link
-          style={{
-            color: "inherit",
-            textDecoration: "none",
-          }}
-          to="/about"
-        >
-          <Button
-            style={{
-              borderTopLeftRadius: 0,
-              borderBottomLeftRadius: 0,
-            }}
-          >
-            About
-          </Button>
-        </Link>
-      </ButtonGroup>
+    <>
       <Container
         sx={{
           width: "100%",
-          marginTop: "50px",
-          marginBottom: "50px",
-          paddingTop: "12px",
-          paddingBottom: "12px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "50px",
         }}
+        maxWidth="xl"
       >
-        <div
-          data-aos="fade-up"
-          data-aos-easing="ease-out-cubic"
-          data-aos-duration="2000"
-          style={{ display: "flex", flexDirection: "column", margin: "0 0 150px 0" }}
-        >
-          <Typography variant="h3" component="p" color="primary" fontWeight={100} sx={{ margin: "10px auto 25px" }}>
-            in few words:
-          </Typography>
-          <Typography variant="h5" component="p" color="primary" fontWeight={300} sx={{ margin: "10px 10px" }}>
-            i am a software developer
-          </Typography>
-          <Typography variant="h5" component="p" color="primary" fontWeight={300} sx={{ margin: "10px auto" }}>
-            i like to code casually, started from front-end, now full-stack
-          </Typography>
-          <Typography variant="h5" component="p" color="primary" fontWeight={300} sx={{ margin: "10px 0 10px auto" }}>
-            my free time: cooking, gaming and watching history documentaries
-          </Typography>
-        </div>
-        <Typography
-          data-aos="fade-up-left"
-          data-aos-easing="ease-out-cubic"
-          data-aos-duration="2000"
-          data-aos-delay="500"
-          data-aos-anchor-placement="center-bottom"
-          variant="h3"
-          component="h3"
-          color="primary"
-          fontWeight={100}
-          sx={{ marginBottom: 1 }}
-        >
-          #software_developer
-        </Typography>
-        <Typography
-          data-aos="fade-up-right"
-          data-aos-easing="ease-out-cubic"
-          data-aos-duration="2000"
-          data-aos-delay="500"
-          data-aos-anchor-placement="center-bottom"
-          variant="h3"
-          component="h3"
-          align="right"
-          color="primary"
-          fontWeight={100}
-          sx={{ marginBottom: 1 }}
-        >
-          #web_dev
-        </Typography>
-        <div
-          data-aos="fade-down"
-          data-aos-easing="ease-out-cubic"
-          data-aos-duration="2000"
-          data-aos-delay="500"
-          data-aos-anchor-placement="center-bottom"
-          style={{ display: "flex", justifyContent: "space-evenly", margin: "75px 0" }}
-        >
-          <FontAwesomeIcon
+        <ButtonGroup variant="contained" style={{ maxHeight: 50 }}>
+          <Link
             style={{
-              padding: "0 20px",
+              color: "inherit",
+              textDecoration: "none",
             }}
-            icon={ICONS.faJs.icon}
-            color={ICONS.faJs.color}
-            size="4x"
-          />
-          <FontAwesomeIcon
+            to="/"
+          >
+            <Button
+              style={{
+                borderTopRightRadius: 0,
+                borderBottomRightRadius: 0,
+              }}
+            >
+              Home
+            </Button>
+          </Link>
+          <Link
             style={{
-              padding: "0 20px",
+              color: "inherit",
+              textDecoration: "none",
             }}
-            icon={ICONS.faReact.icon}
-            color={ICONS.faReact.color}
-            size="4x"
-          />
-          <FontAwesomeIcon
+            to="/notes"
+          >
+            <Button
+              style={{
+                borderRadius: 0,
+              }}
+            >
+              Notes
+            </Button>
+          </Link>
+          <Link
             style={{
-              padding: "0 20px",
+              color: "inherit",
+              textDecoration: "none",
             }}
-            icon={ICONS.faVuejs.icon}
-            color={ICONS.faVuejs.color}
-            size="4x"
-          />
-        </div>
-        <Typography
-          data-aos="zoom-in"
-          data-aos-easing="ease-out-cubic"
-          data-aos-duration="2000"
-          data-aos-delay="500"
-          data-aos-anchor-placement="center-bottom"
-          variant="h3"
-          component="h3"
-          align="center"
-          color="primary"
-          fontWeight={100}
-          sx={{ marginBottom: 1 }}
+            to="/about"
+          >
+            <Button
+              style={{
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
+              }}
+            >
+              About
+            </Button>
+          </Link>
+        </ButtonGroup>
+        <Container
+          sx={{
+            width: "100%",
+            marginTop: "50px",
+            marginBottom: "50px",
+            paddingTop: "12px",
+            paddingBottom: "12px",
+          }}
         >
-          #casual_gamer
-        </Typography>
-        <Typography
-          data-aos="fade-up-left"
-          data-aos-easing="ease-out-cubic"
-          data-aos-duration="2000"
-          data-aos-delay="500"
-          data-aos-anchor-placement="center-bottom"
-          variant="h3"
-          component="h3"
-          color="primary"
-          fontWeight={100}
-          sx={{ marginBottom: 1 }}
-        >
-          #cooking
-        </Typography>
-        <div
-          data-aos="fade-down"
-          data-aos-easing="ease-out-cubic"
-          data-aos-duration="2000"
-          data-aos-delay="500"
-          data-aos-anchor-placement="center-bottom"
-          style={{ display: "flex", justifyContent: "space-evenly", margin: "75px 0" }}
-        >
-          <FontAwesomeIcon
-            style={{
-              padding: "0 20px",
-            }}
-            icon={ICONS.faPython.icon}
-            color={ICONS.faPython.color}
-            size="4x"
-          />
-          <FontAwesomeIcon
-            style={{
-              padding: "0 20px",
-            }}
-            icon={ICONS.faPhp.icon}
-            color={ICONS.faPhp.color}
-            size="4x"
-          />
-          <FontAwesomeIcon
-            style={{
-              padding: "0 20px",
-            }}
-            icon={ICONS.faNpm.icon}
-            color={ICONS.faNpm.color}
-            size="4x"
-          />
-        </div>
-        <Typography
-          data-aos="fade-up-right"
-          data-aos-easing="ease-out-cubic"
-          data-aos-duration="2000"
-          data-aos-delay="500"
-          data-aos-anchor-placement="center-bottom"
-          variant="h3"
-          component="h3"
-          align="right"
-          color="primary"
-          fontWeight={100}
-          sx={{ marginBottom: 1 }}
-        >
-          #full_stack
-        </Typography>
-        <Typography
-          data-aos="zoom-in"
-          data-aos-easing="ease-out-cubic"
-          data-aos-duration="2000"
-          data-aos-delay="500"
-          data-aos-anchor-placement="center-bottom"
-          variant="h3"
-          component="h3"
-          align="center"
-          color="primary"
-          fontWeight={100}
-          sx={{ marginBottom: 1 }}
-        >
-          #polish_english_japanese
-        </Typography>
-        <div
-          data-aos="fade-down"
-          data-aos-easing="ease-out-cubic"
-          data-aos-duration="2000"
-          data-aos-delay="500"
-          data-aos-anchor-placement="center-bottom"
-          style={{ display: "flex", justifyContent: "space-evenly", margin: "75px 0" }}
-        >
-          <FontAwesomeIcon
-            style={{
-              padding: "0 20px",
-            }}
-            icon={ICONS.faCss3Alt.icon}
-            color={ICONS.faCss3Alt.color}
-            size="4x"
-          />
-          <FontAwesomeIcon
-            style={{
-              padding: "0 20px",
-            }}
-            icon={ICONS.faSass.icon}
-            color={ICONS.faSass.color}
-            size="4x"
-          />
-          <FontAwesomeIcon
-            style={{
-              padding: "0 20px",
-            }}
-            icon={ICONS.faGitAlt.icon}
-            color={ICONS.faGitAlt.color}
-            size="4x"
-          />
-        </div>
+          <div
+            data-aos="fade-up"
+            data-aos-easing="ease-out-cubic"
+            data-aos-duration="2000"
+            style={{ display: "flex", flexDirection: "column", margin: "0 0 50px 0" }}
+          >
+            <Typography variant="h5" component="p" color="primary" fontWeight={300} sx={{ margin: "7px 0" }}>
+              Hello! I'm Marek, a software engineer, with more than two years of professional experience, based in Japan.
+            </Typography>
+            <Typography variant="h5" component="p" color="primary" fontWeight={300} sx={{ margin: "7px 0" }}>
+              Active on both, front-end and back-end fields. Always eager to learn new technologies, code for fun after work.
+            </Typography>
+            <Typography variant="h5" component="p" color="primary" fontWeight={300} sx={{ margin: "7px 0 75px 0" }}>
+              My free time: cooking, gaming and watching history documentaries.
+            </Typography>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {Object.values(ICONS).map((icon, index) =>
+                <Fade
+                  key={index}
+                  in={true}
+                  timeout={1000}
+                  style={{ transitionDelay: `${index * 100 + 1500}ms` }}
+                >
+                  <div>
+                    <FontAwesomeIcon
+                      style={{
+                        paddingRight: 10,
+                      }}
+                      icon={icon.icon}
+                      color={icon.color}
+                      pull="left"
+                      size="3x"
+                    />
+                  </div>
+                </Fade>
+              )}
+            </div>
+          </div>
+        </Container>
       </Container>
-    </Container>
+      <div style={{ margin: "auto 0px -3px", position: "relative", display: "inline-block" }}>
+        <div style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          width: "100%",
+          height: "100%",
+          display: "inline-block",
+          background: "linear-gradient(to bottom, rgba(53,73,94,1) 0%,rgba(53,73,94,0) 100%)", /* W3C */
+        }}></div>
+        <img style={{ width: "100%" }} src="/assets/bg.jpeg" />
+      </div>
+    </>
   )
 }
 
