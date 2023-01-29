@@ -28,6 +28,7 @@ def notes():
             del sample["_id"]
 
         notes.append(sample)
+        notes.reverse()
 
-    return json.dumps(notes.reverse(), default=str)
+    return json.dumps(notes, default=str)
 
