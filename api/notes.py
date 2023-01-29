@@ -29,5 +29,5 @@ def notes():
 
         notes.append(sample)
 
-    return json.dumps(notes, default=str)
+    return json.dumps(notes.reverse(), default=str)
 
