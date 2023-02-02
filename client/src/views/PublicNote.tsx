@@ -15,9 +15,11 @@ import "prismjs/components/prism-python";
 import "prismjs/components/prism-css";
 import "prismjs/components/prism-scss";
 import "prismjs/themes/prism-tomorrow.css";
+import GoToTop from "../components/GoToTop";
 
 const PublicNote = (): ReactElement => {
   const [note, setNote] = useState<NoteType | null>(null);
+  const [isGoToTopVisible, setIsGoToTopVisible] = useState<boolean>(false);
 
   const getNoteIdFromParam = (): string | null => {
     const [_, query] = window.location.href.split('#')[1].split('?')
@@ -47,6 +49,14 @@ const PublicNote = (): ReactElement => {
     }
   }, []);
 
+  const onScrollCallback = () => {
+    if (window.scrollY > 250) {
+      setIsGoToTopVisible(true);
+    } else {
+      setIsGoToTopVisible(false);
+    }
+  }
+
   useLayoutEffect(() => {
     Prism.highlightAll();
   }, [note])
@@ -63,6 +73,14 @@ const PublicNote = (): ReactElement => {
       })
     }
   }, [getNote]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", onScrollCallback);
+
+    return () => {
+      window.removeEventListener("scroll", onScrollCallback);
+    }
+  }, []);
 
   return (
     <Container
@@ -162,6 +180,7 @@ const PublicNote = (): ReactElement => {
           <LinearProgress />
         </Box>
       }
+      <GoToTop isVisible={isGoToTopVisible} />
     </Container>
   )
 }
