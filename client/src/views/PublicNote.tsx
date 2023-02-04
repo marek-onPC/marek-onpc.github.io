@@ -32,13 +32,13 @@ const PublicNote = (): ReactElement => {
     return null;
   };
 
-  const createHeadingsId = (content: string): string => {
+  const createHeadingsId = useCallback((content: string): string => {
     if (content.match('<h2>')) {
       content = content.replace('<h2>', `<h2 id="id-${(Math.random() * 100)}">`)
       return createHeadingsId(content);
     }
     return content;
-  }
+  }, [])
 
   const getNote = useCallback(async (): Promise<void> => {
     const noteId = getNoteIdFromParam();
@@ -57,7 +57,7 @@ const PublicNote = (): ReactElement => {
     catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [createHeadingsId]);
 
   const onScrollCallback = () => {
     if (window.scrollY > 250) {
@@ -173,7 +173,7 @@ const PublicNote = (): ReactElement => {
             sx={{
               width: "100%",
               marginTop: "30px",
-              marginBottom: "50px",
+              marginBottom: "150px",
               paddingTop: "12px",
               paddingBottom: "12px",
               background: "white",
@@ -190,7 +190,9 @@ const PublicNote = (): ReactElement => {
           <LinearProgress />
         </Box>
       }
-      <DynamicTOC />
+      {note?.content ?
+        <DynamicTOC />
+        : null}
       <GoToTop isVisible={isGoToTopVisible} />
     </Container>
   )
