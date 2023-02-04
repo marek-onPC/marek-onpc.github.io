@@ -32,10 +32,10 @@ const PublicNote = (): ReactElement => {
     return null;
   };
 
-  const createHeadersId = (content: string): string => {
+  const createHeadingsId = (content: string): string => {
     if (content.match('<h2>')) {
       content = content.replace('<h2>', `<h2 id="id-${(Math.random() * 100)}">`)
-      return createHeadersId(content);
+      return createHeadingsId(content);
     }
     return content;
   }
@@ -51,7 +51,7 @@ const PublicNote = (): ReactElement => {
         `/note/${noteId}`
       );
       const noteData = JSON.parse(note.data) as NoteType;
-      noteData.content = createHeadersId(noteData.content)
+      noteData.content = createHeadingsId(noteData.content)
       setNote(noteData);
     }
     catch (error) {
