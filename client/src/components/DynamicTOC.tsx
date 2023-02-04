@@ -1,6 +1,6 @@
 import { faCircleXmark, faTable } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Divider, Fab, List, ListItem, ListItemButton, SwipeableDrawer, Typography } from "@mui/material";
+import { Divider, Fab, List, ListItem, ListItemButton, SwipeableDrawer, Typography } from "@mui/material";
 import { ReactElement, useEffect, useState } from "react";
 
 const DynamicTOC = (): ReactElement => {
