@@ -16,6 +16,7 @@ import "prismjs/components/prism-css";
 import "prismjs/components/prism-scss";
 import "prismjs/themes/prism-tomorrow.css";
 import GoToTop from "../components/GoToTop";
+import DynamicTOC from "../components/DynamicTOC";
 
 const PublicNote = (): ReactElement => {
   const [note, setNote] = useState<NoteType | null>(null);
@@ -31,6 +32,14 @@ const PublicNote = (): ReactElement => {
     return null;
   };
 
+  const createHeadingsId = useCallback((content: string): string => {
+    if (content.match('<h2>')) {
+      content = content.replace('<h2>', `<h2 id="id-${(Math.random() * 100)}">`)
+      return createHeadingsId(content);
+    }
+    return content;
+  }, [])
+
   const getNote = useCallback(async (): Promise<void> => {
     const noteId = getNoteIdFromParam();
     if (!noteId) {
@@ -42,12 +51,13 @@ const PublicNote = (): ReactElement => {
         `/note/${noteId}`
       );
       const noteData = JSON.parse(note.data) as NoteType;
+      noteData.content = createHeadingsId(noteData.content)
       setNote(noteData);
     }
     catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [createHeadingsId]);
 
   const onScrollCallback = () => {
     if (window.scrollY > 250) {
@@ -163,7 +173,7 @@ const PublicNote = (): ReactElement => {
             sx={{
               width: "100%",
               marginTop: "30px",
-              marginBottom: "50px",
+              marginBottom: "150px",
               paddingTop: "12px",
               paddingBottom: "12px",
               background: "white",
@@ -180,6 +190,9 @@ const PublicNote = (): ReactElement => {
           <LinearProgress />
         </Box>
       }
+      {note?.content ?
+        <DynamicTOC />
+        : null}
       <GoToTop isVisible={isGoToTopVisible} />
     </Container>
   )

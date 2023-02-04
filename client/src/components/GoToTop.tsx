@@ -21,7 +21,7 @@ const GoToTop = ({ isVisible }: { isVisible: boolean }): ReactElement => {
         style={{
           position: "fixed",
           right: 35,
-          bottom: 55,
+          bottom: 85,
         }}
         onClick={scrollToTop}
       >

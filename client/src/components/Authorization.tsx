@@ -10,20 +10,6 @@ const Authorization = ({ children }: Props): ReactElement => {
   const history = useNavigate();
   const jwtContext: string = useContext(AuthContext);
 
-  // const getUserName = async (): Promise<void> => {
-  //   try {
-  //     const response = await fetchClientGet(
-  //       "/authpath",
-  //       token
-  //     );
-
-  //     console.log(response);
-  //   }
-  //   catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
   useEffect(() => {
     if (!jwtContext) {
       history("/login");
