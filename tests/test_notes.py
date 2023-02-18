@@ -5,7 +5,7 @@ from typing import List
 from db.db_client import DatabaseClient
 from schemas.schemas import NoteSchema
 
-db_uri = "DB_URI"
+db_uri = "DB_URITEST"
 db_name = "DB_NAME"
 db_client = DatabaseClient(db_uri, db_name)
 
