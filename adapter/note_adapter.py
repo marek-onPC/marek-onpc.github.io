@@ -1,12 +1,10 @@
 import json
 import os
 from dotenv import load_dotenv
-from fastapi import APIRouter
-from auth.authentication import Authentication
+from bson.objectid import ObjectId
+
 from db.db_client import DatabaseClient
 from schemas.schemas import NoteSchema
-
-from bson.objectid import ObjectId
 
 
 load_dotenv()
@@ -15,9 +13,6 @@ db_uri = os.environ["DB_URI"]
 db_name = os.environ["DB_NAME"]
 db_collection_name = os.environ["DB_COLL_NOTES"]
 db_client = DatabaseClient(db_uri, db_name)
-
-router = APIRouter(prefix="/api")
-authentication = Authentication()
 
 
 def get_notes():
