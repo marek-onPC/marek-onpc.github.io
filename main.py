@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from auth.authentication import Authentication
 
 from api import login, authpath, notes, note
+from view import note_view
 
 load_dotenv()
 
@@ -28,5 +29,4 @@ app.add_middleware(
 )
 app.include_router(login.router)
 app.include_router(authpath.router)
-app.include_router(notes.router)
-app.include_router(note.router)
+app.include_router(note_view.router)
