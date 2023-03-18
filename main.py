@@ -2,9 +2,8 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from auth.authentication import Authentication
 
-from api import login, authpath, notes, note
+from view import note_view, login_view
 
 load_dotenv()
 
@@ -17,7 +16,6 @@ origins = [
 ]
 
 app = FastAPI()
-authentication = Authentication()
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,7 +24,5 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.include_router(login.router)
-app.include_router(authpath.router)
-app.include_router(notes.router)
-app.include_router(note.router)
+app.include_router(login_view.router)
+app.include_router(note_view.router)
