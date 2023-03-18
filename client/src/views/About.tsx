@@ -129,7 +129,7 @@ const About = (): ReactElement => {
             <Typography variant="h5" component="p" color="primary" fontWeight={300} sx={{ margin: "7px 0 75px 0" }}>
               My free time: cooking, gaming and watching history documentaries.
             </Typography>
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
               {Object.values(ICONS).map((icon, index) =>
                 <Fade
                   key={index}

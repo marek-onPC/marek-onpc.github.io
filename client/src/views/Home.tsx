@@ -108,7 +108,7 @@ const Home = (): ReactElement => {
             >
               <div>
                 <Typography variant="h1" component="h2" color="primary" fontWeight={100}>
-                  Marek Smieja
+                  Marek Śmieja
                 </Typography>
                 <Typography variant="h3" component="h3" color="primary" fontWeight={200} marginBottom={7.5}>
                   software engineer
