@@ -1,7 +1,8 @@
 import os
-from typing import Dict
 from dotenv import load_dotenv
 from db.db_client import DatabaseClient
+import schemas.schemas
+from fastapi import UploadFile
 
 load_dotenv()
 
@@ -11,11 +12,20 @@ db_collection_name = os.environ["DB_COLL_USERS"]
 db_client = DatabaseClient(db_uri, db_name)
 
 
-def login(username: str) -> Dict | None:
+def login(username: str) -> schemas.schemas.User | None:
     collection = db_client.db_connection(db_collection_name)
 
     user = db_client.db_find_one(collection, {
         "user": username
     })
 
-    return user
+    if user:
+        mappedUser = schemas.schemas.User(
+            username=user["user"],
+            password=user["password"],
+            photo=UploadFile(user["photo"])
+            if type(user["photo"]) is not None else None)
+    else:
+        mappedUser = None
+
+    return mappedUser
