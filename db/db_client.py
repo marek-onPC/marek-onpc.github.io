@@ -2,6 +2,7 @@ from typing import Any, Dict
 from bson import ObjectId
 from gridfs import Collection
 from pymongo import MongoClient
+from fastapi import UploadFile
 
 from schemas.schemas import NoteSchema
 
@@ -53,5 +54,17 @@ class DatabaseClient:
             }
         )
 
+        return result
+
+
+    def db_update_user_photo(self, collection: Collection, user: str, photo: UploadFile) -> Any:
+        result = collection.update_one(
+            { "user" : user },
+            { "$set" : 
+                {
+                    "photo" : photo,
+                }
+            }
+        )
 
         return result

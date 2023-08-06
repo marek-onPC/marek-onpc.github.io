@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from view import note_view, login_view
+from view import note_view, login_view, authorization_view
 
 load_dotenv()
 
@@ -26,3 +26,4 @@ app.add_middleware(
 )
 app.include_router(login_view.router)
 app.include_router(note_view.router)
+app.include_router(authorization_view.router)
