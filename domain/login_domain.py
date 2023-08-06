@@ -16,7 +16,7 @@ def login(auth_details: AuthDetails, photo: UploadFile) -> Dict:
     if not authentication.verify_password(auth_details.password, user.password):
         raise HTTPException(status_code=401, detail="Wrong password")
     
-    if photo and not authorization_domain.verify_photo(username=user.username, photo=photo):
+    if photo and  not authorization_domain.verify_photo(user=user, photo=photo):
         raise HTTPException(status_code=401, detail="Not authorized")
     
     token = authentication.encode_jwt(user.username)

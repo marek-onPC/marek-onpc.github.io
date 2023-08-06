@@ -23,7 +23,7 @@ def login(username: str) -> schemas.schemas.User | None:
         mappedUser = schemas.schemas.User(
             username=user["user"],
             password=user["password"],
-            photo=UploadFile(user["photo"])
+            photo=user["photo"]
             if type(user["photo"]) is not None else None)
     else:
         mappedUser = None

@@ -9,7 +9,7 @@ class AuthDetails(BaseModel):
 class User(BaseModel):
     username: str
     password: str
-    photo: Optional[UploadFile]
+    photo: bytes
 
 
 class NoteSchema(BaseModel):
