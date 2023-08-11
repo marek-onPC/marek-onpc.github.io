@@ -3,8 +3,8 @@ from pydantic import BaseModel
 from fastapi import UploadFile, File, Form
 
 class AuthDetails(BaseModel):
-    username: str = Form(...)
-    password: str = Form(...)
+    username: str
+    password: str
 
 class User(BaseModel):
     username: str
