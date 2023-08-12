@@ -1,0 +1,7 @@
+client
+
+venv
+
+tests
+__pycache__
+.pytest_cache
