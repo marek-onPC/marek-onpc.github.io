@@ -15,6 +15,6 @@ def verify_photo(user: User, photo: str):
     to_verify = Image.open(BytesIO(base64.b64decode(photo.split(',')[1]))).convert('RGB')
 
     try:
-        return DeepFace.verify(img1_path=numpy.array(reference), img2_path=numpy.array(to_verify))["verified"]
+        return DeepFace.verify(img1_path=numpy.array(reference), img2_path=numpy.array(to_verify), model_name="Facenet")["verified"]
     except ValueError:
         return False
