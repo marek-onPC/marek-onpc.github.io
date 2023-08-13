@@ -62,6 +62,7 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
     } catch (error) {
       setIsLoginInProgress(false);
       setIsLoginError(true);
+      setPhoto(null);
     }
   };
 
@@ -80,7 +81,7 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
         justifyContent: "center",
       }}
     >
-      <FaceVerification showModal={showModal} setShowModal={setShowModal} setPhoto={setPhoto} />
+      <FaceVerification showModal={showModal} setShowModal={setShowModal} setPhoto={setPhoto} isPhotoSet={!!photo} />
       <Box
         component="form"
         sx={{

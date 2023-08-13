@@ -15,37 +15,42 @@ const modalStyle = {
   p: 4,
 };
 
-const FaceVerification = ({ showModal, setShowModal, setPhoto }: { showModal: boolean, setShowModal: Dispatch<SetStateAction<boolean>>, setPhoto: Dispatch<SetStateAction<null | string>> }): ReactElement => {
+const FaceVerification = (
+  {
+    showModal,
+    setShowModal,
+    setPhoto,
+    isPhotoSet
+  }: {
+    showModal: boolean,
+    setShowModal: Dispatch<SetStateAction<boolean>>,
+    setPhoto: Dispatch<SetStateAction<null | string>>,
+    isPhotoSet: boolean
+  }): ReactElement => {
   const videoFrame = useRef<HTMLVideoElement>(null);
   const canvasFrame = useRef<HTMLCanvasElement>(null);
+  const [capturedVideo, setCapturedVideo] = useState<MediaStream | null>(null);
   const [showCameraFrame, setShowCameraFrame] = useState<boolean>(true);
 
   const turnOnCamera = async () => {
     setShowCameraFrame(true)
-    const capturedVideo = await navigator.mediaDevices.getUserMedia({
-      video: {
-        width: {
-          min: 480,
-          ideal: 600,
-          max: 768,
-        },
-        height: {
-          min: 640,
-          ideal: 800,
-          max: 1024,
-        },
-      }
-    })
 
     if (capturedVideo && videoFrame.current) {
       videoFrame.current.srcObject = capturedVideo
-
-      if (showModal) {
-        videoFrame.current.play()
-      } else {
-        videoFrame.current.pause()
-      }
+      videoFrame.current.play()
     }
+  }
+
+  const turnOffCamera = async () => {
+    if (capturedVideo && videoFrame.current) {
+      videoFrame.current.pause()
+      videoFrame.current.srcObject = null
+
+      capturedVideo.getTracks().forEach((track) => {
+        track.stop();
+      });
+    }
+    setShowModal(false)
   }
 
   const handlePhoto = () => {
@@ -66,16 +71,41 @@ const FaceVerification = ({ showModal, setShowModal, setPhoto }: { showModal: bo
     if (canvasFrame.current && videoFrame.current) {
       const data = canvasFrame.current.toDataURL("image/png");
       setPhoto(data)
-      setShowModal(false)
+    }
+  }
+
+  const getMediaStream = async (navigator: Navigator) => {
+    if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+      const newMediaStream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          width: {
+            min: 480,
+            ideal: 600,
+            max: 768,
+          },
+          height: {
+            min: 640,
+            ideal: 800,
+            max: 1024,
+          },
+        }
+      })
+      setCapturedVideo(newMediaStream)
     }
   }
 
   useEffect(() => {
-    if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices && showModal) {
-      turnOnCamera();
-    }
-
+    showModal && getMediaStream(navigator)
   }, [navigator, showModal])
+
+  useEffect(() => {
+    if (!isPhotoSet && showModal) {
+      capturedVideo && setTimeout(turnOnCamera, 1000)
+    } else {
+      turnOffCamera();
+    }
+  }, [capturedVideo, isPhotoSet, showModal])
+
 
   return <Modal
     open={showModal}
