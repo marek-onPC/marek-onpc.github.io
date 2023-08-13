@@ -9,4 +9,4 @@ RUN apt-get update && apt-get install libgl1 -y
 
 COPY . .
 
-CMD ["uvicorn", "main:app"]
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "main:app"]
