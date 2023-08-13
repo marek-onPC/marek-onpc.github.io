@@ -6,7 +6,6 @@ from PIL import Image
 from io import BytesIO
 import numpy
 import base64
-import gc
 
 def add_photo(username: str, photo: UploadFile):
     return authorization_adapter.add_photo(username, photo)
@@ -16,8 +15,6 @@ def verify_photo(user: User, photo: str):
     to_verify = Image.open(BytesIO(base64.b64decode(photo.split(',')[1]))).convert('RGB')
 
     try:
-        result = DeepFace.verify(img1_path=numpy.array(reference), img2_path=numpy.array(to_verify), model_name="Facenet")["verified"]
-        gc.collect()
-        return result
+        return DeepFace.verify(img1_path=numpy.array(reference), img2_path=numpy.array(to_verify), model_name="Facenet")["verified"]
     except ValueError:
         return False
