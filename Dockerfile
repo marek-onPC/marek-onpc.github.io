@@ -9,4 +9,8 @@ RUN apt-get update && apt-get install libgl1 -y
 
 COPY . .
 
+# For local
+# CMD ["uvicorn", "main:app"]
+
+# For Heroku
 CMD ["sh", "-c", "gunicorn -k uvicorn.workers.UvicornWorker main:app"]
