@@ -125,15 +125,16 @@ const PublicNote = (): ReactElement => {
           style={{
             color: "inherit",
             textDecoration: "none",
+            display: "none",
           }}
-          to="/notes"
+          to="/projects"
         >
           <Button
             style={{
               borderRadius: 0,
             }}
           >
-            Notes
+            Projects
           </Button>
         </Link>
         <Link
@@ -153,6 +154,25 @@ const PublicNote = (): ReactElement => {
           </Button>
         </Link>
       </ButtonGroup>
+    
+      <Link
+        style={{
+          color: "inherit",
+          textDecoration: "none",
+        }}
+        to="/notes"
+      >
+        <Button
+          variant="contained"
+          style={{
+            marginTop: 25,
+            paddingTop: 0,
+            paddingBottom: 0,
+          }}
+        >
+          <span style={{marginRight: 5, paddingBottom: 2, fontSize: 20, fontWeight: 900}}>&larr;</span> Go back to notes
+        </Button>
+      </Link>
       {note ?
         <>
           <Typography

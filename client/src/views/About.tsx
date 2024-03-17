@@ -77,15 +77,16 @@ const About = (): ReactElement => {
             style={{
               color: "inherit",
               textDecoration: "none",
+              display: "none",
             }}
-            to="/notes"
+            to="/projects"
           >
             <Button
               style={{
                 borderRadius: 0,
               }}
             >
-              Notes
+              Projects
             </Button>
           </Link>
           <Link

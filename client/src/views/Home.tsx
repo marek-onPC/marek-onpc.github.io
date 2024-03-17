@@ -172,8 +172,9 @@ const Home = (): ReactElement => {
                 style={{
                   color: "inherit",
                   textDecoration: "none",
+                  display: "none",
                 }}
-                to="/notes"
+                to="/projects"
               >
                 <Button
                   variant="contained"
@@ -182,7 +183,7 @@ const Home = (): ReactElement => {
                     height: 50
                   }}
                 >
-                  Notes
+                  Projects
                 </Button>
               </Link>
               <Link
