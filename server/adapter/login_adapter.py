@@ -1,8 +1,8 @@
 import os
 from typing import Optional
 from dotenv import load_dotenv
-from db.db_client import DatabaseClient
-import schemas.schemas
+from server.db.db_client import DatabaseClient
+import server.schemas.schemas
 
 load_dotenv()
 
@@ -22,9 +22,8 @@ def login(username: str) -> Optional[schemas.schemas.User]:
     if user:
         mappedUser = schemas.schemas.User(
             username=user["user"],
-            password=user["password"],
-            photo=user["photo"]
-            if type(user["photo"]) is not None else None)
+            password=user["password"]
+        )
     else:
         mappedUser = None
 

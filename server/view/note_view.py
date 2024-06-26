@@ -1,7 +1,7 @@
 from fastapi import Depends, APIRouter, HTTPException
-from auth.authentication import Authentication
-from domain import note_domain
-from schemas.schemas import NoteSchema
+from server.auth.authentication import Authentication
+from server.domain import note_domain
+from server.schemas.schemas import NoteSchema
 
 
 router = APIRouter(prefix="/api")

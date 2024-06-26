@@ -4,7 +4,7 @@ from gridfs import Collection
 from pymongo import MongoClient
 from fastapi import UploadFile
 
-from schemas.schemas import NoteSchema
+from server.schemas.schemas import NoteSchema
 
 class DatabaseClient:
     def __init__(self, db_uri: str, db_name: str) -> None:
