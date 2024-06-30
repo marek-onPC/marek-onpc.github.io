@@ -3,12 +3,11 @@ name = "server"
 version = "0.1.0"
 description = ""
 authors = ["Marek Smieja <67819687+marek-onPC@users.noreply.github.com>"]
-readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.111.0"
-bson = "^0.5.10"
 mongomock = "^4.1.2"
 pytest = "^8.2.2"
 pymongo = "^4.7.3"

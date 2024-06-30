@@ -3,8 +3,8 @@ import os
 from dotenv import load_dotenv
 from bson.objectid import ObjectId
 
-from server.db.db_client import DatabaseClient
-from server.schemas.schemas import NoteSchema
+from db.db_client import DatabaseClient
+from schemas.schemas import NoteSchema
 
 
 load_dotenv()

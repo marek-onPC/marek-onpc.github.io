@@ -1,5 +1,5 @@
-from server.schemas import schemas
-from server.adapter import note_adapter
+from schemas import schemas
+from adapter import note_adapter
 
 
 def get_notes():

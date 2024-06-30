@@ -1,5 +1,5 @@
 import pytest
-from server.auth.authentication import Authentication
+from auth.authentication import Authentication
 
 authentication = Authentication()
 

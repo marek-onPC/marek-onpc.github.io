@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from server.view import note_view, login_view
+from view import note_view, login_view
 
 load_dotenv()
 

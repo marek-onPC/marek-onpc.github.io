@@ -1,9 +1,8 @@
-from typing import Dict, Optional
-from server.adapter import login_adapter
+from typing import Dict
+from adapter import login_adapter
 from fastapi import HTTPException
-from server.auth.authentication import Authentication
-from server.domain import authorization_domain
-from server.schemas.schemas import AuthDetails
+from auth.authentication import Authentication
+from schemas.schemas import AuthDetails
 
 authentication = Authentication()
 

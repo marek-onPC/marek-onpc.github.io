@@ -2,8 +2,8 @@ from bson import ObjectId
 import mongomock
 import pytest
 from typing import List
-from server.db.db_client import DatabaseClient
-from server.schemas.schemas import NoteSchema
+from db.db_client import DatabaseClient
+from schemas.schemas import NoteSchema
 
 db_uri = "DB_URI"
 db_name = "DB_NAME"
