@@ -1,10 +1,9 @@
 import { LoadingButton } from "@mui/lab";
 import { Alert, Box, TextField } from "@mui/material";
-import { ChangeEvent, ReactElement, SetStateAction, useEffect, useState } from "react";
+import { ChangeEvent, ReactElement, SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthCredentials } from "../types";
 import { fetchClientPostWithoutToken } from "../helpers/fetchClient";
-import FaceVerification from "../components/FaceVerification";
 
 type Props = {
   setLoginToken: SetStateAction<any>;
@@ -17,8 +16,6 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
       password: "",
     }
   );
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [photo, setPhoto] = useState<null | string>(null);
   const [isLoginError, setIsLoginError] = useState<boolean>(false);
   const [isLoginInProgress, setIsLoginInProgress] = useState<boolean>(false);
   const history = useNavigate();
@@ -44,11 +41,7 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
     try {
       const response = await fetchClientPostWithoutToken(
         "/login",
-        {
-          username: user.username,
-          password: user.password,
-          photo: photo
-        }
+        user
       );
 
       window.localStorage.setItem(
@@ -62,15 +55,8 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
     } catch (error) {
       setIsLoginInProgress(false);
       setIsLoginError(true);
-      setPhoto(null);
     }
   };
-
-  useEffect(() => {
-    if (photo) {
-      login();
-    }
-  }, [photo])
 
   return (
     <Box
@@ -81,7 +67,6 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
         justifyContent: "center",
       }}
     >
-      <FaceVerification showModal={showModal} setShowModal={setShowModal} setPhoto={setPhoto} isPhotoSet={!!photo} />
       <Box
         component="form"
         sx={{
@@ -120,7 +105,7 @@ const Login = ({ setLoginToken }: Props): ReactElement => {
           width: 150,
           margin: "50px auto 0"
         }}
-        onClick={() => setShowModal(true)}
+        onClick={login}
         variant="contained"
         loading={isLoginInProgress}
       >

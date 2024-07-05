@@ -29,33 +29,6 @@ const fetchClientPostWithoutToken = async (
   return response;
 }
 
-const fetchClientPostFormDataWithoutToken = async (
-  url: string,
-  formData: FormData
-): Promise<any> => {
-  const response = await fetch(`${API_URL}/api${url}`, {
-    method: HTTPMethods.POST,
-    headers: {
-      "Content-Type": "multipart/form-data"
-    },
-    body: formData
-  })
-    .then(async (data) => {
-      if (data.status !== 200) {
-        throw new Error(data.statusText);
-      }
-      const responseStatus = data.status;
-      const responseData = await data.json();
-
-      return {
-        status: responseStatus,
-        data: responseData
-      };
-    })
-
-  return response;
-}
-
 const fetchClientGetWithoutToken = async (
   url: string,
 ): Promise<any> => {
@@ -135,4 +108,4 @@ const fetchClientPost = async (
   return response;
 }
 
-export { fetchClientPostWithoutToken, fetchClientPostFormDataWithoutToken, fetchClientGetWithoutToken, fetchClientGet, fetchClientPost }
+export { fetchClientPostWithoutToken, fetchClientGetWithoutToken, fetchClientGet, fetchClientPost }

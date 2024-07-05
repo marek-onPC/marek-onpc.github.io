@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "server"
+version = "0.1.0"
+description = ""
+authors = ["Marek Smieja <67819687+marek-onPC@users.noreply.github.com>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.0"
+mongomock = "^4.1.2"
+pytest = "^8.2.2"
+pymongo = "^4.7.3"
+PyJWT = "^2.8.0"
+passlib = "^1.7.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
