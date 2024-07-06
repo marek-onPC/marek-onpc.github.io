@@ -1,7 +1,7 @@
 from fastapi import Depends, APIRouter, HTTPException
 from helpers.authentication import Authentication
 from domain import project_domain
-from schemas import ProjectSchema
+from schemas import ProjectID, ProjectSchema, Username
 
 
 router = APIRouter(prefix="/api")
@@ -14,12 +14,12 @@ def projects():
 
 
 @router.get("/projects/{project_id}")
-def get_project_by_id(project_id: str):
+def get_project_by_id(project_id: ProjectID):
     return project_domain.get_project(project_id=project_id)
 
 
 @router.post("/projects")
-def post_project(project_data: ProjectSchema, username = Depends(authentication.auth_wrapper)):
+def post_project(project_data: ProjectSchema, username: Username = Depends(authentication.auth_wrapper)):
     if username:
         if project_data.id == "":
             return project_domain.create_project(project_data=project_data)

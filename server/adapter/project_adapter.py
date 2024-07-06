@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from bson.objectid import ObjectId
 
 from helpers.db_client import DatabaseClient
-from schemas import ProjectSchema
+from schemas import ProjectID, ProjectSchema
 
 
 load_dotenv()
@@ -31,7 +31,7 @@ def get_projects():
     return json.dumps(projects, default=str)
 
 
-def get_project(project_id: str):
+def get_project(project_id: ProjectID):
     collection = db_client.db_connection(db_collection_name)
     result = db_client.db_find_one(collection, {
         "_id" : ObjectId(project_id)

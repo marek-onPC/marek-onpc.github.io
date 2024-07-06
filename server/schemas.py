@@ -1,16 +1,26 @@
 from enum import StrEnum
-from typing import Optional
+from typing import TypeVar
 from pydantic import BaseModel
+
+Username = TypeVar("Username", bound=str)
+Password = TypeVar("Password", bound=str)
+HashedPassword = TypeVar("HashedPassword", bound=str)
+Token = TypeVar("Token", bound=str)
+ProjectID = TypeVar("ProjectID", bound=str)
 
 
 class AuthDetails(BaseModel):
-    username: str
-    password: str
+    username: Username
+    password: Password
 
 
 class User(BaseModel):
-    username: str
-    password: str
+    username: Username
+    password: HashedPassword
+
+
+class LoginToken(BaseModel):
+    token: Token
 
 
 class ProjectType(StrEnum):
@@ -18,8 +28,14 @@ class ProjectType(StrEnum):
     minor = "MINOR"
 
 
+class UnsavedProjectSchema(BaseModel):
+    title: str
+    project_type: ProjectType
+    content: str
+
+
 class ProjectSchema(BaseModel):
-    id: Optional[str]
+    id: ProjectID
     title: str
     project_type: ProjectType
     content: str

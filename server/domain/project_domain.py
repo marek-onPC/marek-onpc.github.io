@@ -1,4 +1,4 @@
-from schemas import ProjectSchema
+from schemas import ProjectID, ProjectSchema
 from adapter import project_adapter
 
 
@@ -6,7 +6,7 @@ def get_projects():
     return project_adapter.get_projects()
 
 
-def get_project(project_id: str):
+def get_project(project_id: ProjectID):
     return project_adapter.get_project(project_id=project_id)
 
 
