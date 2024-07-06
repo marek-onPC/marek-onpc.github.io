@@ -1,5 +1,5 @@
 import pytest
-from auth.authentication import Authentication
+from helpers.authentication import Authentication
 
 authentication = Authentication()
 

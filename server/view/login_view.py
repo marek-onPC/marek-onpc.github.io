@@ -1,8 +1,8 @@
 from typing import Dict
 from fastapi import APIRouter
-from auth.authentication import Authentication
+from helpers.authentication import Authentication
 from domain import login_domain
-from schemas.schemas import AuthDetails
+from schemas import AuthDetails
 from fastapi import Body
 
 router = APIRouter(prefix="/api")

@@ -2,9 +2,7 @@ from typing import Any, Dict
 from bson import ObjectId
 from gridfs import Collection
 from pymongo import MongoClient
-from fastapi import UploadFile
-
-from schemas.schemas import NoteSchema
+from schemas import ProjectSchema
 
 class DatabaseClient:
     def __init__(self, db_uri: str, db_name: str) -> None:
@@ -32,37 +30,24 @@ class DatabaseClient:
         return result
 
 
-    def db_add_note(self, collection: Collection, note_data: NoteSchema) -> Any:
+    def db_add(self, collection: Collection, project_data: ProjectSchema) -> Any:
         result = collection.insert_one({
-            "title" : note_data["title"],
-            "categories" : note_data["categories"],
-            "content" : note_data["content"]
+            "title" : project_data["title"],
+            "project_type" : project_data["project_type"],
+            "content" : project_data["content"]
         })
 
         return result
 
 
-    def db_update_note(self, collection: Collection, note_data: NoteSchema) -> Any:
+    def db_update(self, collection: Collection, project_data: ProjectSchema) -> Any:
         result = collection.update_one(
-            { "_id" : ObjectId(note_data["_id"]) },
+            { "_id" : ObjectId(project_data["_id"]) },
             { "$set" : 
                 {
-                    "title" : note_data["title"],
-                    "categories" : note_data["categories"],
-                    "content" : note_data["content"]
-                }
-            }
-        )
-
-        return result
-
-
-    def db_update_user_photo(self, collection: Collection, user: str, photo: UploadFile) -> Any:
-        result = collection.update_one(
-            { "user" : user },
-            { "$set" : 
-                {
-                    "photo" : photo,
+                    "title" : project_data["title"],
+                    "project_type" : project_data["project_type"],
+                    "content" : project_data["content"]
                 }
             }
         )
