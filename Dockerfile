@@ -1,5 +1,7 @@
 FROM python:3.11.0
 
+ENV PORT $PORT
+
 WORKDIR /server
 
 COPY ./server/pyproject.toml /server/pyproject.toml
