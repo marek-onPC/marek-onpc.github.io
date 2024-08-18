@@ -6,8 +6,6 @@ COPY ./server/pyproject.toml /server/pyproject.toml
 COPY ./server/poetry.lock /server/poetry.lock
 
 RUN pip install poetry
-RUN pip install gunicorn
-RUN pip install uvicorn
 RUN apt-get update && apt-get install libgl1 -y
 
 RUN poetry install
@@ -15,7 +13,7 @@ RUN poetry install
 COPY ./server .
 
 # For local
-# CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "${PORT:-8000}"]
 
 # For Heroku
-CMD ["sh", "-c", "gunicorn -k uvicorn.workers.UvicornWorker main:app"]
+# CMD ["sh", "-c", "gunicorn -k uvicorn.workers.UvicornWorker main:app"]
