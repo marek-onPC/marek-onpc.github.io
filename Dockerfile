@@ -13,7 +13,7 @@ RUN poetry install
 COPY ./server .
 
 # For local
-CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 # For Heroku
-# CMD ["sh", "-c", "gunicorn -k uvicorn.workers.UvicornWorker main:app"]
+CMD ["sh", "-c", "gunicorn -k uvicorn.workers.UvicornWorker main:app"]
