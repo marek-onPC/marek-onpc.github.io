@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from view import login_view, project_view
+from view import cheat_sheet_view, login_view
 
 load_dotenv()
 
@@ -25,4 +25,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(login_view.router)
-app.include_router(project_view.router)
+app.include_router(cheat_sheet_view.router)
