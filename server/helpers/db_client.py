@@ -2,7 +2,7 @@ from typing import Any, Dict
 from bson import ObjectId
 from gridfs import Collection
 from pymongo import MongoClient
-from schemas import ProjectSchema
+from schemas import CheatSheetSchema
 
 class DatabaseClient:
     def __init__(self, db_uri: str, db_name: str) -> None:
@@ -30,24 +30,24 @@ class DatabaseClient:
         return result
 
 
-    def db_add(self, collection: Collection, project_data: ProjectSchema) -> Any:
+    def db_add(self, collection: Collection, cheat_sheet_data: CheatSheetSchema) -> Any:
         result = collection.insert_one({
-            "title" : project_data["title"],
-            "project_type" : project_data["project_type"],
-            "content" : project_data["content"]
+            "title" : cheat_sheet_data["title"],
+            "category" : cheat_sheet_data["category"],
+            "content" : cheat_sheet_data["content"]
         })
 
         return result
 
 
-    def db_update(self, collection: Collection, project_data: ProjectSchema) -> Any:
+    def db_update(self, collection: Collection, cheat_sheet_data: CheatSheetSchema) -> Any:
         result = collection.update_one(
-            { "_id" : ObjectId(project_data["_id"]) },
+            { "_id" : ObjectId(cheat_sheet_data["_id"]) },
             { "$set" : 
                 {
-                    "title" : project_data["title"],
-                    "project_type" : project_data["project_type"],
-                    "content" : project_data["content"]
+                    "title" : cheat_sheet_data["title"],
+                    "category" : cheat_sheet_data["category"],
+                    "content" : cheat_sheet_data["content"]
                 }
             }
         )
