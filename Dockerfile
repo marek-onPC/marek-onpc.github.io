@@ -6,6 +6,7 @@ COPY ./server/pyproject.toml /server/pyproject.toml
 COPY ./server/poetry.lock /server/poetry.lock
 
 RUN pip install poetry
+RUN pip install gunicorn
 RUN apt-get update && apt-get install libgl1 -y
 
 RUN poetry install
