@@ -3,20 +3,20 @@ import os
 from dotenv import load_dotenv
 from bson.objectid import ObjectId
 
-from db.db_client import DatabaseClient
-from schemas.schemas import NoteSchema
+from helpers.db_client import DatabaseClient
+from schemas import ProjectID, ProjectSchema
 
 
 load_dotenv()
 
 db_uri = os.environ["DB_URI"]
 db_name = os.environ["DB_NAME"]
-db_collection_name = os.environ["DB_COLL_NOTES"]
+db_collection_name = os.environ["DB_COLL_PROJECTS"]
 db_client = DatabaseClient(db_uri, db_name)
 
 
-def get_notes():
-    notes = []
+def get_projects():
+    projects = []
     collection = db_client.db_connection(db_collection_name)
     result = db_client.db_find_all(collection)
 
@@ -25,16 +25,16 @@ def get_notes():
             sample["id"] = sample["_id"]
             del sample["_id"]
 
-        notes.append(sample)
-        notes.reverse()
+        projects.append(sample)
+        projects.reverse()
 
-    return json.dumps(notes, default=str)
+    return json.dumps(projects, default=str)
 
 
-def get_note_by_id(note_id: str):
+def get_project(project_id: ProjectID):
     collection = db_client.db_connection(db_collection_name)
     result = db_client.db_find_one(collection, {
-        "_id" : ObjectId(note_id)
+        "_id" : ObjectId(project_id)
     })
 
     if result["_id"]:  
@@ -44,24 +44,24 @@ def get_note_by_id(note_id: str):
     return json.dumps(result, default=str)
 
 
-def post_new_note(note_data: NoteSchema):
+def create_project(project_data: ProjectSchema):
     collection = db_client.db_connection(db_collection_name)
-    result = db_client.db_add_note(collection, {
-        "title": note_data.title,
-        "categories": note_data.categories,
-        "content": note_data.content
+    result = db_client.db_add(collection, {
+        "title": project_data.title,
+        "project_type": project_data.project_type,
+        "content": project_data.content
     })
 
     return json.dumps(result, default=str)
 
 
-def update_note(note_data: NoteSchema):
+def patch_project(project_data: ProjectSchema):
     collection = db_client.db_connection(db_collection_name)
-    result = db_client.db_update_note(collection, {
-        "_id": note_data.id,
-        "title": note_data.title,
-        "categories": note_data.categories,
-        "content": note_data.content
+    result = db_client.db_update(collection, {
+        "_id": project_data.id,
+        "title": project_data.title,
+        "project_type": project_data.project_type,
+        "content": project_data.content
     })
 
     return json.dumps(result, default=str)

@@ -1,8 +1,7 @@
-import json
 import mongomock
 import pytest
 from typing import Dict, List
-from db.db_client import DatabaseClient
+from helpers.db_client import DatabaseClient
 
 db_uri = "DB_URI"
 db_name = "DB_NAME"
