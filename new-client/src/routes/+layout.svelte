@@ -17,5 +17,32 @@
 		min-height: calc(100vh - 10px);
 		background-color: #35495e;
 		border: 5px solid #42b883;
+		position: relative;
+		overflow: hidden;
+	}
+
+	:global(.button) {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 130px;
+		height: 30px;
+		color: #fff;
+		font-size: 0.875rem;
+		line-height: 1.75;
+		font-weight: 600;
+		background-color: #42b883;
+		box-shadow:
+			rgba(#000, 0.2) 0px 3px 1px -2px,
+			rgba(#000, 0.14) 0px 2px 2px 0px,
+			rgba(#000, 0.12) 0px 1px;
+		padding: 10px;
+		border-radius: 2px;
+		text-decoration: none;
+		transition: 0.25s ease-in-out;
+
+		&:hover {
+			background-color: #2e805b;
+		}
 	}
 </style>
