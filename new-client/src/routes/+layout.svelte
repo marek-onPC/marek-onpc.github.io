@@ -38,11 +38,25 @@
       rgba(#000, 0.12) 0px 1px;
     padding: 10px;
     border-radius: 2px;
+    border-width: 0px;
     text-decoration: none;
     transition: 0.25s ease-in-out;
+    cursor: pointer;
 
     &:hover {
       background-color: #2e805b;
+    }
+  }
+
+  :global(.input) {
+    width: 175px;
+    height: 20px;
+    padding: 20px 10px 10px 10px;
+    border-radius: 2px;
+    border-width: 0px;
+
+    &:focus {
+      outline: none;
     }
   }
 </style>
