@@ -8,8 +8,10 @@
 		faPhp
 	} from '@fortawesome/free-brands-svg-icons';
 	import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
+	import { fade } from 'svelte/transition';
 
 	import type { IconSet } from '../types';
+	import { onMount } from 'svelte';
 
 	const ICONS: ReadonlyArray<IconSet> = [
 		{
@@ -37,6 +39,12 @@
 			color: '#CC6699'
 		}
 	];
+
+	let mounted = false;
+
+	onMount(() => {
+		mounted = true;
+	});
 </script>
 
 <div class="home">
@@ -49,25 +57,24 @@
 	</div>
 
 	<div class="content">
-		<div class="content__left">
-			<h1 class="content__name">Marek Śmieja</h1>
-			<h2 class="content__title">software engineer</h2>
-			<div class="content__border"></div>
-			{#each ICONS as icon}
-				<FontAwesomeIcon
-					style={{
-						paddingRight: 10
-					}}
-					icon={icon.icon}
-					color={icon.color}
-					pull="left"
-					size="3x"
-				/>
-			{/each}
-		</div>
-		<div class="content__right">
-			<a href="/about" class="button">ABOUT</a>
-		</div>
+		{#if mounted}
+			<div class="content__left">
+				<h1 transition:fade={{ delay: 500 }} class="content__name">Marek Śmieja</h1>
+				<h2 transition:fade={{ delay: 750 }} class="content__title">software engineer</h2>
+				<div transition:fade={{ delay: 1000 }} class="content__border"></div>
+				{#each ICONS as icon, index}
+					<div
+						transition:fade|global={{ delay: 1250 + index * 150 }}
+						style="display: inline-block; padding-right: 10px; color: {icon.color}"
+					>
+						<FontAwesomeIcon icon={icon.icon} color={icon.color} pull="left" size="3x" />
+					</div>
+				{/each}
+			</div>
+			<div transition:fade={{ delay: 750 }} class="content__right">
+				<a href="/about" class="button">ABOUT</a>
+			</div>
+		{/if}
 	</div>
 </div>
 
