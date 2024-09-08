@@ -51,7 +51,7 @@
   :global(.input) {
     width: 175px;
     height: 20px;
-    padding: 20px 10px 10px 10px;
+    padding: 15px;
     border-radius: 2px;
     border-width: 0px;
 
