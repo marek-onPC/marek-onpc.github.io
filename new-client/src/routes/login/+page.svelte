@@ -1,13 +1,50 @@
 <script lang="ts">
-  let username: string = '';
-  let password: string = '';
+    import { fetchClientPostWithoutToken } from "$lib/fetchClient";
+    import type { AuthCredentials } from "../../types";
+    import { sessionToken } from "../../stores";
+    import { getTokenFromMemory, setTokenInMemory } from "$lib/memory";
+    import { onMount } from "svelte";
+    import { goto } from "$app/navigation";
+
+  let user: AuthCredentials = {
+    username: "",
+    password: ""
+  }
   let isUsernameFocused: boolean = false;
   let isPasswordFocused: boolean = false;
+  let isLoginInProgress: boolean = false;
+  let isLoginError: boolean = false;
+  
 
-  const loginHandler = () => {
-    console.log('username: ' + username);
-    console.log('password: ' + password);
+  const loginHandler = async () => {
+    isLoginInProgress = true;
+    isLoginError = false;
+
+    try {
+      const response = await fetchClientPostWithoutToken(
+        "/login",
+        user
+      );
+
+      setTokenInMemory(response.data.token);
+      sessionToken.set(response.data.token);
+
+      setTimeout(() => {
+        goto("/dashboard");
+      }, 500)
+    } catch (error) {
+      isLoginInProgress = false;
+      isLoginError = true;
+    }
   };
+
+  onMount(() => {
+    const currentToken = getTokenFromMemory();
+
+    if (currentToken) {
+      goto("/dashboard");
+    }
+  })
 </script>
 
 <div class="login">
@@ -17,7 +54,7 @@
         name="username"
         placeholder="Username"
         class="input"
-        bind:value={username}
+        bind:value={user.username}
         on:focusin={() => (isUsernameFocused = true)}
         on:focusout={() => (isUsernameFocused = false)}
       />
@@ -28,7 +65,7 @@
         placeholder="Password"
         type="password"
         class="input"
-        bind:value={password}
+        bind:value={user.password}
         on:focusin={() => (isPasswordFocused = true)}
         on:focusout={() => (isPasswordFocused = false)}
       />
