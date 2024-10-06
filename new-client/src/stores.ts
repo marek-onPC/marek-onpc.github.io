@@ -1,5 +1,5 @@
-import { getTokenFromMemory } from "$lib/memory";
-import { writable } from "svelte/store";
+import { getTokenFromMemory } from '$lib/memory';
+import { writable } from 'svelte/store';
 
 let sessionTokenFromMemory = getTokenFromMemory();
 
