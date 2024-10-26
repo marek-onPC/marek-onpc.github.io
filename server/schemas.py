@@ -1,4 +1,4 @@
-from typing import TypeVar
+from typing import Optional, TypeVar
 from pydantic import BaseModel
 
 Username = TypeVar("Username", bound=str)
@@ -24,12 +24,14 @@ class LoginToken(BaseModel):
 
 class UnsavedCheatSheetSchema(BaseModel):
     title: str
-    category: list[str]
-    content: str
+    category: Optional[list[str]] = None
+    is_published: bool = False
 
 
-class CheatSheetSchema(BaseModel):
+class UpdateCheatSheetSchema(UnsavedCheatSheetSchema):
+    content: Optional[str] = None
+    is_published: bool
+
+
+class CheatSheetSchema(UpdateCheatSheetSchema):
     id: CheatSheetID
-    title: str
-    category: list[str]
-    content: str

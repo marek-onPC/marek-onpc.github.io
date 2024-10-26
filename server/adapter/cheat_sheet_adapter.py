@@ -49,7 +49,8 @@ def create_cheat_sheet(cheat_sheet_data: CheatSheetSchema):
     result = db_client.db_add(collection, {
         "title": cheat_sheet_data.title,
         "category": cheat_sheet_data.category,
-        "content": cheat_sheet_data.content
+        "content": cheat_sheet_data.content,
+        "is_published": cheat_sheet_data.is_published,
     })
 
     return json.dumps(result, default=str)
@@ -58,10 +59,10 @@ def create_cheat_sheet(cheat_sheet_data: CheatSheetSchema):
 def patch_cheat_sheet(cheat_sheet_data: CheatSheetSchema):
     collection = db_client.db_connection(db_collection_name)
     result = db_client.db_update(collection, {
-        "_id": cheat_sheet_data.id,
         "title": cheat_sheet_data.title,
         "category": cheat_sheet_data.category,
-        "content": cheat_sheet_data.content
+        "content": cheat_sheet_data.content,
+        "is_published": cheat_sheet_data.is_published,
     })
 
     return json.dumps(result, default=str)

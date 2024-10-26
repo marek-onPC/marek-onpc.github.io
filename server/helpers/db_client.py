@@ -34,20 +34,22 @@ class DatabaseClient:
         result = collection.insert_one({
             "title" : cheat_sheet_data["title"],
             "category" : cheat_sheet_data["category"],
-            "content" : cheat_sheet_data["content"]
+            "content" : cheat_sheet_data["content"],
+            "is_published" : cheat_sheet_data["is_published"]
         })
 
         return result
 
 
-    def db_update(self, collection: Collection, cheat_sheet_data: CheatSheetSchema) -> Any:
+    def db_update(self, collection: Collection, id: str, cheat_sheet_data: CheatSheetSchema) -> Any:
         result = collection.update_one(
-            { "_id" : ObjectId(cheat_sheet_data["_id"]) },
+            { "_id" : ObjectId(id) },
             { "$set" : 
                 {
                     "title" : cheat_sheet_data["title"],
                     "category" : cheat_sheet_data["category"],
-                    "content" : cheat_sheet_data["content"]
+                    "content" : cheat_sheet_data["content"],
+                    "is_published" : cheat_sheet_data["is_published"]
                 }
             }
         )

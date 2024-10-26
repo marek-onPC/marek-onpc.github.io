@@ -1,7 +1,7 @@
 from fastapi import Depends, APIRouter, HTTPException
 from helpers.authentication import Authentication
 from domain import cheat_sheet_domain
-from schemas import CheatSheetID, CheatSheetSchema, Username
+from schemas import CheatSheetID, CheatSheetSchema, UnsavedCheatSheetSchema, Username
 
 
 router = APIRouter(prefix="/api")
@@ -19,11 +19,16 @@ def get_cheat_sheet_by_id(cheat_sheet_id: CheatSheetID):
 
 
 @router.post("/cheat_sheets")
-def post_cheat_sheet(cheat_sheet_data: CheatSheetSchema, username: Username = Depends(authentication.auth_wrapper)):
+def post_cheat_sheet(cheat_sheet_data: UnsavedCheatSheetSchema, username: Username = Depends(authentication.auth_wrapper)):
     if username:
-        if cheat_sheet_data.id == "":
-            return cheat_sheet_domain.create_cheat_sheet(cheat_sheet_data=cheat_sheet_data)
-        else:
-            return cheat_sheet_domain.patch_cheat_sheet(cheat_sheet_data=cheat_sheet_data)
+        return cheat_sheet_domain.create_cheat_sheet(cheat_sheet_data=cheat_sheet_data)
+    else:
+        raise HTTPException(status_code=401, detail="Non authenticated")
+
+
+@router.patch("/cheat_sheets/{id}")
+def patch_cheat_sheet(id: str, cheat_sheet_data: CheatSheetSchema, username: Username = Depends(authentication.auth_wrapper)):
+    if username:
+        return cheat_sheet_domain.patch_cheat_sheet(id=id, cheat_sheet_data=cheat_sheet_data)
     else:
         raise HTTPException(status_code=401, detail="Non authenticated")
