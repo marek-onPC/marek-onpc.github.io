@@ -48,6 +48,10 @@
     }
   }
 
+  :global(button) {
+    height: 50px !important;
+  }
+
   :global(.input) {
     width: 175px;
     height: 20px;
