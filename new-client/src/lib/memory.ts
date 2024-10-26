@@ -8,4 +8,8 @@ const getTokenFromMemory = (): string => {
   return window.localStorage.getItem(PUBLIC_APP_LOCAL_STORAGE_TOKEN) || '';
 };
 
-export { setTokenInMemory, getTokenFromMemory };
+const removeTokenInMemory = (): void => {
+  window.localStorage.removeItem(PUBLIC_APP_LOCAL_STORAGE_TOKEN);
+};
+
+export { setTokenInMemory, getTokenFromMemory, removeTokenInMemory };

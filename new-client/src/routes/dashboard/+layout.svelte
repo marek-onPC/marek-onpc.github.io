@@ -1,15 +1,25 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { getTokenFromMemory } from '$lib/memory';
   import { onMount } from 'svelte';
+  import { sessionToken } from '../../stores';
+  import { removeTokenInMemory } from '$lib/memory';
+
+  const logoutHandler = () => {
+    removeTokenInMemory();
+    sessionToken.set('');
+    goto('/');
+  };
 
   onMount(() => {
-    let currentToken = getTokenFromMemory();
-
-    if (!currentToken) {
+    if (!$sessionToken) {
       goto('/login');
     }
   });
 </script>
 
+<nav>
+  <a href="/dashboard/new-cs">new cheat sheet</a>
+  <a href="/dashboard">all cheat sheets</a>
+  <button on:click={logoutHandler}>logout</button>
+</nav>
 <slot />
