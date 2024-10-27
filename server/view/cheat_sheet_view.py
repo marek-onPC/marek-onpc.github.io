@@ -19,7 +19,7 @@ def get_cheat_sheet_by_id(cheat_sheet_id: CheatSheetID):
 
 
 @router.post("/cheat_sheets")
-def post_cheat_sheet(cheat_sheet_data: UnsavedCheatSheetSchema, username: Username = Depends(authentication.auth_wrapper)):
+def post_cheat_sheet(cheat_sheet_data: UnsavedCheatSheetSchema, username: Username = Depends(authentication.auth_wrapper)) -> str:
     if username:
         return cheat_sheet_domain.create_cheat_sheet(cheat_sheet_data=cheat_sheet_data)
     else:

@@ -30,7 +30,6 @@ class UnsavedCheatSheetSchema(BaseModel):
 
 class UpdateCheatSheetSchema(UnsavedCheatSheetSchema):
     content: Optional[str] = None
-    is_published: bool
 
 
 class CheatSheetSchema(UpdateCheatSheetSchema):

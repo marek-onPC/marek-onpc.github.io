@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from bson.objectid import ObjectId
 
 from helpers.db_client import DatabaseClient
-from schemas import CheatSheetID, CheatSheetSchema
+from schemas import CheatSheetID, CheatSheetSchema, UnsavedCheatSheetSchema
 
 
 load_dotenv()
@@ -44,16 +44,15 @@ def get_cheat_sheet(cheat_sheet_id: CheatSheetID):
     return json.dumps(result, default=str)
 
 
-def create_cheat_sheet(cheat_sheet_data: CheatSheetSchema):
+def create_cheat_sheet(cheat_sheet_data: UnsavedCheatSheetSchema) -> str:
     collection = db_client.db_connection(db_collection_name)
-    result = db_client.db_add(collection, {
+    inserted_id = db_client.db_add(collection, {
         "title": cheat_sheet_data.title,
         "category": cheat_sheet_data.category,
-        "content": cheat_sheet_data.content,
         "is_published": cheat_sheet_data.is_published,
     })
 
-    return json.dumps(result, default=str)
+    return inserted_id
 
 
 def patch_cheat_sheet(cheat_sheet_data: CheatSheetSchema):

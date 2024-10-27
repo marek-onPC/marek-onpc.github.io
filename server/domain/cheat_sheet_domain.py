@@ -1,4 +1,4 @@
-from schemas import CheatSheetID, CheatSheetSchema
+from schemas import CheatSheetID, CheatSheetSchema, UnsavedCheatSheetSchema
 from adapter import cheat_sheet_adapter
 
 
@@ -10,7 +10,7 @@ def get_cheat_sheet(cheat_sheet_id: CheatSheetID):
     return cheat_sheet_adapter.get_cheat_sheet(cheat_sheet_id=cheat_sheet_id)
 
 
-def create_cheat_sheet(cheat_sheet_data: CheatSheetSchema):
+def create_cheat_sheet(cheat_sheet_data: UnsavedCheatSheetSchema) -> str:
     return cheat_sheet_adapter.create_cheat_sheet(cheat_sheet_data=cheat_sheet_data)
 
 

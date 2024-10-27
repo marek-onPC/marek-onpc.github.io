@@ -2,7 +2,7 @@ from typing import Any, Dict
 from bson import ObjectId
 from gridfs import Collection
 from pymongo import MongoClient
-from schemas import CheatSheetSchema
+from schemas import CheatSheetSchema, UnsavedCheatSheetSchema
 
 class DatabaseClient:
     def __init__(self, db_uri: str, db_name: str) -> None:
@@ -30,26 +30,25 @@ class DatabaseClient:
         return result
 
 
-    def db_add(self, collection: Collection, cheat_sheet_data: CheatSheetSchema) -> Any:
+    def db_add(self, collection: Collection, cheat_sheet_data: dict) -> str:
         result = collection.insert_one({
-            "title" : cheat_sheet_data["title"],
-            "category" : cheat_sheet_data["category"],
-            "content" : cheat_sheet_data["content"],
-            "is_published" : cheat_sheet_data["is_published"]
+            "title" : cheat_sheet_data.get("title"),
+            "category" : cheat_sheet_data.get("category", None),
+            "is_published" : cheat_sheet_data.get("is_published", None)
         })
 
-        return result
+        return str(result.inserted_id)
 
 
-    def db_update(self, collection: Collection, id: str, cheat_sheet_data: CheatSheetSchema) -> Any:
+    def db_update(self, collection: Collection, id: str, cheat_sheet_data: dict) -> Any:
         result = collection.update_one(
             { "_id" : ObjectId(id) },
             { "$set" : 
                 {
-                    "title" : cheat_sheet_data["title"],
-                    "category" : cheat_sheet_data["category"],
-                    "content" : cheat_sheet_data["content"],
-                    "is_published" : cheat_sheet_data["is_published"]
+                    "title" : cheat_sheet_data.get("title"),
+                    "category" : cheat_sheet_data.get("category", None),
+                    "content" : cheat_sheet_data.get("content", None),
+                    "is_published" : cheat_sheet_data.get("is_published")
                 }
             }
         )
