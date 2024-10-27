@@ -14,21 +14,27 @@ export type IconSet = {
   color: string;
 };
 
-export type NoteType = {
-  id: string;
-  title: string;
-  categories: Array<string>;
-  content: string;
-};
-
-export type NoteCardType = {
-  id: string;
+export interface UnsavedCheetSheetType {
   title: string;
   categories?: Array<string>;
-};
+  is_published: boolean;
+}
+
+export interface UpdateCheetSheetType extends UnsavedCheetSheetType {
+  content?: string;
+}
+
+export interface CheetSheetCardType extends UnsavedCheetSheetType {
+  id: string;
+}
+
+export interface CheetSheetWithContentType extends CheetSheetCardType {
+  content?: string;
+}
 
 export enum HTTPMethods {
   POST = 'POST',
   GET = 'GET',
+  PATCH = 'PATCH',
   DELETE = 'DELETE'
 }

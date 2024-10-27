@@ -19,7 +19,7 @@
 
 <div class="dashboard">
   <nav class="navigation">
-    <a class="button navigation__button" href="/dashboard/new-cs">NEW CHEAT SHEET</a>
+    <a class="button navigation__button" href="/dashboard/new-cheat-sheet">NEW CHEAT SHEET</a>
     <a class="button navigation__button" href="/dashboard">ALL CHEAT SHEETS</a>
     <button class="button navigation__button" on:click={logoutHandler}>LOGOUT</button>
   </nav>
