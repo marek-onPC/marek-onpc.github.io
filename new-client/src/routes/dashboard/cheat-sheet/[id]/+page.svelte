@@ -38,17 +38,51 @@
   });
 </script>
 
-{#if initCheatSheetData}
-  <input
-    type="text"
-    bind:value={updatedCheatSheetData.title}
-    on:keydown={() => {
-      console.log(initCheatSheetData, updatedCheatSheetData);
-    }}
-  />
-  {#if JSON.stringify(initCheatSheetData) !== JSON.stringify(updatedCheatSheetData)}
-    <button on:click={updateCheatSheet}>Save</button>
+<div class="update__page">
+  {#if initCheatSheetData}
+    <input
+      type="text"
+      class="update__title"
+      bind:value={updatedCheatSheetData.title}
+      on:keydown={() => {
+        console.log(initCheatSheetData, updatedCheatSheetData);
+      }}
+    />
+    {#if JSON.stringify(initCheatSheetData) !== JSON.stringify(updatedCheatSheetData)}
+      <button class="button update__save" on:click={updateCheatSheet}>Save</button>
+    {/if}
+  {:else}
+    <p>Loading</p>
   {/if}
-{:else}
-  <p>Loading</p>
-{/if}
+</div>
+
+<style lang="scss">
+  .update {
+    &__page {
+      display: flex;
+      flex-direction: column;
+      width: auto;
+      margin-top: 50px;
+    }
+
+    &__title {
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      border: 2px solid #fff;
+      transition: 0.25s ease-in-out;
+
+      &:focus {
+        outline: none;
+        border: 2px solid #42b883;
+      }
+    }
+
+    &__save {
+      margin: 25px auto;
+    }
+  }
+</style>

@@ -31,7 +31,9 @@
     display: flex;
     flex-direction: column;
     width: calc(100% - 10px);
+    max-width: 800px;
     padding: 10px;
+    margin: 0 auto;
   }
 
   .navigation {
