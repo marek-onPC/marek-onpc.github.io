@@ -1,4 +1,4 @@
-import { HTTPMethods, type UnsavedCheetSheetType, type UpdateCheetSheetType } from '../types';
+import { HTTPMethods, type UnsavedCheatSheetType, type UpdateCheatSheetType } from '../types';
 import { PUBLIC_APP_SERVER } from '$env/static/public';
 
 const fetchClientPostWithoutToken = async (url: string, data: object): Promise<any> => {
@@ -72,7 +72,7 @@ const fetchClientGet = async (url: string, token: string): Promise<any> => {
 const fetchClientPost = async (
   url: string,
   token: string,
-  payload: UnsavedCheetSheetType
+  payload: UnsavedCheatSheetType
 ): Promise<{ status: number; id: string }> => {
   const response = await fetch(`${PUBLIC_APP_SERVER}/api${url}`, {
     method: HTTPMethods.POST,
@@ -100,7 +100,7 @@ const fetchClientPost = async (
 const fetchClientPatch = async (
   url: string,
   token: string,
-  payload: UpdateCheetSheetType
+  payload: UpdateCheatSheetType
 ): Promise<any> => {
   const response = await fetch(`${PUBLIC_APP_SERVER}/api${url}`, {
     method: HTTPMethods.PATCH,

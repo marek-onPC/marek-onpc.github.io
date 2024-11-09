@@ -14,21 +14,21 @@ export type IconSet = {
   color: string;
 };
 
-export interface UnsavedCheetSheetType {
+export interface UnsavedCheatSheetType {
   title: string;
   categories?: Array<string>;
   is_published: boolean;
 }
 
-export interface UpdateCheetSheetType extends UnsavedCheetSheetType {
+export interface UpdateCheatSheetType extends UnsavedCheatSheetType {
   content?: string;
 }
 
-export interface CheetSheetCardType extends UnsavedCheetSheetType {
+export interface CheatSheetCardType extends UnsavedCheatSheetType {
   id: string;
 }
 
-export interface CheetSheetWithContentType extends CheetSheetCardType {
+export interface CheatSheetWithContentType extends CheatSheetCardType {
   content?: string;
 }
 
