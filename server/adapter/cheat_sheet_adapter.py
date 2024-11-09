@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from bson.objectid import ObjectId
 
 from helpers.db_client import DatabaseClient
-from schemas import CheatSheetID, CheatSheetSchema, UnsavedCheatSheetSchema
+from schemas import CheatSheetID, UnsavedCheatSheetSchema, UpdateCheatSheetSchema
 
 
 load_dotenv()
@@ -55,13 +55,17 @@ def create_cheat_sheet(cheat_sheet_data: UnsavedCheatSheetSchema) -> str:
     return inserted_id
 
 
-def patch_cheat_sheet(cheat_sheet_data: CheatSheetSchema):
+def patch_cheat_sheet(id: str, cheat_sheet_data: UpdateCheatSheetSchema):
     collection = db_client.db_connection(db_collection_name)
-    result = db_client.db_update(collection, {
-        "title": cheat_sheet_data.title,
-        "category": cheat_sheet_data.category,
-        "content": cheat_sheet_data.content,
-        "is_published": cheat_sheet_data.is_published,
-    })
+    result = db_client.db_update(
+        collection, 
+        id,
+        {
+            "title": cheat_sheet_data.title,
+            "category": cheat_sheet_data.category,
+            "content": cheat_sheet_data.content,
+            "is_published": cheat_sheet_data.is_published,
+        }
+    )
 
     return json.dumps(result, default=str)
