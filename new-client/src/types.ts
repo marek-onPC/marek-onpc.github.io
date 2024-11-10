@@ -21,7 +21,7 @@ export interface UnsavedCheatSheetType {
 }
 
 export interface UpdateCheatSheetType extends UnsavedCheatSheetType {
-  content?: string;
+  content?: Array<string>;
 }
 
 export interface CheatSheetCardType extends UnsavedCheatSheetType {
@@ -29,7 +29,7 @@ export interface CheatSheetCardType extends UnsavedCheatSheetType {
 }
 
 export interface CheatSheetWithContentType extends CheatSheetCardType {
-  content?: string;
+  content?: Array<string>;
 }
 
 export enum HTTPMethods {

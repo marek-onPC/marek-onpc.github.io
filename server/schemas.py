@@ -29,7 +29,7 @@ class UnsavedCheatSheetSchema(BaseModel):
 
 
 class UpdateCheatSheetSchema(UnsavedCheatSheetSchema):
-    content: Optional[str] = None
+    content: Optional[list[str]] = None
 
 
 class CheatSheetSchema(UpdateCheatSheetSchema):
