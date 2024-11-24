@@ -63,7 +63,7 @@ def patch_cheat_sheet(id: str, cheat_sheet_data: UpdateCheatSheetSchema):
         {
             "title": cheat_sheet_data.title,
             "category": cheat_sheet_data.category,
-            "content": cheat_sheet_data.content,
+            "cards": cheat_sheet_data.cards,
             "is_published": cheat_sheet_data.is_published,
         }
     )

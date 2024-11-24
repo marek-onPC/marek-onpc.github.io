@@ -15,7 +15,7 @@
       initCheatSheetData = JSON.parse(cheetSheet.data) as CheatSheetWithContentType;
       updatedCheatSheetData = {
         ...initCheatSheetData,
-        content: initCheatSheetData.content ? [...initCheatSheetData.content] : undefined
+        cards: initCheatSheetData.cards ? [...initCheatSheetData.cards] : undefined
       };
     } catch (e) {
       console.log(e);
@@ -28,11 +28,11 @@
         title: updatedCheatSheetData.title,
         categories: updatedCheatSheetData.categories,
         is_published: updatedCheatSheetData.is_published,
-        content: updatedCheatSheetData.content
+        cards: updatedCheatSheetData.cards
       });
       initCheatSheetData = {
         ...updatedCheatSheetData,
-        content: updatedCheatSheetData.content ? [...updatedCheatSheetData.content] : undefined
+        cards: updatedCheatSheetData.cards ? [...updatedCheatSheetData.cards] : undefined
       };
     } catch (e) {
       console.log(e);
@@ -40,20 +40,23 @@
   };
 
   const addCheatSheetCard = async () => {
-    console.log(updatedCheatSheetData.content);
-    !updatedCheatSheetData.content
-      ? (updatedCheatSheetData.content = [''])
-      : (updatedCheatSheetData.content = [...updatedCheatSheetData.content, '']);
+    console.log(updatedCheatSheetData.cards);
+    !updatedCheatSheetData.cards
+      ? (updatedCheatSheetData.cards = [{ subtitle: '', content: '' }])
+      : (updatedCheatSheetData.cards = [
+          ...updatedCheatSheetData.cards,
+          { subtitle: '', content: '' }
+        ]);
   };
 
   const removeCheatSheetCard = async (indexToRemove: number) => {
     console.log(indexToRemove);
-    if (updatedCheatSheetData.content) {
-      const afterRemoval = updatedCheatSheetData.content.filter((_, index) => {
+    if (updatedCheatSheetData.cards) {
+      const afterRemoval = updatedCheatSheetData.cards.filter((_, index) => {
         return index !== indexToRemove;
       });
 
-      updatedCheatSheetData.content = [...afterRemoval];
+      updatedCheatSheetData.cards = [...afterRemoval];
 
       const focusedElement = document.activeElement as HTMLElement | null;
       if (focusedElement) {
@@ -81,18 +84,27 @@
       />
       <label for="title">title</label>
     </div>
-    {#if updatedCheatSheetData.content}
-      {#each updatedCheatSheetData.content as card, index}
+    {#if updatedCheatSheetData.cards}
+      {#each updatedCheatSheetData.cards as card, index}
         <div class="update__edit-card-wrapper">
-          <textarea
-            class="update__edit-card"
-            name={`${updatedCheatSheetData.id}_${index}`}
-            id={`${updatedCheatSheetData.id}_${index}`}
-            bind:value={card}
+          <input
+            class="update__edit-card-title"
+            name={`${updatedCheatSheetData.id}_${index}_title`}
+            id={`${updatedCheatSheetData.id}_${index}_title`}
+            bind:value={card.subtitle}
           />
-          <label for={`${updatedCheatSheetData.id}_${index}`}>cheat-sheet</label>
+          <label for={`${updatedCheatSheetData.id}_${index}_title`}>subtitle</label>
           <button class="update__remove-card" on:click={() => removeCheatSheetCard(index)}
             >🗑</button
+          >
+          <textarea
+            class="update__edit-card-content"
+            name={`${updatedCheatSheetData.id}_${index}`}
+            id={`${updatedCheatSheetData.id}_${index}`}
+            bind:value={card.content}
+          />
+          <label class="update__edit-card-label" for={`${updatedCheatSheetData.id}_${index}`}
+            >cheat-sheet content</label
           >
         </div>
       {/each}
@@ -135,28 +147,41 @@
       }
     }
 
-    &__edit-card {
-      width: 100%;
-      min-height: 25px;
-      padding: 30px 10px 10px 10px;
+    &__edit-card-title {
+      font-weight: 600;
+      text-align: center;
+      padding: 25px 10px 10px 10px;
       border: none;
       border-radius: 5px;
       border: 2px solid #fff;
       transition: 0.25s ease-in-out;
-      margin: 5px 0;
-      scrollbar-width: thin;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
 
-      &:focus {
-        padding: 20px 10px 10px 10px;
-        min-height: 200px;
-        outline: none;
-        border: 2px solid #42b883;
-      }
+    &__edit-card-content {
+      min-height: 25px;
+      padding: 40px 10px 10px 10px;
+      border: none;
+      border-radius: 5px;
+      border: 2px solid #fff;
+      transition: 0.25s ease-in-out;
+      margin: 0 0 5px 0;
+      scrollbar-width: thin;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      font-family: 'Courier New', monospace;
+      font-weight: 600;
+    }
+
+    &__edit-card-label {
+      top: 60px !important;
+      left: 7.5px !important;
     }
 
     &__remove-card {
       position: absolute;
-      top: 5px;
+      top: 0;
       left: 0;
       color: #fff;
       background-color: rgb(165, 2, 2);
@@ -200,19 +225,26 @@
     }
 
     &__edit-card-wrapper {
+      flex-direction: column;
+
       label {
-        top: 7.5px;
+        top: 5px;
         left: 25px;
       }
 
       &:focus-within {
         label {
-          top: 5px;
+          top: 3.5px;
           left: 22.5px;
         }
 
+        .update__edit-card-label {
+          top: 50px !important;
+          left: 5px !important;
+        }
+
         .update__remove-card {
-          top: 7px;
+          top: 2px;
           left: 2px;
           height: 16px !important;
           width: 18px;
@@ -221,6 +253,23 @@
           font-size: 12px;
           border-top-left-radius: 3px;
           border-bottom-right-radius: 3px;
+        }
+
+        .update__edit-card-content,
+        .update__edit-card-title {
+          padding: 20px 10px 10px 10px;
+          outline: none;
+          border: 2px solid #42b883;
+        }
+
+        .update__edit-card-title {
+          border-bottom: 1px solid #42b883;
+        }
+
+        .update__edit-card-content {
+          padding: 30px 10px 10px 10px;
+          min-height: 200px;
+          border-top: 1px solid #42b883;
         }
       }
     }

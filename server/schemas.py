@@ -22,6 +22,11 @@ class LoginToken(BaseModel):
     token: Token
 
 
+class CheatSheetContent(BaseModel):
+    subtitle: str
+    content: str
+
+
 class UnsavedCheatSheetSchema(BaseModel):
     title: str
     category: Optional[list[str]] = None
@@ -29,7 +34,7 @@ class UnsavedCheatSheetSchema(BaseModel):
 
 
 class UpdateCheatSheetSchema(UnsavedCheatSheetSchema):
-    content: Optional[list[str]] = None
+    cards: Optional[list[CheatSheetContent]] = None
 
 
 class CheatSheetSchema(UpdateCheatSheetSchema):

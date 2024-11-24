@@ -14,6 +14,11 @@ export type IconSet = {
   color: string;
 };
 
+export type CheatSheetContent = {
+  subtitle: string;
+  content: string;
+};
+
 export interface UnsavedCheatSheetType {
   title: string;
   categories?: Array<string>;
@@ -21,7 +26,7 @@ export interface UnsavedCheatSheetType {
 }
 
 export interface UpdateCheatSheetType extends UnsavedCheatSheetType {
-  content?: Array<string>;
+  cards?: Array<CheatSheetContent>;
 }
 
 export interface CheatSheetCardType extends UnsavedCheatSheetType {
@@ -29,7 +34,7 @@ export interface CheatSheetCardType extends UnsavedCheatSheetType {
 }
 
 export interface CheatSheetWithContentType extends CheatSheetCardType {
-  content?: Array<string>;
+  cards?: Array<CheatSheetContent>;
 }
 
 export enum HTTPMethods {

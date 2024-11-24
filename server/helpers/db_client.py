@@ -2,7 +2,7 @@ from typing import Any, Dict
 from bson import ObjectId
 from gridfs import Collection
 from pymongo import MongoClient
-from schemas import CheatSheetSchema, UnsavedCheatSheetSchema
+from schemas import CheatSheetContent
 
 class DatabaseClient:
     def __init__(self, db_uri: str, db_name: str) -> None:
@@ -39,15 +39,27 @@ class DatabaseClient:
 
         return str(result.inserted_id)
 
+    def __serialize_cards(self, cards: list[CheatSheetContent]) -> list[dict]:
+        serialized = []
+
+        for card in cards:
+            serialized.append({
+                "subtitle": card.subtitle,
+                "content": card.content
+            })
+
+        return serialized
 
     def db_update(self, collection: Collection, id: str, cheat_sheet_data: dict) -> Any:
+        cards = cheat_sheet_data.get("cards", None)
+
         result = collection.update_one(
             { "_id" : ObjectId(id) },
             { "$set" : 
                 {
                     "title" : cheat_sheet_data.get("title"),
                     "category" : cheat_sheet_data.get("category", None),
-                    "content" : cheat_sheet_data.get("content", None),
+                    "cards" : self.__serialize_cards(cards) if cards else None,
                     "is_published" : cheat_sheet_data.get("is_published")
                 }
             }
