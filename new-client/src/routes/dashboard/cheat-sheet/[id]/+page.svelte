@@ -151,7 +151,6 @@
       font-weight: 600;
       text-align: center;
       padding: 25px 10px 10px 10px;
-      border: none;
       border-radius: 5px;
       border: 2px solid #fff;
       transition: 0.25s ease-in-out;
@@ -162,7 +161,6 @@
     &__edit-card-content {
       min-height: 25px;
       padding: 40px 10px 10px 10px;
-      border: none;
       border-radius: 5px;
       border: 2px solid #fff;
       transition: 0.25s ease-in-out;

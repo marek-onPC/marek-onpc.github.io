@@ -21,12 +21,26 @@
   });
 </script>
 
-<div>
+<div class="dashboard-list">
   {#if cheatSheetsData}
     {#each cheatSheetsData as card}
-      <Card cheatSheetData={card} />
+      <a href={`/dashboard/cheat-sheet/${card.id}`}><Card cheatSheetData={card} /></a>
     {/each}
   {:else}
     <p>Loading...</p>
   {/if}
 </div>
+
+<style lang="scss">
+  .dashboard-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    a {
+      text-decoration: inherit;
+      color: inherit;
+      cursor: auto;
+    }
+  }
+</style>
