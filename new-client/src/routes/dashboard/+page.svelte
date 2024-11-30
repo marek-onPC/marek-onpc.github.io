@@ -4,6 +4,7 @@
   import type { CheatSheetWithContentType } from '../../types';
   import { sessionToken } from '../../stores';
   import Card from '../../components/Card.svelte';
+  import Loader from '../../components/Loader.svelte';
 
   let cheatSheetsData: Array<CheatSheetWithContentType>;
 
@@ -27,7 +28,7 @@
       <a href={`/dashboard/cheat-sheet/${card.id}`}><Card cheatSheetData={card} /></a>
     {/each}
   {:else}
-    <p>Loading...</p>
+    <Loader />
   {/if}
 </div>
 

@@ -41,10 +41,14 @@
     justify-content: center;
     flex-wrap: wrap;
     width: auto;
-    margin: 10px;
+    margin: 10px 10px 35px 10px;
 
     &__button {
       margin: 10px;
+    }
+
+    button {
+      min-width: 150px;
     }
   }
 </style>

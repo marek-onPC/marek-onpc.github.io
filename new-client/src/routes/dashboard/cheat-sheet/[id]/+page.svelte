@@ -4,6 +4,7 @@
   import { onMount } from 'svelte';
   import { sessionToken } from '../../../../stores';
   import type { CheatSheetWithContentType } from '../../../../types.js';
+  import Loader from '../../../../components/Loader.svelte';
 
   const cheatSheetId = $page.params.id;
   let initCheatSheetData: CheatSheetWithContentType;
@@ -115,7 +116,7 @@
       <button class="button update__save" on:click={updateCheatSheet}>Save</button>
     {/if}
   {:else}
-    <p>Loading</p>
+    <Loader />
   {/if}
 </div>
 
@@ -125,7 +126,6 @@
       display: flex;
       flex-direction: column;
       width: auto;
-      margin-top: 50px;
     }
 
     &__title {

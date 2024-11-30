@@ -36,7 +36,7 @@
     width: 200px;
     background-color: #fff;
     padding: 15px;
-    margin: 10px;
+    margin: 0 10px 20px 10px;
     border-radius: 5px;
     border: 2px solid #fff;
     transition: 0.25s ease-in-out;
