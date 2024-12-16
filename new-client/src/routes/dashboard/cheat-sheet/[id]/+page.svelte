@@ -5,8 +5,10 @@
   import { sessionToken } from '../../../../stores';
   import type { CheatSheetWithContentType } from '../../../../types.js';
   import Loader from '../../../../components/Loader.svelte';
+  import Modal from '../../../../components/Modal.svelte';
 
   const cheatSheetId = $page.params.id;
+  let isOpenedDeleteModal: boolean = false;
   let initCheatSheetData: CheatSheetWithContentType;
   let updatedCheatSheetData: CheatSheetWithContentType;
 
@@ -72,18 +74,31 @@
 </script>
 
 <div class="update__page">
+  {#if isOpenedDeleteModal}
+    <Modal
+      bind:isOpened={isOpenedDeleteModal}
+      text={`Would you like to delete ${updatedCheatSheetData.title} cheat sheet?`}
+      callback={() => {
+        console.log('delete func');
+      }}
+    />
+  {/if}
   {#if initCheatSheetData}
-    <div class="update__title-wrapper">
-      <input
-        name="title"
-        type="text"
-        class="update__title"
-        bind:value={updatedCheatSheetData.title}
-        on:keydown={() => {
-          console.log(initCheatSheetData, updatedCheatSheetData);
-        }}
-      />
-      <label for="title">title</label>
+    <div class="update__header">
+      <div class="update__title-wrapper">
+        <input
+          name="title"
+          type="text"
+          class="update__title"
+          bind:value={updatedCheatSheetData.title}
+          on:keydown={() => {
+            console.log(initCheatSheetData, updatedCheatSheetData);
+          }}
+        />
+        <label for="title">title</label>
+      </div>
+      <button class="button update__delete" on:click={() => (isOpenedDeleteModal = true)}>🗑</button
+      >
     </div>
     {#if updatedCheatSheetData.cards}
       {#each updatedCheatSheetData.cards as card, index}
@@ -128,6 +143,11 @@
       width: auto;
     }
 
+    &__header {
+      display: flex;
+      width: auto;
+    }
+
     &__title {
       width: 100%;
       font-size: 18px;
@@ -141,9 +161,31 @@
       transition: 0.25s ease-in-out;
 
       &:focus {
-        padding: 15px 10px 10px 10px;
         outline: none;
         border: 2px solid #42b883;
+      }
+    }
+
+    &__title-wrapper {
+      width: 100% !important;
+    }
+
+    &__delete {
+      color: #fff;
+      background-color: rgb(165, 2, 2);
+      height: 60px !important;
+      width: 65px;
+      font-weight: 800;
+      font-size: 30px;
+      line-height: 22px;
+      transition: 0.25s ease-in-out;
+      cursor: pointer;
+      border-width: 0px;
+      border-radius: 5px;
+      margin-left: 15px;
+
+      &:hover {
+        background-color: rgb(107, 9, 9);
       }
     }
 
