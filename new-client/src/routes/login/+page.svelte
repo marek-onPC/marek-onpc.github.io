@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fetchClientPostWithoutToken } from '$lib/fetchClient';
-  import type { AuthCredentials } from '../../types';
+  import type { AuthCredentials, AuthTokenResponse } from '../../types';
   import { sessionToken } from '../../stores';
   import { getTokenFromMemory, setTokenInMemory } from '$lib/memory';
   import { onMount } from 'svelte';
@@ -22,9 +22,11 @@
 
     try {
       const response = await fetchClientPostWithoutToken('/login', user);
+      const data = response.data as AuthTokenResponse;
+      const expiry = data.expiry * 1000; // Convertion from seconds to miliseconds
 
-      setTokenInMemory(response.data.token);
-      sessionToken.set(response.data.token);
+      setTokenInMemory({ token: data.token, expiry: new Date(expiry) });
+      sessionToken.set({ token: data.token, expiry: new Date(expiry) });
 
       setTimeout(() => {
         goto('/dashboard');
@@ -38,7 +40,7 @@
   onMount(() => {
     const currentToken = getTokenFromMemory();
 
-    if (currentToken) {
+    if (currentToken.token) {
       goto('/dashboard');
     }
   });
@@ -75,7 +77,7 @@
     {#if isLoginInProgress}
       <Loader isSmall={true} isWhite={true} />
     {:else}
-      Create new
+      Login
     {/if}
   </button>
 

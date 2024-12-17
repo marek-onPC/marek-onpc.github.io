@@ -14,7 +14,7 @@
       isLoadingNewCheatSheet = true;
       isError = false;
 
-      const newCheatSheetID = await fetchClientPost('/cheat_sheets', $sessionToken, {
+      const newCheatSheetID = await fetchClientPost('/cheat_sheets', $sessionToken.token, {
         title: 'test',
         is_published: false
       });
@@ -28,12 +28,12 @@
 
   const logoutHandler = () => {
     removeTokenInMemory();
-    sessionToken.set('');
+    sessionToken.set({ token: '', expiry: new Date() });
     goto('/');
   };
 
   onMount(() => {
-    if (!$sessionToken) {
+    if (!$sessionToken.token) {
       goto('/login');
     }
   });

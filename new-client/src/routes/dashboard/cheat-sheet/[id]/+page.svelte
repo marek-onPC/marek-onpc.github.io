@@ -16,7 +16,7 @@
 
   const loadCheatSheet = async () => {
     try {
-      const cheetSheet = await fetchClientGet(`/cheat_sheets/${cheatSheetId}`, $sessionToken);
+      const cheetSheet = await fetchClientGet(`/cheat_sheets/${cheatSheetId}`, $sessionToken.token);
       initCheatSheetData = JSON.parse(cheetSheet.data) as CheatSheetWithContentType;
       updatedCheatSheetData = {
         ...initCheatSheetData,
@@ -29,7 +29,7 @@
 
   const updateCheatSheet = async () => {
     try {
-      await fetchClientPatch(`/cheat_sheets/${cheatSheetId}`, $sessionToken, {
+      await fetchClientPatch(`/cheat_sheets/${cheatSheetId}`, $sessionToken.token, {
         title: updatedCheatSheetData.title,
         categories: updatedCheatSheetData.categories,
         is_published: updatedCheatSheetData.is_published,
@@ -46,7 +46,7 @@
 
   const deleteCheatSheet = async () => {
     try {
-      await fetchClientDelete(`/cheat_sheets/${cheatSheetId}`, $sessionToken);
+      await fetchClientDelete(`/cheat_sheets/${cheatSheetId}`, $sessionToken.token);
       isDeleted = true;
       isOpenedDeleteModal = false;
       goto('/dashboard');

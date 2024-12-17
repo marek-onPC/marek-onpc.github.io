@@ -3,12 +3,14 @@ import jwt
 from dotenv import load_dotenv
 from fastapi import HTTPException, Security
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from passlib.context import CryptContext
 
 from schemas import HashedPassword, Password, Token, Username
 
 load_dotenv()
+
+EXPIRY = datetime.now(timezone.utc) + timedelta(days=0, hours=8)
 
 class Authentication:
     security = HTTPBearer()
@@ -26,8 +28,8 @@ class Authentication:
 
     def encode_jwt(self, user: Username) -> Token:
         payload = {
-            "exp": datetime.utcnow() + timedelta(days=0, hours=8),
-            "iat": datetime.utcnow(),
+            "exp": EXPIRY,
+            "iat": datetime.now(timezone.utc),
             "sub": user
         }
 

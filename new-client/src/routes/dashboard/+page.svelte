@@ -10,7 +10,7 @@
 
   const loadCheatSheets = async () => {
     try {
-      const raw = await fetchClientGet('/cheat_sheets', $sessionToken);
+      const raw = await fetchClientGet('/cheat_sheets', $sessionToken.token);
       cheatSheetsData = JSON.parse(raw.data) as Array<CheatSheetWithContentType>;
     } catch (e) {
       console.log(e);

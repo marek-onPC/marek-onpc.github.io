@@ -1,7 +1,7 @@
 from typing import Dict
 from adapter import user_adapter
 from fastapi import HTTPException
-from helpers.authentication import Authentication
+from helpers.authentication import EXPIRY, Authentication
 from schemas import AuthDetails, LoginToken
 
 authentication = Authentication()
@@ -17,4 +17,4 @@ def login(auth_details: AuthDetails) -> LoginToken:
     
     token = authentication.encode_jwt(user.username)
 
-    return LoginToken(token=token)
+    return LoginToken(token=token, expiry=EXPIRY.timestamp())

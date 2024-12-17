@@ -1,4 +1,4 @@
-from typing import Optional, TypeVar
+from typing import Any, Optional, TypeVar
 from pydantic import BaseModel
 
 Username = TypeVar("Username", bound=str)
@@ -20,6 +20,7 @@ class User(BaseModel):
 
 class LoginToken(BaseModel):
     token: Token
+    expiry : float
 
 
 class CheatSheetContent(BaseModel):

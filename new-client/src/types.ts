@@ -1,5 +1,15 @@
 import type { IconDefinition } from '@fortawesome/free-brands-svg-icons';
 
+export type AuthTokenResponse = {
+  token: string;
+  expiry: number;
+};
+
+export type AuthToken = {
+  token: string;
+  expiry: Date;
+};
+
 export type AuthCredentials = {
   username: string;
   password: string;
