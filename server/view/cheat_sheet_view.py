@@ -32,3 +32,11 @@ def patch_cheat_sheet(id: str, cheat_sheet_data: UpdateCheatSheetSchema, usernam
         return cheat_sheet_domain.patch_cheat_sheet(id=id, cheat_sheet_data=cheat_sheet_data)
     else:
         raise HTTPException(status_code=401, detail="Non authenticated")
+
+
+@router.delete("/cheat_sheets/{id}")
+def delete_cheat_sheet(id: str, username: Username = Depends(authentication.auth_wrapper)):
+    if username:
+        return cheat_sheet_domain.delete_cheat_sheet(id=id)
+    else:
+        raise HTTPException(status_code=401, detail="Non authenticated")

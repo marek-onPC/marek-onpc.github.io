@@ -69,3 +69,13 @@ def patch_cheat_sheet(id: str, cheat_sheet_data: UpdateCheatSheetSchema):
     )
 
     return json.dumps(result, default=str)
+
+
+def delete_cheat_sheet(id: str):
+    collection = db_client.db_connection(db_collection_name)
+    result = db_client.db_delete(
+        collection, 
+        id,
+    )
+
+    return json.dumps(result, default=str)

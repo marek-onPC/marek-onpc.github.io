@@ -1,14 +1,16 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { fetchClientGet, fetchClientPatch } from '$lib/fetchClient';
+  import { fetchClientDelete, fetchClientGet, fetchClientPatch } from '$lib/fetchClient';
   import { onMount } from 'svelte';
   import { sessionToken } from '../../../../stores';
   import type { CheatSheetWithContentType } from '../../../../types.js';
   import Loader from '../../../../components/Loader.svelte';
   import Modal from '../../../../components/Modal.svelte';
+  import { goto } from '$app/navigation';
 
   const cheatSheetId = $page.params.id;
   let isOpenedDeleteModal: boolean = false;
+  let isDeleted: boolean = false;
   let initCheatSheetData: CheatSheetWithContentType;
   let updatedCheatSheetData: CheatSheetWithContentType;
 
@@ -37,6 +39,17 @@
         ...updatedCheatSheetData,
         cards: updatedCheatSheetData.cards ? [...updatedCheatSheetData.cards] : undefined
       };
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const deleteCheatSheet = async () => {
+    try {
+      await fetchClientDelete(`/cheat_sheets/${cheatSheetId}`, $sessionToken);
+      isDeleted = true;
+      isOpenedDeleteModal = false;
+      goto('/dashboard');
     } catch (e) {
       console.log(e);
     }
@@ -78,12 +91,10 @@
     <Modal
       bind:isOpened={isOpenedDeleteModal}
       text={`Would you like to delete ${updatedCheatSheetData.title} cheat sheet?`}
-      callback={() => {
-        console.log('delete func');
-      }}
+      callback={deleteCheatSheet}
     />
   {/if}
-  {#if initCheatSheetData}
+  {#if initCheatSheetData && !isDeleted}
     <div class="update__header">
       <div class="update__title-wrapper">
         <input

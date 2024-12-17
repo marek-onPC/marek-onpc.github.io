@@ -123,10 +123,32 @@ const fetchClientPatch = async (
   return response;
 };
 
+const fetchClientDelete = async (url: string, token: string): Promise<any> => {
+  const response = await fetch(`${PUBLIC_APP_SERVER}/api${url}`, {
+    method: HTTPMethods.DELETE,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  }).then(async (data) => {
+    if (data.status !== 200) {
+      throw new Error(data.statusText);
+    }
+    const responseStatus = data.status;
+
+    return {
+      status: responseStatus
+    };
+  });
+
+  return response;
+};
+
 export {
   fetchClientPostWithoutToken,
   fetchClientGetWithoutToken,
   fetchClientGet,
   fetchClientPost,
-  fetchClientPatch
+  fetchClientPatch,
+  fetchClientDelete
 };

@@ -39,6 +39,7 @@ class DatabaseClient:
 
         return str(result.inserted_id)
 
+
     def __serialize_cards(self, cards: list[CheatSheetContent]) -> list[dict]:
         serialized = []
 
@@ -49,6 +50,7 @@ class DatabaseClient:
             })
 
         return serialized
+
 
     def db_update(self, collection: Collection, id: str, cheat_sheet_data: dict) -> Any:
         cards = cheat_sheet_data.get("cards", None)
@@ -63,6 +65,14 @@ class DatabaseClient:
                     "is_published" : cheat_sheet_data.get("is_published")
                 }
             }
+        )
+
+        return result
+
+
+    def db_delete(self, collection: Collection, id: str) -> Any:
+        result = collection.delete_one(
+            { "_id" : ObjectId(id) }
         )
 
         return result

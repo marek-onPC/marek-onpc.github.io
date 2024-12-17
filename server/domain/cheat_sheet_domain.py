@@ -16,3 +16,7 @@ def create_cheat_sheet(cheat_sheet_data: UnsavedCheatSheetSchema) -> str:
 
 def patch_cheat_sheet(id: str, cheat_sheet_data: UpdateCheatSheetSchema):
     return cheat_sheet_adapter.patch_cheat_sheet(id=id, cheat_sheet_data=cheat_sheet_data)
+
+
+def delete_cheat_sheet(id: str):
+    return cheat_sheet_adapter.delete_cheat_sheet(id=id)
