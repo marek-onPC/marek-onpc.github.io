@@ -72,7 +72,7 @@
         {/each}
       </div>
       <div transition:fade={{ delay: 750 }} class="content__right">
-        <a href="/about" class="button">ABOUT</a>
+        <a href="/about" class="button">About</a>
       </div>
     {/if}
   </div>

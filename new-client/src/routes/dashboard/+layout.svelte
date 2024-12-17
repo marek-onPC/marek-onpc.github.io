@@ -3,6 +3,28 @@
   import { onMount } from 'svelte';
   import { sessionToken } from '../../stores';
   import { removeTokenInMemory } from '$lib/memory';
+  import Loader from '../../components/Loader.svelte';
+  import { fetchClientPost } from '$lib/fetchClient';
+
+  let isLoadingNewCheatSheet: boolean = false;
+  let isError: boolean = false;
+
+  const createNewCheatSheet = async () => {
+    try {
+      isLoadingNewCheatSheet = true;
+      isError = false;
+
+      const newCheatSheetID = await fetchClientPost('/cheat_sheets', $sessionToken, {
+        title: 'test',
+        is_published: false
+      });
+      goto(`/dashboard/cheat-sheet/${newCheatSheetID.id}`);
+    } catch (error) {
+      isLoadingNewCheatSheet = false;
+      isError = true;
+    }
+    isLoadingNewCheatSheet = false;
+  };
 
   const logoutHandler = () => {
     removeTokenInMemory();
@@ -19,9 +41,19 @@
 
 <div class="dashboard">
   <nav class="navigation">
-    <a class="button navigation__button" href="/dashboard/new-cheat-sheet">NEW CHEAT SHEET</a>
-    <a class="button navigation__button" href="/dashboard">ALL CHEAT SHEETS</a>
-    <button class="button navigation__button" on:click={logoutHandler}>LOGOUT</button>
+    <button
+      class="button navigation__button"
+      on:click={createNewCheatSheet}
+      disabled={isLoadingNewCheatSheet}
+    >
+      {#if isLoadingNewCheatSheet}
+        <Loader isSmall={true} isWhite={true} />
+      {:else}
+        Create new
+      {/if}
+    </button>
+    <a class="button navigation__button" href="/dashboard">All sheets</a>
+    <button class="button navigation__button" on:click={logoutHandler}>Logout</button>
   </nav>
   <slot />
 </div>

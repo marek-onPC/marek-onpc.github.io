@@ -1,6 +1,9 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte';
 
+  export let isSmall: boolean = false;
+  export let isWhite: boolean = false;
+
   let loaderSymbols = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
   let symbol: string = '⚀';
   let symbolSelector: number;
@@ -17,7 +20,7 @@
 </script>
 
 <div class="loader">
-  <p class="loader__character">
+  <p class={`loader__character ${isSmall && '--small'} ${isWhite && '--white'}`}>
     {symbol}
   </p>
 </div>
@@ -33,6 +36,14 @@
       font-size: 68px;
       color: #42b883;
       margin: 0;
+
+      &.--small {
+        font-size: 24px;
+      }
+
+      &.--small {
+        color: #fff;
+      }
     }
   }
 </style>

@@ -5,6 +5,7 @@
   import { getTokenFromMemory, setTokenInMemory } from '$lib/memory';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
+  import Loader from '../../components/Loader.svelte';
 
   let user: AuthCredentials = {
     username: '',
@@ -70,11 +71,13 @@
     </div>
   </form>
 
-  <button
-    class={`button login__submit ${isLoginInProgress ? '--disabled' : ''}`}
-    on:click={loginHandler}
-    disabled={isLoginInProgress}>{isLoginInProgress ? '...' : 'Login'}</button
-  >
+  <button class="button login__submit" on:click={loginHandler} disabled={isLoginInProgress}>
+    {#if isLoginInProgress}
+      <Loader isSmall={true} isWhite={true} />
+    {:else}
+      Create new
+    {/if}
+  </button>
 
   {#if isLoginError}
     <div class="login__error">
@@ -132,10 +135,6 @@
 
     &__submit {
       height: 50px;
-
-      &.--disabled {
-        background-color: #2e805b;
-      }
     }
 
     &__error {
