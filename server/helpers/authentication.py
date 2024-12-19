@@ -1,4 +1,5 @@
 import os
+from typing import Tuple
 import jwt
 from dotenv import load_dotenv
 from fastapi import HTTPException, Security
@@ -9,8 +10,6 @@ from passlib.context import CryptContext
 from schemas import HashedPassword, Password, Token, Username
 
 load_dotenv()
-
-EXPIRY = datetime.now(timezone.utc) + timedelta(days=0, hours=8)
 
 class Authentication:
     security = HTTPBearer()
@@ -26,14 +25,16 @@ class Authentication:
         return self.password_context.verify(password, hashed_password)
 
 
-    def encode_jwt(self, user: Username) -> Token:
+    def encode_jwt(self, user: Username) -> Tuple[Token, datetime]:
+        expiry_date = datetime.now(timezone.utc) + timedelta(days=0, hours=0, minutes=1)
+
         payload = {
-            "exp": EXPIRY,
+            "exp": expiry_date,
             "iat": datetime.now(timezone.utc),
             "sub": user
         }
 
-        return jwt.encode(payload, self.secret_key, algorithm="HS256")
+        return (jwt.encode(payload, self.secret_key, algorithm="HS256"), expiry_date)
 
 
     def decode_jwt(self, token: Token) -> Username:

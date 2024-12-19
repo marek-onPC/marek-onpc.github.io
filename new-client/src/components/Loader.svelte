@@ -3,6 +3,7 @@
 
   export let isSmall: boolean = false;
   export let isWhite: boolean = false;
+  export let smallMargin: boolean = false;
 
   let loaderSymbols = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
   let symbol: string = '⚀';
@@ -19,7 +20,7 @@
   });
 </script>
 
-<div class="loader">
+<div class={`loader ${smallMargin && '--small-margin'}`}>
   <p class={`loader__character ${isSmall && '--small'} ${isWhite && '--white'}`}>
     {symbol}
   </p>
@@ -31,6 +32,10 @@
     justify-content: center;
     width: auto;
     margin: 75px 25px;
+
+    &.--small-margin {
+      margin: 10px !important;
+    }
 
     &__character {
       font-size: 68px;

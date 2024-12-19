@@ -1,9 +1,11 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte';
+  import Loader from './Loader.svelte';
 
   export let isOpened: boolean;
   export let text: string;
-  export let callback: () => void;
+  export let hasLoader: boolean = false;
+  export let callback: () => void = () => {};
 
   onMount(() => (document.body.style.overflow = 'hidden'));
   onDestroy(() => (document.body.style.overflow = ''));
@@ -14,10 +16,14 @@
   <div class="modal__window">
     <p class="modal__text">{text}</p>
     <div class="modal__footer">
-      <button class="button modal__button" on:click={callback}>Delete</button>
-      <button class="button modal__button --cancel" on:click={() => (isOpened = false)}
-        >Cancel</button
-      >
+      {#if hasLoader}
+        <Loader smallMargin={true} />
+      {:else}
+        <button class="button modal__button" on:click={callback}>Delete</button>
+        <button class="button modal__button --cancel" on:click={() => (isOpened = false)}
+          >Cancel
+        </button>
+      {/if}
     </div>
   </div>
 </div>
@@ -48,7 +54,7 @@
 
     &__window {
       width: auto;
-      height: 175px;
+      height: 200px;
       z-index: 2;
       background-color: #fff;
       padding: 25px;

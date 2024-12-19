@@ -1,13 +1,16 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import { sessionToken } from '../../stores';
   import { removeTokenInMemory } from '$lib/memory';
   import Loader from '../../components/Loader.svelte';
   import { fetchClientPost } from '$lib/fetchClient';
+  import Modal from '../../components/Modal.svelte';
 
   let isLoadingNewCheatSheet: boolean = false;
   let isError: boolean = false;
+  let hasTokenExpired: boolean = false;
+  let checkTokenValidityInterval: number;
 
   const createNewCheatSheet = async () => {
     try {
@@ -29,17 +32,34 @@
   const logoutHandler = () => {
     removeTokenInMemory();
     sessionToken.set({ token: '', expiry: new Date() });
-    goto('/');
+    goto('/login');
   };
 
   onMount(() => {
     if (!$sessionToken.token) {
       goto('/login');
+      return;
     }
+
+    checkTokenValidityInterval = setInterval(() => {
+      if ($sessionToken.expiry < new Date()) {
+        hasTokenExpired = true;
+      }
+    }, 10000);
   });
+
+  onDestroy(() => clearInterval(checkTokenValidityInterval));
+
+  $: hasTokenExpired &&
+    setTimeout(() => {
+      logoutHandler();
+    }, 1500);
 </script>
 
 <div class="dashboard">
+  {#if hasTokenExpired}
+    <Modal isOpened={hasTokenExpired} text="Token expired, logging out" hasLoader={true} />
+  {/if}
   <nav class="navigation">
     <button
       class="button navigation__button"
