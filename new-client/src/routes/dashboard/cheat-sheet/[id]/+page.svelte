@@ -7,6 +7,7 @@
   import Loader from '../../../../components/Loader.svelte';
   import Modal from '../../../../components/Modal.svelte';
   import { goto } from '$app/navigation';
+  import Checkbox from '../../../../components/Checkbox.svelte';
 
   const cheatSheetId = $page.params.id;
   let isOpenedDeleteModal: boolean = false;
@@ -108,6 +109,7 @@
         />
         <label for="title">title</label>
       </div>
+      <Checkbox title="Publish" bind:isChecked={updatedCheatSheetData.is_published} />
       <button class="button update__delete" on:click={() => (isOpenedDeleteModal = true)}>🗑</button
       >
     </div>

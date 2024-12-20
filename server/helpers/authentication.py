@@ -26,7 +26,7 @@ class Authentication:
 
 
     def encode_jwt(self, user: Username) -> Tuple[Token, datetime]:
-        expiry_date = datetime.now(timezone.utc) + timedelta(days=0, hours=0, minutes=1)
+        expiry_date = datetime.now(timezone.utc) + timedelta(days=0, hours=8)
 
         payload = {
             "exp": expiry_date,
