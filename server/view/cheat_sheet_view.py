@@ -1,7 +1,9 @@
+from typing import Literal, Optional
 from fastapi import Depends, APIRouter, HTTPException
 from helpers.authentication import Authentication
 from domain import cheat_sheet_domain
 from schemas import CheatSheetID, UnsavedCheatSheetSchema, UpdateCheatSheetSchema, Username
+from helpers.serializers import bool_list_serializer
 
 
 router = APIRouter(prefix="/api")
@@ -9,8 +11,13 @@ authentication = Authentication()
 
 
 @router.get("/cheat_sheets")
-def cheat_sheets():
-    return cheat_sheet_domain.get_cheat_sheets()
+def cheat_sheets(
+    is_published__list: list[Literal[True, False]] = Depends(bool_list_serializer),
+    username: Optional[Username] = Depends(authentication.optional_auth_wrapper),
+):
+    if username is None:
+        is_published__list = [True]
+    return cheat_sheet_domain.get_cheat_sheets(is_published__list=is_published__list)
 
 
 @router.get("/cheat_sheets/{cheat_sheet_id}")

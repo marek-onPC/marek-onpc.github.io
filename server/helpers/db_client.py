@@ -24,8 +24,8 @@ class DatabaseClient:
         return result
 
 
-    def db_find_all(self, collection: Collection) -> Any:
-        result = collection.find()
+    def db_find_all(self, collection: Collection, filters: dict) -> Any:
+        result = collection.find(filters)
 
         return result
 

@@ -1,5 +1,5 @@
 import os
-from typing import Tuple
+from typing import Optional, Tuple
 import jwt
 from dotenv import load_dotenv
 from fastapi import HTTPException, Security
@@ -13,6 +13,7 @@ load_dotenv()
 
 class Authentication:
     security = HTTPBearer()
+    optional_security = HTTPBearer(auto_error=False)
     password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
     secret_key = os.environ["JWT_SECRET"]
 
@@ -50,3 +51,10 @@ class Authentication:
 
     def auth_wrapper(self, auth: HTTPAuthorizationCredentials = Security(security)) -> Username:
         return self.decode_jwt(auth.credentials)
+
+
+    def optional_auth_wrapper(self, auth: Optional[HTTPAuthorizationCredentials] = Security(optional_security)) -> Optional[Username]:
+        if auth and auth.credentials:
+            return self.decode_jwt(auth.credentials)
+        else:
+            return None

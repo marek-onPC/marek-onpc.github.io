@@ -1,5 +1,6 @@
 import json
 import os
+from typing import Literal, Optional
 from dotenv import load_dotenv
 from bson.objectid import ObjectId
 
@@ -15,10 +16,26 @@ db_collection_name = os.environ["DB_COLL_CHEAT_SHEETS"]
 db_client = DatabaseClient(db_uri, db_name)
 
 
-def get_cheat_sheets():
+def _fiters_to_bson(is_published__list: Optional[list[Literal[True, False]]] = None) -> dict:
+    bson_filters = []
+
+    if is_published__list:
+        is_published_bson = {
+            "is_published": {"$in": is_published__list}
+        }
+        bson_filters.append(is_published_bson)
+
+    if bson_filters:
+        return {"$and": bson_filters}
+    else:
+        return {}
+
+
+def get_cheat_sheets(is_published__list: Optional[list[Literal[True, False]]] = None):
+    filters = _fiters_to_bson(is_published__list=is_published__list)
     cheat_sheets = []
     collection = db_client.db_connection(db_collection_name)
-    result = db_client.db_find_all(collection)
+    result = db_client.db_find_all(collection, filters)
 
     for sample in result:
         if sample["_id"]:  

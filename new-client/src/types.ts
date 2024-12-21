@@ -53,3 +53,7 @@ export enum HTTPMethods {
   PATCH = 'PATCH',
   DELETE = 'DELETE'
 }
+
+export type CheatSheetGetFilters = {
+  is_published__list?: Array<boolean>;
+};

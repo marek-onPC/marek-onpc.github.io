@@ -1,5 +1,23 @@
-import { HTTPMethods, type UnsavedCheatSheetType, type UpdateCheatSheetType } from '../types';
+import {
+  HTTPMethods,
+  type CheatSheetGetFilters,
+  type UnsavedCheatSheetType,
+  type UpdateCheatSheetType
+} from '../types';
 import { PUBLIC_APP_SERVER } from '$env/static/public';
+
+const _filter_serializer = (filters: CheatSheetGetFilters): URLSearchParams => {
+  let serialized: Record<string, string> = {};
+
+  if (filters.is_published__list) {
+    serialized = {
+      ...serialized,
+      is_published__list: filters.is_published__list.join(',')
+    };
+  }
+
+  return new URLSearchParams(serialized);
+};
 
 const fetchClientPostWithoutToken = async (url: string, data: object): Promise<any> => {
   const response = await fetch(`${PUBLIC_APP_SERVER}/api${url}`, {
@@ -46,8 +64,13 @@ const fetchClientGetWithoutToken = async (url: string): Promise<any> => {
   return response;
 };
 
-const fetchClientGet = async (url: string, token: string): Promise<any> => {
-  const response = await fetch(`${PUBLIC_APP_SERVER}/api${url}`, {
+const fetchClientGet = async (
+  url: string,
+  token: string,
+  filters?: CheatSheetGetFilters
+): Promise<any> => {
+  const raw_filters = filters ? _filter_serializer(filters) : '';
+  const response = await fetch(`${PUBLIC_APP_SERVER}/api${url}?${raw_filters}`, {
     method: HTTPMethods.GET,
     headers: {
       Authorization: `Bearer ${token}`,

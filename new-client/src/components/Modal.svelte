@@ -54,7 +54,7 @@
 
     &__window {
       width: auto;
-      height: 200px;
+      height: auto;
       z-index: 2;
       background-color: #fff;
       padding: 25px;
