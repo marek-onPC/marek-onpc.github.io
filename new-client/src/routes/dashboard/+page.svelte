@@ -13,7 +13,7 @@
       const raw = await fetchClientGet('/cheat_sheets', $sessionToken.token, {
         is_published__list: [true, false]
       });
-      cheatSheetsData = JSON.parse(raw.data) as Array<CheatSheetWithContentType>;
+      cheatSheetsData = raw.data as Array<CheatSheetWithContentType>;
     } catch (e) {
       console.log(e);
     }

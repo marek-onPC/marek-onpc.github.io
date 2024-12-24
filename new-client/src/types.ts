@@ -35,6 +35,10 @@ export interface UnsavedCheatSheetType {
   is_published: boolean;
 }
 
+export interface SavedCheatSheetResponseType {
+  id: string;
+}
+
 export interface UpdateCheatSheetType extends UnsavedCheatSheetType {
   cards?: Array<CheatSheetContent>;
 }

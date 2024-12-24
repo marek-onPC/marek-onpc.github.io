@@ -18,7 +18,7 @@
       isError = false;
 
       const newCheatSheetID = await fetchClientPost('/cheat_sheets', $sessionToken.token, {
-        title: 'test',
+        title: 'New cheat sheet',
         is_published: false
       });
       goto(`/dashboard/cheat-sheet/${newCheatSheetID.id}`);

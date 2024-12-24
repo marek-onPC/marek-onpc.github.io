@@ -40,3 +40,15 @@ class UpdateCheatSheetSchema(UnsavedCheatSheetSchema):
 
 class CheatSheetSchema(UpdateCheatSheetSchema):
     id: CheatSheetID
+
+
+class MongoInsert(BaseModel):
+    id: str
+
+
+class MongoUpdate(BaseModel):
+    acknowledged: bool
+
+
+class MongoDelete(BaseModel):
+    acknowledged: bool

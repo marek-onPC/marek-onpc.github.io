@@ -1,6 +1,7 @@
 import {
   HTTPMethods,
   type CheatSheetGetFilters,
+  type SavedCheatSheetResponseType,
   type UnsavedCheatSheetType,
   type UpdateCheatSheetType
 } from '../types';
@@ -109,11 +110,11 @@ const fetchClientPost = async (
       throw new Error(data.statusText);
     }
     const responseStatus = data.status;
-    const responseData = (await data.json()) as string;
+    const responseData = (await data.json()) as SavedCheatSheetResponseType;
 
     return {
       status: responseStatus,
-      id: responseData
+      id: responseData.id
     };
   });
 

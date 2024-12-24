@@ -18,7 +18,7 @@
   const loadCheatSheet = async () => {
     try {
       const cheetSheet = await fetchClientGet(`/cheat_sheets/${cheatSheetId}`, $sessionToken.token);
-      initCheatSheetData = JSON.parse(cheetSheet.data) as CheatSheetWithContentType;
+      initCheatSheetData = cheetSheet.data as CheatSheetWithContentType;
       updatedCheatSheetData = {
         ...initCheatSheetData,
         cards: initCheatSheetData.cards ? [...initCheatSheetData.cards] : undefined

@@ -5,7 +5,9 @@ from dotenv import load_dotenv
 from bson.objectid import ObjectId
 
 from helpers.db_client import DatabaseClient
-from schemas import CheatSheetID, UnsavedCheatSheetSchema, UpdateCheatSheetSchema
+from schemas import CheatSheetID, CheatSheetSchema, MongoDelete, MongoInsert, MongoUpdate, UnsavedCheatSheetSchema, UpdateCheatSheetSchema
+
+import logging
 
 
 load_dotenv()
@@ -31,48 +33,63 @@ def _fiters_to_bson(is_published__list: Optional[list[Literal[True, False]]] = N
         return {}
 
 
-def get_cheat_sheets(is_published__list: Optional[list[Literal[True, False]]] = None):
+def get_cheat_sheets(is_published__list: Optional[list[Literal[True, False]]] = None) -> list[CheatSheetSchema] | None:
     filters = _fiters_to_bson(is_published__list=is_published__list)
     cheat_sheets = []
     collection = db_client.db_connection(db_collection_name)
     result = db_client.db_find_all(collection, filters)
 
-    for sample in result:
-        if sample["_id"]:  
-            sample["id"] = sample["_id"]
-            del sample["_id"]
+    if result == None:
+        return None
 
-        cheat_sheets.append(sample)
-        cheat_sheets.reverse()
+    for entry in result:
+        cheat_sheet = CheatSheetSchema(
+            id=str(entry.get("_id")),
+            cards=entry.get("cards", None),
+            title=entry.get("title"),
+            category=entry.get("category", None),
+            is_published=entry.get("is_published", None),
+        )
 
-    return json.dumps(cheat_sheets, default=str)
+        cheat_sheets.append(cheat_sheet)
+    
+    cheat_sheets.reverse()
+
+    return cheat_sheets
 
 
-def get_cheat_sheet(cheat_sheet_id: CheatSheetID):
+def get_cheat_sheet(cheat_sheet_id: CheatSheetID) -> CheatSheetSchema | None:
     collection = db_client.db_connection(db_collection_name)
     result = db_client.db_find_one(collection, {
         "_id" : ObjectId(cheat_sheet_id)
     })
 
-    if result["_id"]:  
-        result["id"] = result["_id"]
-        del result["_id"]
+    if result == None:
+        return None
 
-    return json.dumps(result, default=str)
+    cheat_sheet = CheatSheetSchema(
+        id=str(result.get("_id")),
+        cards=result.get("cards", None),
+        title=result.get("title"),
+        category=result.get("category", None),
+        is_published=result.get("is_published", None),
+    )
+
+    return cheat_sheet
 
 
-def create_cheat_sheet(cheat_sheet_data: UnsavedCheatSheetSchema) -> str:
+def create_cheat_sheet(cheat_sheet_data: UnsavedCheatSheetSchema) -> MongoInsert:
     collection = db_client.db_connection(db_collection_name)
-    inserted_id = db_client.db_add(collection, {
+    inserted = db_client.db_add(collection, {
         "title": cheat_sheet_data.title,
         "category": cheat_sheet_data.category,
         "is_published": cheat_sheet_data.is_published,
     })
 
-    return inserted_id
+    return inserted
 
 
-def patch_cheat_sheet(id: str, cheat_sheet_data: UpdateCheatSheetSchema):
+def patch_cheat_sheet(id: str, cheat_sheet_data: UpdateCheatSheetSchema) -> MongoUpdate:
     collection = db_client.db_connection(db_collection_name)
     result = db_client.db_update(
         collection, 
@@ -85,14 +102,14 @@ def patch_cheat_sheet(id: str, cheat_sheet_data: UpdateCheatSheetSchema):
         }
     )
 
-    return json.dumps(result, default=str)
+    return result
 
 
-def delete_cheat_sheet(id: str):
+def delete_cheat_sheet(id: str) -> MongoDelete:
     collection = db_client.db_connection(db_collection_name)
     result = db_client.db_delete(
         collection, 
         id,
     )
 
-    return json.dumps(result, default=str)
+    return result

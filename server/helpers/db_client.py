@@ -2,7 +2,7 @@ from typing import Any, Dict
 from bson import ObjectId
 from gridfs import Collection
 from pymongo import MongoClient
-from schemas import CheatSheetContent
+from schemas import CheatSheetContent, MongoInsert, MongoUpdate
 
 class DatabaseClient:
     def __init__(self, db_uri: str, db_name: str) -> None:
@@ -30,14 +30,14 @@ class DatabaseClient:
         return result
 
 
-    def db_add(self, collection: Collection, cheat_sheet_data: dict) -> str:
+    def db_add(self, collection: Collection, cheat_sheet_data: dict) -> MongoInsert:
         result = collection.insert_one({
             "title" : cheat_sheet_data.get("title"),
             "category" : cheat_sheet_data.get("category", None),
             "is_published" : cheat_sheet_data.get("is_published", None)
         })
 
-        return str(result.inserted_id)
+        return MongoInsert(id=str(result.inserted_id))
 
 
     def __serialize_cards(self, cards: list[CheatSheetContent]) -> list[dict]:
@@ -52,7 +52,7 @@ class DatabaseClient:
         return serialized
 
 
-    def db_update(self, collection: Collection, id: str, cheat_sheet_data: dict) -> Any:
+    def db_update(self, collection: Collection, id: str, cheat_sheet_data: dict) -> MongoUpdate:
         cards = cheat_sheet_data.get("cards", None)
 
         result = collection.update_one(
@@ -67,7 +67,7 @@ class DatabaseClient:
             }
         )
 
-        return result
+        return MongoUpdate(acknowledged=result.acknowledged)
 
 
     def db_delete(self, collection: Collection, id: str) -> Any:
@@ -75,4 +75,4 @@ class DatabaseClient:
             { "_id" : ObjectId(id) }
         )
 
-        return result
+        return MongoUpdate(acknowledged=result.acknowledged)

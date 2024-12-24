@@ -6,9 +6,7 @@ from fastapi import Query
 def bool_list_serializer(is_published__list: Optional[str] = Query(default="true", description="")) -> list[Literal[True, False]]:
     serialized_filters = []
     raw_filters = is_published__list.split(",")
-    
-    print(is_published__list)
-    print(raw_filters)
+
     for raw_val in raw_filters:
         if raw_val.lower() == "true":
             serialized_filters.append(True)
