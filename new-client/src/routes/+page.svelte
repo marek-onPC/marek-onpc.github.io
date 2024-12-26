@@ -11,7 +11,7 @@
   import { fade } from 'svelte/transition';
 
   import type { IconSet } from '../types';
-  import { onMount } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
 
   const ICONS: ReadonlyArray<IconSet> = [
     {
@@ -45,6 +45,10 @@
   onMount(() => {
     mounted = true;
   });
+
+  onDestroy(() => {
+    mounted = false;
+  });
 </script>
 
 <div class="home">
@@ -72,7 +76,7 @@
         {/each}
       </div>
       <div transition:fade={{ delay: 750 }} class="content__right">
-        <a href="/cheat-sheets" class="button">Cheat sheets</a>
+        <a href="/sheets" class="button">Cheat sheets</a>
         <a href="/about" class="button">About</a>
       </div>
     {/if}

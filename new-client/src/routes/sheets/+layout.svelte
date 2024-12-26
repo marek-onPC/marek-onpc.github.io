@@ -1,7 +1,7 @@
 <div class="cheat-sheets">
   <nav class="navigation">
     <a class="button navigation__button" href="/">Home</a>
-    <a class="button navigation__button" href="/cheat-sheets">Cheet sheets</a>
+    <a class="button navigation__button" href="/sheets">Cheet sheets</a>
     <a class="button navigation__button" href="/about">About</a>
   </nav>
   <slot />

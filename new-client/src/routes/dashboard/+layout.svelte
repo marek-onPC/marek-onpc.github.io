@@ -21,7 +21,7 @@
         title: 'New cheat sheet',
         is_published: false
       });
-      goto(`/dashboard/cheat-sheet/${newCheatSheetID.id}`);
+      goto(`/dashboard/cs-edit/${newCheatSheetID.id}`);
     } catch (error) {
       isLoadingNewCheatSheet = false;
       isError = true;

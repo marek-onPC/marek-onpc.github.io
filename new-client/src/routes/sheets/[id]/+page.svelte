@@ -5,9 +5,21 @@
   import type { CheatSheetWithContentType } from '../../../types.js';
   import Loader from '../../../components/Loader.svelte';
 
+  // Prism
+  import '../[id]/prism.css';
+  import Prism from 'prismjs';
+  import 'prismjs/components/prism-python.js';
+  import 'prismjs/components/prism-javascript.js';
+  import 'prismjs/components/prism-jsx.js';
+  import 'prismjs/components/prism-typescript.js';
+  import 'prismjs/components/prism-tsx.js';
+  import 'prismjs/components/prism-swift.js';
+  import 'prismjs/components/prism-css.js';
+  import 'prismjs/components/prism-scss.js';
+
   const cheatSheetId = $page.params.id;
   let cheatSheetData: CheatSheetWithContentType;
-  let updatedCheatSheetData: CheatSheetWithContentType;
+  let language = 'python';
 
   const loadCheatSheet = async () => {
     try {
@@ -18,8 +30,8 @@
     }
   };
 
-  onMount(() => {
-    loadCheatSheet();
+  onMount(async () => {
+    await loadCheatSheet();
   });
 </script>
 
@@ -34,9 +46,9 @@
           <h3 class="sheet__card-title">
             {card.subtitle}
           </h3>
-          <pre>
-            {card.content}
-          </pre>
+          <pre class="language-python"><code class="language-python"
+              >{@html Prism.highlight(card.content, Prism.languages[language], language)}</code
+            ></pre>
         </div>
       {/each}
     {/if}

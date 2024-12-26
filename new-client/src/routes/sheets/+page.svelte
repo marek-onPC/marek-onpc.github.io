@@ -21,10 +21,10 @@
   });
 </script>
 
-<div class="dashboard-list">
+<div class="list">
   {#if cheatSheetsData}
     {#each cheatSheetsData as card}
-      <a href={`/cheat-sheets/${card.id}`}><Card cheatSheetData={card} /></a>
+      <a href={`/sheets/${card.id}`}><Card cheatSheetData={card} /></a>
     {/each}
   {:else}
     <Loader />
@@ -32,7 +32,7 @@
 </div>
 
 <style lang="scss">
-  .dashboard-list {
+  .list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
