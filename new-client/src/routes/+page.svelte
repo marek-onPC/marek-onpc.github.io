@@ -72,6 +72,7 @@
         {/each}
       </div>
       <div transition:fade={{ delay: 750 }} class="content__right">
+        <a href="/cheat-sheets" class="button">Cheat sheets</a>
         <a href="/about" class="button">About</a>
       </div>
     {/if}
@@ -151,7 +152,8 @@
 
     &__right {
       display: flex;
-      justify-content: center;
+      align-items: center;
+      flex-direction: column;
       width: 100%;
       margin: auto;
       margin-top: 50px;
@@ -159,6 +161,10 @@
       @media (min-width: 600px) {
         width: 40%;
         margin-top: auto;
+      }
+
+      a {
+        margin-bottom: 15px;
       }
     }
 
