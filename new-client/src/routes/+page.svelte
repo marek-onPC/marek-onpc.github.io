@@ -3,7 +3,7 @@
     faJs,
     faReact,
     faPython,
-    faVuejs,
+    faNode,
     faSass,
     faPhp
   } from '@fortawesome/free-brands-svg-icons';
@@ -23,12 +23,12 @@
       color: '#61DBFB'
     },
     {
-      icon: faVuejs,
-      color: '#42B883'
-    },
-    {
       icon: faPython,
       color: '#4B8BBE'
+    },
+    {
+      icon: faNode,
+      color: '#6CC24A'
     },
     {
       icon: faPhp,
@@ -66,14 +66,13 @@
         <h1 transition:fade={{ delay: 500 }} class="content__name">Marek Śmieja</h1>
         <h2 transition:fade={{ delay: 750 }} class="content__title">software engineer</h2>
         <div transition:fade={{ delay: 1000 }} class="content__border"></div>
-        {#each ICONS as icon, index}
-          <div
-            transition:fade|global={{ delay: 1250 + index * 150 }}
-            style="display: inline-block; padding-right: 10px; color: {icon.color}"
-          >
-            <FontAwesomeIcon icon={icon.icon} color={icon.color} pull="left" size="3x" />
-          </div>
-        {/each}
+        <div transition:fade={{ delay: 1500 }}>
+          {#each ICONS as icon}
+            <div style="display: inline-block; padding-right: 10px; color: {icon.color}">
+              <FontAwesomeIcon icon={icon.icon} color={icon.color} pull="left" size="3x" />
+            </div>
+          {/each}
+        </div>
       </div>
       <div transition:fade={{ delay: 750 }} class="content__right">
         <a href="/sheets" class="button">Cheat sheets</a>
@@ -214,7 +213,7 @@
 
     &__border {
       width: 100%;
-      max-width: 415px;
+      max-width: 435px;
       height: 1px;
       margin-top: 60px;
       margin-bottom: 25px;
