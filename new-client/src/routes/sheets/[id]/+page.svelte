@@ -8,6 +8,7 @@
   // Prism
   import '../[id]/prism.css';
   import Prism from 'prismjs';
+  import 'prismjs/components/prism-markup.js';
   import 'prismjs/components/prism-python.js';
   import 'prismjs/components/prism-javascript.js';
   import 'prismjs/components/prism-jsx.js';
@@ -19,12 +20,13 @@
 
   const cheatSheetId = $page.params.id;
   let cheatSheetData: CheatSheetWithContentType;
-  let language = 'python';
+  let language: string = 'markup';
 
   const loadCheatSheet = async () => {
     try {
       const cheetSheet = await fetchClientGetWithoutToken(`/cheat_sheets/${cheatSheetId}`);
       cheatSheetData = cheetSheet.data as CheatSheetWithContentType;
+      language = cheatSheetData.language ? cheatSheetData.language : 'markup';
     } catch (e) {
       console.log(e);
     }
@@ -47,7 +49,7 @@
             <h3 class="sheet__card-title">
               {card.subtitle}
             </h3>
-            <pre class="language-python"><code class="language-python"
+            <pre class={`language-${language}`}><code class={`language-${language}`}
                 >{@html Prism.highlight(card.content, Prism.languages[language], language)}</code
               ></pre>
           </div>

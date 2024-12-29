@@ -31,7 +31,7 @@ export type CheatSheetContent = {
 
 export interface UnsavedCheatSheetType {
   title: string;
-  categories?: Array<string>;
+  language?: string;
   is_published: boolean;
 }
 

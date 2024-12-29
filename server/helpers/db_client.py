@@ -33,7 +33,7 @@ class DatabaseClient:
     def db_add(self, collection: Collection, cheat_sheet_data: dict) -> MongoInsert:
         result = collection.insert_one({
             "title" : cheat_sheet_data.get("title"),
-            "category" : cheat_sheet_data.get("category", None),
+            "language" : cheat_sheet_data.get("language", None),
             "is_published" : cheat_sheet_data.get("is_published", None)
         })
 
@@ -60,7 +60,7 @@ class DatabaseClient:
             { "$set" : 
                 {
                     "title" : cheat_sheet_data.get("title"),
-                    "category" : cheat_sheet_data.get("category", None),
+                    "language" : cheat_sheet_data.get("language", None),
                     "cards" : self.__serialize_cards(cards) if cards else None,
                     "is_published" : cheat_sheet_data.get("is_published")
                 }

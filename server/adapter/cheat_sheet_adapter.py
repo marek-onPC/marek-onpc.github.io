@@ -1,4 +1,3 @@
-import json
 import os
 from typing import Literal, Optional
 from dotenv import load_dotenv
@@ -6,8 +5,6 @@ from bson.objectid import ObjectId
 
 from helpers.db_client import DatabaseClient
 from schemas import CheatSheetID, CheatSheetSchema, MongoDelete, MongoInsert, MongoUpdate, UnsavedCheatSheetSchema, UpdateCheatSheetSchema
-
-import logging
 
 
 load_dotenv()
@@ -47,7 +44,7 @@ def get_cheat_sheets(is_published__list: Optional[list[Literal[True, False]]] = 
             id=str(entry.get("_id")),
             cards=entry.get("cards", None),
             title=entry.get("title"),
-            category=entry.get("category", None),
+            language=entry.get("language", None),
             is_published=entry.get("is_published", None),
         )
 
@@ -71,7 +68,7 @@ def get_cheat_sheet(cheat_sheet_id: CheatSheetID) -> CheatSheetSchema | None:
         id=str(result.get("_id")),
         cards=result.get("cards", None),
         title=result.get("title"),
-        category=result.get("category", None),
+        language=result.get("language", None),
         is_published=result.get("is_published", None),
     )
 
@@ -82,7 +79,7 @@ def create_cheat_sheet(cheat_sheet_data: UnsavedCheatSheetSchema) -> MongoInsert
     collection = db_client.db_connection(db_collection_name)
     inserted = db_client.db_add(collection, {
         "title": cheat_sheet_data.title,
-        "category": cheat_sheet_data.category,
+        "language": cheat_sheet_data.language,
         "is_published": cheat_sheet_data.is_published,
     })
 
@@ -96,7 +93,7 @@ def patch_cheat_sheet(id: str, cheat_sheet_data: UpdateCheatSheetSchema) -> Mong
         id,
         {
             "title": cheat_sheet_data.title,
-            "category": cheat_sheet_data.category,
+            "language": cheat_sheet_data.language,
             "cards": cheat_sheet_data.cards,
             "is_published": cheat_sheet_data.is_published,
         }

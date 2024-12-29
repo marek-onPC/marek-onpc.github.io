@@ -16,14 +16,14 @@ documents = [
         "_id": ObjectId("62edd29215f7ccf1b7a44b86"),
         "title": "First entry",
         "date": "2022-06-28T15:00:00.000+00:00",
-        "category": ["MAIN"],
+        "language": "MAIN",
         "content":"content"
     },
     {
         "_id": ObjectId("62edd29215f7ccf1b7a44b87"),
         "title": "Second entry",
         "date": "2022-06-28T15:00:00.000+00:00",
-        "category": ["MINOR"],
+        "language": "MINOR",
         "content": "content"
     }
 ]
@@ -37,14 +37,14 @@ mock_collection.insert_many(documents)
                 "_id": ObjectId("62edd29215f7ccf1b7a44b86"),
                 "title": "First entry",
                 "date": "2022-06-28T15:00:00.000+00:00",
-                "category": ["MAIN"],
+                "language": "MAIN",
                 "content":"content"
             },
             {
                 "_id": ObjectId("62edd29215f7ccf1b7a44b87"),
                 "title": "Second entry",
                 "date": "2022-06-28T15:00:00.000+00:00",
-                "category": ["MINOR"],
+                "language": "MINOR",
                 "content": "content"
             }
         ]
@@ -67,7 +67,7 @@ def test_get_cheat_sheets(expected_cheat_sheets: List) -> None:
                 "_id": ObjectId("62edd29215f7ccf1b7a44b87"),
                 "title": "Second entry",
                 "date": "2022-06-28T15:00:00.000+00:00",
-                "category": ["MINOR"],
+                "language": "MINOR",
                 "content": "content"
             }
         ]
@@ -87,7 +87,7 @@ def test_get_cheat_sheet(expected_cheat_sheet: List) -> None:
             "_id": ObjectId("62edd29215f7ccf1b7a44b86"),
             "title": "New first entry",
             "date": "2022-06-28T15:00:00.000+00:00",
-            "category": ["MINOR"],
+            "language": "MINOR",
             "content": "new content"
         },
     ]
@@ -99,14 +99,14 @@ def test_get_cheat_sheet(expected_cheat_sheet: List) -> None:
                 "_id": ObjectId("62edd29215f7ccf1b7a44b86"),
                 "title": "New first entry",
                 "date": "2022-06-28T15:00:00.000+00:00",
-                "category": ["MINOR"],
+                "language": "MINOR",
                 "content": "new content"
             },
             {
                 "_id": ObjectId("62edd29215f7ccf1b7a44b87"),
                 "title": "Second entry",
                 "date": "2022-06-28T15:00:00.000+00:00",
-                "category": ["MINOR"],
+                "language": "MINOR",
                 "content": "content"
             }
         ]
@@ -128,7 +128,7 @@ def test_db_update_cheat_sheet(cheat_sheet_to_update: CheatSheetSchema, expected
     "cheat_sheet_to_add", [
         {
             "title": "Third entry",
-            "category": ["MAIN"],
+            "language": "MAIN",
             "content": "content"
         }
     ]
@@ -137,7 +137,7 @@ def test_db_update_cheat_sheet(cheat_sheet_to_update: CheatSheetSchema, expected
     "expected_result", [
         {
             "title": "Third entry",
-            "category": ["MAIN"],
+            "language": "MAIN",
             "content": "content"
         }
     ]
@@ -151,5 +151,5 @@ def test_db_add_cheat_sheet(cheat_sheet_to_add: CheatSheetSchema, expected_resul
         cheat_sheets.append(sample)
 
     assert cheat_sheets[2]["title"] == expected_result["title"]
-    assert cheat_sheets[2]["category"] == expected_result["category"]
+    assert cheat_sheets[2]["language"] == expected_result["language"]
     assert cheat_sheets[2]["content"] == expected_result["content"]

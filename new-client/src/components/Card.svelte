@@ -19,15 +19,9 @@
 <div class="card" title={cheatSheetData.title !== title ? cheatSheetData.title : ''}>
   <h4 class="card__title">{title}</h4>
   <p class="card__publish">{cheatSheetData.is_published ? 'Published' : 'Draft'}</p>
-  <div class="card__categories">
-    <p class="card__categories-heading">Categories:</p>
-    {#if cheatSheetData.categories}
-      {#each cheatSheetData.categories as category}
-        <p class="card__categories-category">{category}</p>
-      {/each}
-    {:else}
-      <p class="card__categories-category">None</p>
-    {/if}
+  <div class="card__lang">
+    <p class="card__lang-heading">Language:</p>
+    <p class="card__lang-type">{cheatSheetData.language ? cheatSheetData.language : 'None'}</p>
   </div>
 </div>
 
@@ -76,7 +70,7 @@
       transition: 0.25s ease-in-out;
     }
 
-    &__categories {
+    &__lang {
       display: flex;
       font-size: 14px;
       opacity: 0.85;
@@ -88,7 +82,7 @@
         margin-right: 10px;
       }
 
-      &-category {
+      &-type {
         margin-top: 0;
         margin-bottom: 5px;
       }

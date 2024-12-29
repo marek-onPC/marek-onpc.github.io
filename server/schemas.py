@@ -30,7 +30,7 @@ class CheatSheetContent(BaseModel):
 
 class UnsavedCheatSheetSchema(BaseModel):
     title: str
-    category: Optional[list[str]] = None
+    language: Optional[str] = None
     is_published: bool = False
 
 

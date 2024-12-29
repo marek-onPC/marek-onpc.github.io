@@ -32,7 +32,7 @@
     try {
       await fetchClientPatch(`/cheat_sheets/${cheatSheetId}`, $sessionToken.token, {
         title: updatedCheatSheetData.title,
-        categories: updatedCheatSheetData.categories,
+        language: updatedCheatSheetData.language,
         is_published: updatedCheatSheetData.is_published,
         cards: updatedCheatSheetData.cards
       });
@@ -109,6 +109,18 @@
         />
         <label for="title">title</label>
       </div>
+      <div class="update__language-wrapper">
+        <input
+          name="language"
+          type="text"
+          class="update__language"
+          bind:value={updatedCheatSheetData.language}
+          on:keydown={() => {
+            console.log(initCheatSheetData, updatedCheatSheetData);
+          }}
+        />
+        <label for="language">language</label>
+      </div>
       <Checkbox title="Publish" bind:isChecked={updatedCheatSheetData.is_published} />
       <button class="button update__delete" on:click={() => (isOpenedDeleteModal = true)}>🗑</button
       >
@@ -161,13 +173,14 @@
       width: auto;
     }
 
-    &__title {
+    &__title,
+    &__language {
       width: 100%;
       font-size: 18px;
       font-weight: 600;
       text-align: center;
       padding: 25px 10px 10px 10px;
-      margin-bottom: 35px;
+      margin: 0px 10px 35px 0px;
       border: none;
       border-radius: 5px;
       border: 2px solid #fff;
@@ -177,6 +190,11 @@
         outline: none;
         border: 2px solid #42b883;
       }
+    }
+
+    &__language {
+      margin: 0px 10px 35px 10px;
+      width: 100px !important;
     }
 
     &__title-wrapper {
@@ -251,7 +269,8 @@
     }
 
     &__title-wrapper,
-    &__edit-card-wrapper {
+    &__edit-card-wrapper,
+    &__language-wrapper {
       display: flex;
       width: auto;
       position: relative;
@@ -273,6 +292,18 @@
           font-size: 12px;
           color: #42b883;
           opacity: 1;
+        }
+      }
+    }
+
+    &__language-wrapper {
+      label {
+        left: 17.5px;
+      }
+
+      &:focus-within {
+        label {
+          left: 15px;
         }
       }
     }
