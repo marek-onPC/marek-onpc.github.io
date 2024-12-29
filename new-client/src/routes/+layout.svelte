@@ -1,5 +1,19 @@
+<script lang="ts">
+  import { fade } from 'svelte/transition';
+
+  export let data;
+</script>
+
 <div class="layout">
-  <slot />
+  {#key data.url}
+    <div
+      class="layout__transition"
+      in:fade={{ duration: 250, delay: 125 }}
+      out:fade={{ duration: 250 }}
+    >
+      <slot />
+    </div>
+  {/key}
 </div>
 
 <style lang="scss">
@@ -19,6 +33,17 @@
     border: 5px solid #42b883;
     position: relative;
     overflow: hidden;
+
+    &__transition {
+      display: flex;
+      width: calc(100% - 10px);
+      min-height: calc(100vh - 10px);
+      overflow: hidden;
+
+      &:nth-of-type(2) {
+        position: absolute;
+      }
+    }
   }
 
   :global(.button) {
