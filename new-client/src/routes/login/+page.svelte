@@ -2,7 +2,7 @@
   import { fetchClientPostWithoutToken } from '$lib/fetchClient';
   import type { AuthCredentials, AuthTokenResponse } from '../../types';
   import { sessionToken } from '../../stores';
-  import { getTokenFromMemory, setTokenInMemory } from '$lib/memory';
+  import { getTokenFromMemory, removeTokenInMemory, setTokenInMemory } from '$lib/memory';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import Loader from '../../components/Loader.svelte';
@@ -40,8 +40,11 @@
   onMount(() => {
     const currentToken = getTokenFromMemory();
 
-    if (currentToken.token) {
+    if (currentToken.token && currentToken.expiry > new Date()) {
       goto('/dashboard');
+    } else {
+      removeTokenInMemory();
+      sessionToken.set({ token: '', expiry: new Date() });
     }
   });
 </script>

@@ -36,7 +36,7 @@
   };
 
   onMount(() => {
-    if (!$sessionToken.token) {
+    if (!$sessionToken.token || $sessionToken.expiry < new Date()) {
       goto('/login');
       return;
     }
