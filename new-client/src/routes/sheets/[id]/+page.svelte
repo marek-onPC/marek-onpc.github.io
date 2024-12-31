@@ -63,6 +63,10 @@
 
 <style lang="scss">
   .sheet {
+    &__page {
+      width: 100%;
+    }
+
     &__title {
       font-size: 2rem;
       line-height: 1.167;
@@ -103,6 +107,10 @@
 
       @media (min-width: 600px) {
         width: calc(50% - 54px);
+      }
+
+      @media (min-width: 1200px) {
+        width: calc(33% - 49.5px);
       }
 
       &:hover {

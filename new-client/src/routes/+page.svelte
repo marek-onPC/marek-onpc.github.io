@@ -139,6 +139,8 @@
     flex-direction: column;
     padding: 80px 30px;
     overflow: hidden;
+    max-width: 1440px;
+    margin: auto;
 
     @media (min-width: 600px) {
       flex-direction: row;

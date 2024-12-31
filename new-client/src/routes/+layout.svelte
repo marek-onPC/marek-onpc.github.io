@@ -47,7 +47,7 @@
     display: flex;
     flex-direction: column;
     width: calc(100% - 10px);
-    max-width: 800px;
+    max-width: 1440px;
     padding: 10px;
     margin: 0 auto;
   }
@@ -75,6 +75,7 @@
     }
 
     &.--disabled {
+      display: none;
       height: 0;
       margin: 0;
     }
@@ -91,7 +92,7 @@
 
     &__transition {
       display: flex;
-      width: calc(100% - 10px);
+      width: 100%;
       min-height: calc(100vh - 10px);
       overflow: hidden;
 
