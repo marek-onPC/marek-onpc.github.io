@@ -3,6 +3,7 @@
   import type { CheatSheetCardType } from '../types';
 
   export let cheatSheetData: CheatSheetCardType;
+  export let showShowStatus: boolean = false;
 
   let title: string;
 
@@ -18,7 +19,9 @@
 
 <div class="card" title={cheatSheetData.title !== title ? cheatSheetData.title : ''}>
   <h4 class="card__title">{title}</h4>
-  <p class="card__publish">{cheatSheetData.is_published ? 'Published' : 'Draft'}</p>
+  {#if showShowStatus}
+    <p class="card__publish">{cheatSheetData.is_published ? 'Published' : 'Draft'}</p>
+  {/if}
   <div class="card__lang">
     <p class="card__lang-heading">Language:</p>
     <p class="card__lang-type">{cheatSheetData.language ? cheatSheetData.language : 'None'}</p>

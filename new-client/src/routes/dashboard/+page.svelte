@@ -27,7 +27,9 @@
 <div class="dashboard-list">
   {#if cheatSheetsData}
     {#each cheatSheetsData as card}
-      <a href={`/dashboard/cs-edit/${card.id}`}><Card cheatSheetData={card} /></a>
+      <a href={`/dashboard/cs-edit/${card.id}`}
+        ><Card cheatSheetData={card} showShowStatus={true} /></a
+      >
     {/each}
   {:else}
     <Loader />
