@@ -9,7 +9,6 @@
   $: data.url &&
     setTimeout(() => {
       isNavDisabled = !data.url.match(URL) ? true : false;
-      console.log('nav');
     }, 125);
 </script>
 
@@ -46,7 +45,7 @@
   .cheat-sheets {
     display: flex;
     flex-direction: column;
-    width: calc(100% - 10px);
+    width: calc(100% - 20px);
     max-width: 1440px;
     padding: 10px;
     margin: 0 auto;
@@ -54,7 +53,6 @@
 
   .home {
     width: 100%;
-    padding-top: 20px;
   }
 
   .navigation {

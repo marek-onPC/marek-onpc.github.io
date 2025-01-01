@@ -51,7 +51,7 @@
   });
 </script>
 
-<div class="home">
+<div class="main">
   <div class="background">
     <div class="circle circle__xxlarge"></div>
     <div class="circle circle__xlarge"></div>
@@ -83,7 +83,7 @@
 </div>
 
 <style lang="scss">
-  .home {
+  .main {
     width: 100%;
   }
 

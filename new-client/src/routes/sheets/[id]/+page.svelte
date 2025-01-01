@@ -91,12 +91,13 @@
     &__cards {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
     }
 
     &__card-wrapper {
       display: flex;
       flex-direction: column;
-      width: 100%;
+      width: calc(100% - 54px);
       background-color: #fff;
       padding: 15px;
       margin: 10px;
@@ -110,7 +111,7 @@
       }
 
       @media (min-width: 1200px) {
-        width: calc(33% - 49.5px);
+        width: calc(29%);
       }
 
       &:hover {

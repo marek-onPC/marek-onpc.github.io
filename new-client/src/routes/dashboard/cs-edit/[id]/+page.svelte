@@ -19,10 +19,7 @@
     try {
       const cheetSheet = await fetchClientGet(`/cheat_sheets/${cheatSheetId}`, $sessionToken.token);
       initCheatSheetData = cheetSheet.data as CheatSheetWithContentType;
-      updatedCheatSheetData = {
-        ...initCheatSheetData,
-        cards: initCheatSheetData.cards ? [...initCheatSheetData.cards] : undefined
-      };
+      updatedCheatSheetData = structuredClone(initCheatSheetData);
     } catch (e) {
       console.log(e);
     }
@@ -36,10 +33,7 @@
         is_published: updatedCheatSheetData.is_published,
         cards: updatedCheatSheetData.cards
       });
-      initCheatSheetData = {
-        ...updatedCheatSheetData,
-        cards: updatedCheatSheetData.cards ? [...updatedCheatSheetData.cards] : undefined
-      };
+      initCheatSheetData = structuredClone(updatedCheatSheetData);
     } catch (e) {
       console.log(e);
     }
@@ -57,7 +51,6 @@
   };
 
   const addCheatSheetCard = async () => {
-    console.log(updatedCheatSheetData.cards);
     !updatedCheatSheetData.cards
       ? (updatedCheatSheetData.cards = [{ subtitle: '', content: '' }])
       : (updatedCheatSheetData.cards = [
@@ -67,7 +60,6 @@
   };
 
   const removeCheatSheetCard = async (indexToRemove: number) => {
-    console.log(indexToRemove);
     if (updatedCheatSheetData.cards) {
       const afterRemoval = updatedCheatSheetData.cards.filter((_, index) => {
         return index !== indexToRemove;
@@ -103,9 +95,6 @@
           type="text"
           class="update__title"
           bind:value={updatedCheatSheetData.title}
-          on:keydown={() => {
-            console.log(initCheatSheetData, updatedCheatSheetData);
-          }}
         />
         <label for="title">title</label>
       </div>
@@ -115,9 +104,6 @@
           type="text"
           class="update__language"
           bind:value={updatedCheatSheetData.language}
-          on:keydown={() => {
-            console.log(initCheatSheetData, updatedCheatSheetData);
-          }}
         />
         <label for="language">language</label>
       </div>
@@ -138,6 +124,7 @@
           <button class="update__remove-card" on:click={() => removeCheatSheetCard(index)}
             >🗑</button
           >
+          <div class="update__edit-card-divider"></div>
           <textarea
             class="update__edit-card-content"
             name={`${updatedCheatSheetData.id}_${index}`}
@@ -231,11 +218,21 @@
       border-bottom-right-radius: 0;
     }
 
+    &__edit-card-divider {
+      height: 32px;
+      background-color: #fff;
+      transition: 0.25s ease-in-out;
+      border: 2px solid #fff;
+      border-bottom: none;
+      margin: -1px 0px -1px 0px;
+    }
+
     &__edit-card-content {
       min-height: 25px;
-      padding: 40px 10px 10px 10px;
+      padding: 10px;
       border-radius: 5px;
       border: 2px solid #fff;
+      border-top: #fff;
       transition: 0.25s ease-in-out;
       margin: 0 0 5px 0;
       scrollbar-width: thin;
@@ -350,10 +347,17 @@
           border-bottom: 1px solid #42b883;
         }
 
+        .update__edit-card-divider {
+          height: 20px;
+          border: 2px solid #42b883;
+          border-top: 2px solid #42b883;
+          border-bottom: none;
+        }
+
         .update__edit-card-content {
-          padding: 30px 10px 10px 10px;
+          padding: 10px 10px 10px;
           min-height: 200px;
-          border-top: 1px solid #42b883;
+          border-top: none;
         }
       }
     }
