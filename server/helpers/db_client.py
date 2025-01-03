@@ -40,28 +40,14 @@ class DatabaseClient:
         return MongoInsert(id=str(result.inserted_id))
 
 
-    def __serialize_cards(self, cards: list[CheatSheetContent]) -> list[dict]:
-        serialized = []
-
-        for card in cards:
-            serialized.append({
-                "subtitle": card.subtitle,
-                "content": card.content
-            })
-
-        return serialized
-
-
     def db_update(self, collection: Collection, id: str, cheat_sheet_data: dict) -> MongoUpdate:
-        cards = cheat_sheet_data.get("cards", None)
-
         result = collection.update_one(
             { "_id" : ObjectId(id) },
             { "$set" : 
                 {
                     "title" : cheat_sheet_data.get("title"),
                     "language" : cheat_sheet_data.get("language", None),
-                    "cards" : self.__serialize_cards(cards) if cards else None,
+                    "cards" : cheat_sheet_data.get("cards", None),
                     "is_published" : cheat_sheet_data.get("is_published")
                 }
             }

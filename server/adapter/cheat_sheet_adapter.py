@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from bson.objectid import ObjectId
 
 from helpers.db_client import DatabaseClient
-from schemas import CheatSheetID, CheatSheetSchema, MongoDelete, MongoInsert, MongoUpdate, UnsavedCheatSheetSchema, UpdateCheatSheetSchema
+from schemas import CheatSheetContent, CheatSheetID, CheatSheetSchema, MongoDelete, MongoInsert, MongoUpdate, UnsavedCheatSheetSchema, UpdateCheatSheetSchema
 
 
 load_dotenv()
@@ -14,6 +14,17 @@ db_name = os.environ["DB_NAME"]
 db_collection_name = os.environ["DB_COLL_CHEAT_SHEETS"]
 db_client = DatabaseClient(db_uri, db_name)
 
+
+def _serialize_cards(cards: list[CheatSheetContent]) -> list[dict]:
+    serialized = []
+
+    for card in cards:
+        serialized.append({
+            "subtitle": card.subtitle,
+            "content": card.content
+        })
+
+    return serialized
 
 def _fiters_to_bson(is_published__list: Optional[list[Literal[True, False]]] = None) -> dict:
     bson_filters = []
@@ -94,7 +105,7 @@ def patch_cheat_sheet(id: str, cheat_sheet_data: UpdateCheatSheetSchema) -> Mong
         {
             "title": cheat_sheet_data.title,
             "language": cheat_sheet_data.language,
-            "cards": cheat_sheet_data.cards,
+            "cards": _serialize_cards(cheat_sheet_data.cards) if cheat_sheet_data.cards else [],
             "is_published": cheat_sheet_data.is_published,
         }
     )

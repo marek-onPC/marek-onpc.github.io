@@ -73,7 +73,7 @@ def test_db_find_one(user_to_find: Dict) -> None:
 def test_db_find_all(expected_result: List) -> None:
     result = []
 
-    response = db_client.db_find_all(mock_collection)
+    response = db_client.db_find_all(mock_collection, {})
 
     for sample in response:
         result.append(sample)
