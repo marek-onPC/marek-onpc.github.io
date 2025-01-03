@@ -57,25 +57,29 @@
 </script>
 
 <div class="dashboard">
-  {#if hasTokenExpired}
-    <Modal isOpened={hasTokenExpired} text="Token expired, logging out" hasLoader={true} />
+  {#if !$sessionToken.token || $sessionToken.expiry < new Date()}
+    <Loader />
+  {:else}
+    {#if hasTokenExpired}
+      <Modal isOpened={hasTokenExpired} text="Token expired, logging out" hasLoader={true} />
+    {/if}
+    <nav class="navigation">
+      <button
+        class="button navigation__button"
+        on:click={createNewCheatSheet}
+        disabled={isLoadingNewCheatSheet}
+      >
+        {#if isLoadingNewCheatSheet}
+          <Loader isSmall={true} isWhite={true} />
+        {:else}
+          Create new
+        {/if}
+      </button>
+      <a class="button navigation__button" href="/dashboard">All sheets</a>
+      <button class="button navigation__button" on:click={logoutHandler}>Logout</button>
+    </nav>
+    <slot />
   {/if}
-  <nav class="navigation">
-    <button
-      class="button navigation__button"
-      on:click={createNewCheatSheet}
-      disabled={isLoadingNewCheatSheet}
-    >
-      {#if isLoadingNewCheatSheet}
-        <Loader isSmall={true} isWhite={true} />
-      {:else}
-        Create new
-      {/if}
-    </button>
-    <a class="button navigation__button" href="/dashboard">All sheets</a>
-    <button class="button navigation__button" on:click={logoutHandler}>Logout</button>
-  </nav>
-  <slot />
 </div>
 
 <style lang="scss">
