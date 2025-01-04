@@ -1,8 +1,9 @@
 from typing import Any, Dict
 from bson import ObjectId
-from gridfs import Collection
 from pymongo import MongoClient
-from schemas import CheatSheetContent, MongoInsert, MongoUpdate
+from pymongo.collection import Collection
+from schemas import MongoInsert, MongoUpdate
+
 
 class DatabaseClient:
     def __init__(self, db_uri: str, db_name: str) -> None:
