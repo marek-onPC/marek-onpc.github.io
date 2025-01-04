@@ -1,6 +1,7 @@
 {
   "name": "new-client",
   "version": "0.0.1",
+  "homepage": "https://marek-onPC.github.io/",
   "private": true,
   "scripts": {
     "dev": "vite dev --port 3000",
