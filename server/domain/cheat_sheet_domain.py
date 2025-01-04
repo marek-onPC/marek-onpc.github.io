@@ -1,6 +1,9 @@
 from typing import Literal, Optional
-from schemas import CheatSheetID, CheatSheetSchema, MongoDelete, MongoInsert, MongoUpdate, UnsavedCheatSheetSchema, UpdateCheatSheetSchema
+
 from adapter import cheat_sheet_adapter
+from schemas import (CheatSheetID, CheatSheetSchema, MongoDelete, MongoInsert,
+                     MongoUpdate, UnsavedCheatSheetSchema,
+                     UpdateCheatSheetSchema)
 
 
 def get_cheat_sheets(is_published__list: Optional[list[Literal[True, False]]] = None) -> list[CheatSheetSchema] | None:

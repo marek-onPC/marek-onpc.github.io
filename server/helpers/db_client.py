@@ -1,7 +1,9 @@
 from typing import Any, Dict
+
 from bson import ObjectId
 from pymongo import MongoClient
 from pymongo.collection import Collection
+
 from schemas import MongoInsert, MongoUpdate
 
 

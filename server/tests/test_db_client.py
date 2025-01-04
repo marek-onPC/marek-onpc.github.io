@@ -1,6 +1,8 @@
+from typing import Dict, List
+
 import mongomock
 import pytest
-from typing import Dict, List
+
 from helpers.db_client import DatabaseClient
 
 db_uri = "DB_URI"

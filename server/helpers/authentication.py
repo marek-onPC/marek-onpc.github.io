@@ -1,10 +1,11 @@
 import os
+from datetime import datetime, timedelta, timezone
 from typing import Optional, Tuple
+
 import jwt
 from dotenv import load_dotenv
 from fastapi import HTTPException, Security
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from datetime import datetime, timedelta, timezone
 from passlib.context import CryptContext
 
 from schemas import HashedPassword, Password, Token, Username

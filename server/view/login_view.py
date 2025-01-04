@@ -1,9 +1,10 @@
 from typing import Dict
-from fastapi import APIRouter
-from helpers.authentication import Authentication
+
+from fastapi import APIRouter, Body
+
 from domain import login_domain
+from helpers.authentication import Authentication
 from schemas import AuthDetails, LoginToken, Password, Username
-from fastapi import Body
 
 router = APIRouter(prefix="/api")
 authentication = Authentication()

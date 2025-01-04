@@ -1,7 +1,9 @@
 from datetime import datetime
 from unittest import mock
 from unittest.mock import Mock
+
 import pytest
+
 from helpers.authentication import Authentication
 
 authentication = Authentication()

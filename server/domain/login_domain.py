@@ -1,5 +1,6 @@
-from adapter import user_adapter
 from fastapi import HTTPException
+
+from adapter import user_adapter
 from helpers.authentication import Authentication
 from schemas import AuthDetails, LoginToken
 

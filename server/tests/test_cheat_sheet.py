@@ -1,7 +1,9 @@
-from bson import ObjectId
+from typing import List
+
 import mongomock
 import pytest
-from typing import List
+from bson import ObjectId
+
 from helpers.db_client import DatabaseClient
 from schemas import CheatSheetContent, CheatSheetSchema, UpdateCheatSheetSchema
 

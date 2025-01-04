@@ -1,4 +1,5 @@
 from typing import Any, Optional, TypeVar
+
 from pydantic import BaseModel
 
 Username = TypeVar("Username", bound=str)

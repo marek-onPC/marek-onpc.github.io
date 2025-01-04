@@ -1,8 +1,10 @@
-import os
 import logging
+import os
 from typing import Any, Optional
+
 from dotenv import load_dotenv
 from fastapi import HTTPException
+
 from helpers.db_client import DatabaseClient
 from schemas import User, Username
 

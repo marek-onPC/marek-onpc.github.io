@@ -1,10 +1,13 @@
 from typing import Literal, Optional
-from fastapi import Depends, APIRouter, HTTPException
-from helpers.authentication import Authentication
-from domain import cheat_sheet_domain
-from schemas import CheatSheetID, CheatSheetSchema, MongoDelete, MongoInsert, MongoUpdate, UnsavedCheatSheetSchema, UpdateCheatSheetSchema, Username
-from helpers.serializers import bool_list_serializer
 
+from fastapi import APIRouter, Depends, HTTPException
+
+from domain import cheat_sheet_domain
+from helpers.authentication import Authentication
+from helpers.serializers import bool_list_serializer
+from schemas import (CheatSheetID, CheatSheetSchema, MongoDelete, MongoInsert,
+                     MongoUpdate, UnsavedCheatSheetSchema,
+                     UpdateCheatSheetSchema, Username)
 
 router = APIRouter(prefix="/api")
 authentication = Authentication()
