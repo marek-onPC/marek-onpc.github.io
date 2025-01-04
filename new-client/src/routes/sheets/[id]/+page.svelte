@@ -17,6 +17,7 @@
   import 'prismjs/components/prism-swift.js';
   import 'prismjs/components/prism-css.js';
   import 'prismjs/components/prism-scss.js';
+  import 'prism-svelte';
 
   const cheatSheetId = $page.params.id;
   let cheatSheetData: CheatSheetWithContentType;

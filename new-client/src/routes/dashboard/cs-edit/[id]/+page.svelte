@@ -228,7 +228,7 @@
     }
 
     &__edit-card-content {
-      min-height: 25px;
+      min-height: 75px;
       padding: 10px;
       border-radius: 5px;
       border: 2px solid #fff;
@@ -356,7 +356,7 @@
 
         .update__edit-card-content {
           padding: 10px 10px 10px;
-          min-height: 200px;
+          min-height: 300px;
           border-top: none;
         }
       }
