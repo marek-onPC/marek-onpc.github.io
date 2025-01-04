@@ -1,3 +1,6 @@
+from datetime import datetime
+from unittest import mock
+from unittest.mock import Mock
 import pytest
 from helpers.authentication import Authentication
 
@@ -24,7 +27,7 @@ def test_hash_and_verify_password(password: str) -> None:
     ]
 )
 def test_encode_and_decode_jwt(username: str) -> None:
-    jwt = authentication.encode_jwt(username)
+    jwt, _ = authentication.encode_jwt(username)
     decoded_jwt = authentication.decode_jwt(jwt)
 
     assert decoded_jwt == username

@@ -1,4 +1,3 @@
-from typing import Dict
 from adapter import user_adapter
 from fastapi import HTTPException
 from helpers.authentication import Authentication
@@ -15,6 +14,6 @@ def login(auth_details: AuthDetails) -> LoginToken:
     if not authentication.verify_password(password=auth_details.password, hashed_password=user.password):
         raise HTTPException(status_code=401, detail="Wrong password")
     
-    token = authentication.encode_jwt(user.username)
+    token, expiry = authentication.encode_jwt(user.username)
 
-    return LoginToken(token=token)
+    return LoginToken(token=token, expiry=expiry.timestamp())

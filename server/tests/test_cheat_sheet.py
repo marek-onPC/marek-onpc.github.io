@@ -3,7 +3,7 @@ import mongomock
 import pytest
 from typing import List
 from helpers.db_client import DatabaseClient
-from schemas import CheatSheetSchema
+from schemas import CheatSheetContent, CheatSheetSchema, UpdateCheatSheetSchema
 
 db_uri = "DB_URI"
 db_name = "DB_NAME"
@@ -15,16 +15,16 @@ documents = [
     {
         "_id": ObjectId("62edd29215f7ccf1b7a44b86"),
         "title": "First entry",
-        "date": "2022-06-28T15:00:00.000+00:00",
-        "category": ["MAIN"],
-        "content":"content"
+        "language": "typescript",
+        "is_published": True,
+        "cards": [{"subtitle": "card_subtitle", "content": "card_content"}],
     },
     {
         "_id": ObjectId("62edd29215f7ccf1b7a44b87"),
         "title": "Second entry",
-        "date": "2022-06-28T15:00:00.000+00:00",
-        "category": ["MINOR"],
-        "content": "content"
+        "language": "python",
+        "is_published": True,
+        "cards": [{"subtitle": "card_subtitle", "content": "card_content"}],
     }
 ]
 mock_collection.insert_many(documents)
@@ -36,23 +36,23 @@ mock_collection.insert_many(documents)
             {
                 "_id": ObjectId("62edd29215f7ccf1b7a44b86"),
                 "title": "First entry",
-                "date": "2022-06-28T15:00:00.000+00:00",
-                "category": ["MAIN"],
-                "content":"content"
+                "language": "typescript",
+                "is_published": True,
+                "cards": [{"subtitle": "card_subtitle", "content": "card_content"}]
             },
             {
                 "_id": ObjectId("62edd29215f7ccf1b7a44b87"),
                 "title": "Second entry",
-                "date": "2022-06-28T15:00:00.000+00:00",
-                "category": ["MINOR"],
-                "content": "content"
+                "language": "python",
+                "is_published": True,
+                "cards": [{"subtitle": "card_subtitle", "content": "card_content"}]
             }
         ]
     ]
 )
 def test_get_cheat_sheets(expected_cheat_sheets: List) -> None:
     cheat_sheets = []
-    result = db_client.db_find_all(mock_collection)
+    result = db_client.db_find_all(mock_collection, {})
 
     for sample in result:
         cheat_sheets.append(sample)
@@ -66,9 +66,9 @@ def test_get_cheat_sheets(expected_cheat_sheets: List) -> None:
             {
                 "_id": ObjectId("62edd29215f7ccf1b7a44b87"),
                 "title": "Second entry",
-                "date": "2022-06-28T15:00:00.000+00:00",
-                "category": ["MINOR"],
-                "content": "content"
+                "language": "python",
+                "is_published": True,
+                "cards": [{"subtitle": "card_subtitle", "content": "card_content"}]
             }
         ]
     ]
@@ -82,14 +82,16 @@ def test_get_cheat_sheet(expected_cheat_sheet: List) -> None:
 
 
 @pytest.mark.parametrize(
-    "cheat_sheet_to_update", [
-        {
-            "_id": ObjectId("62edd29215f7ccf1b7a44b86"),
-            "title": "New first entry",
-            "date": "2022-06-28T15:00:00.000+00:00",
-            "category": ["MINOR"],
-            "content": "new content"
-        },
+    "cheat_sheet_to_update, update_content", [
+        pytest.param(
+            "62edd29215f7ccf1b7a44b86",
+            {
+                "title": "New first entry",
+                "language": "python",
+                "is_published": True,
+                "cards": [{"subtitle": "Card", "content": "Content"}]
+            }
+        )
     ]
 )
 @pytest.mark.parametrize(
@@ -98,25 +100,25 @@ def test_get_cheat_sheet(expected_cheat_sheet: List) -> None:
             {
                 "_id": ObjectId("62edd29215f7ccf1b7a44b86"),
                 "title": "New first entry",
-                "date": "2022-06-28T15:00:00.000+00:00",
-                "category": ["MINOR"],
-                "content": "new content"
+                "language": "python",
+                "is_published": True,
+                "cards": [{"subtitle": "Card", "content": "Content"}]
             },
             {
                 "_id": ObjectId("62edd29215f7ccf1b7a44b87"),
                 "title": "Second entry",
-                "date": "2022-06-28T15:00:00.000+00:00",
-                "category": ["MINOR"],
-                "content": "content"
+                "language": "python",
+                "is_published": True,
+                "cards": [{"subtitle": "card_subtitle", "content": "card_content"}]
             }
         ]
     ]
 )
-def test_db_update_cheat_sheet(cheat_sheet_to_update: CheatSheetSchema, expected_result: List) -> None:
-    db_client.db_update(mock_collection, cheat_sheet_to_update)
+def test_db_update_cheat_sheet(cheat_sheet_to_update: str, update_content: dict, expected_result: List) -> None:
+    db_client.db_update(mock_collection, cheat_sheet_to_update, update_content)
 
     cheat_sheets = []
-    result = db_client.db_find_all(mock_collection)
+    result = db_client.db_find_all(mock_collection, {})
 
     for sample in result:
         cheat_sheets.append(sample)
@@ -128,8 +130,8 @@ def test_db_update_cheat_sheet(cheat_sheet_to_update: CheatSheetSchema, expected
     "cheat_sheet_to_add", [
         {
             "title": "Third entry",
-            "category": ["MAIN"],
-            "content": "content"
+            "language": "typescript",
+            "is_published": False,
         }
     ]
 )
@@ -137,19 +139,19 @@ def test_db_update_cheat_sheet(cheat_sheet_to_update: CheatSheetSchema, expected
     "expected_result", [
         {
             "title": "Third entry",
-            "category": ["MAIN"],
-            "content": "content"
+            "language": "typescript",
+            "is_published": False,
         }
     ]
 )
-def test_db_add_cheat_sheet(cheat_sheet_to_add: CheatSheetSchema, expected_result: List) -> None:
+def test_db_add_cheat_sheet(cheat_sheet_to_add: dict, expected_result: List) -> None:
     db_client.db_add(mock_collection, cheat_sheet_to_add)
     cheat_sheets = []
-    result = db_client.db_find_all(mock_collection)
+    result = db_client.db_find_all(mock_collection, {})
 
     for sample in result:
         cheat_sheets.append(sample)
 
     assert cheat_sheets[2]["title"] == expected_result["title"]
-    assert cheat_sheets[2]["category"] == expected_result["category"]
-    assert cheat_sheets[2]["content"] == expected_result["content"]
+    assert cheat_sheets[2]["language"] == expected_result["language"]
+    assert cheat_sheets[2]["is_published"] == expected_result["is_published"]

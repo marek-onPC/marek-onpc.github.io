@@ -2,7 +2,7 @@ from typing import Any, Dict
 from bson import ObjectId
 from gridfs import Collection
 from pymongo import MongoClient
-from schemas import CheatSheetSchema
+from schemas import CheatSheetContent, MongoInsert, MongoUpdate
 
 class DatabaseClient:
     def __init__(self, db_uri: str, db_name: str) -> None:
@@ -24,32 +24,41 @@ class DatabaseClient:
         return result
 
 
-    def db_find_all(self, collection: Collection) -> Any:
-        result = collection.find()
+    def db_find_all(self, collection: Collection, filters: dict) -> Any:
+        result = collection.find(filters)
 
         return result
 
 
-    def db_add(self, collection: Collection, cheat_sheet_data: CheatSheetSchema) -> Any:
+    def db_add(self, collection: Collection, cheat_sheet_data: dict) -> MongoInsert:
         result = collection.insert_one({
-            "title" : cheat_sheet_data["title"],
-            "category" : cheat_sheet_data["category"],
-            "content" : cheat_sheet_data["content"]
+            "title" : cheat_sheet_data.get("title"),
+            "language" : cheat_sheet_data.get("language", None),
+            "is_published" : cheat_sheet_data.get("is_published", None)
         })
 
-        return result
+        return MongoInsert(id=str(result.inserted_id))
 
 
-    def db_update(self, collection: Collection, cheat_sheet_data: CheatSheetSchema) -> Any:
+    def db_update(self, collection: Collection, id: str, cheat_sheet_data: dict) -> MongoUpdate:
         result = collection.update_one(
-            { "_id" : ObjectId(cheat_sheet_data["_id"]) },
+            { "_id" : ObjectId(id) },
             { "$set" : 
                 {
-                    "title" : cheat_sheet_data["title"],
-                    "category" : cheat_sheet_data["category"],
-                    "content" : cheat_sheet_data["content"]
+                    "title" : cheat_sheet_data.get("title"),
+                    "language" : cheat_sheet_data.get("language", None),
+                    "cards" : cheat_sheet_data.get("cards", None),
+                    "is_published" : cheat_sheet_data.get("is_published")
                 }
             }
         )
 
-        return result
+        return MongoUpdate(acknowledged=result.acknowledged)
+
+
+    def db_delete(self, collection: Collection, id: str) -> Any:
+        result = collection.delete_one(
+            { "_id" : ObjectId(id) }
+        )
+
+        return MongoUpdate(acknowledged=result.acknowledged)
