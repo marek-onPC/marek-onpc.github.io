@@ -21,7 +21,7 @@ class User(BaseModel):
 
 class LoginToken(BaseModel):
     token: Token
-    expiry : float
+    expiry: float
 
 
 class CheatSheetContent(BaseModel):

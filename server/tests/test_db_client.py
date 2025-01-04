@@ -21,28 +21,25 @@ documents = [
     {
         "_id": 2,
         "user": "mark",
-        "hashedPassword": "$2b$12$jwzb6rl2uspKNkJqNhv.z.kC36N.F3tQ5JzfywEgp422hufoHc7/C",    },
+        "hashedPassword": "$2b$12$jwzb6rl2uspKNkJqNhv.z.kC36N.F3tQ5JzfywEgp422hufoHc7/C",
+    },
     {
         "_id": 3,
         "user": "george",
-        "hashedPassword": "$2b$12$jwzb6rl2uspKNkJqNhv.z.kC36N.F3tQ5JzfywEgp422hufoHc7/C",    }
+        "hashedPassword": "$2b$12$jwzb6rl2uspKNkJqNhv.z.kC36N.F3tQ5JzfywEgp422hufoHc7/C",
+    },
 ]
 mock_collection.insert_many(documents)
 # END OF DATABASE MOCK PREPARATION -----------------------
 
 
 @pytest.mark.parametrize(
-    "user_to_find", [
-        {
-            "user": "george"
-        },
-        {
-            "user": "john"
-        },
-        {
-            "user": "mark"
-        },
-    ]
+    "user_to_find",
+    [
+        {"user": "george"},
+        {"user": "john"},
+        {"user": "mark"},
+    ],
 )
 def test_db_find_one(user_to_find: Dict) -> None:
     result = db_client.db_find_one(mock_collection, user_to_find)
@@ -51,7 +48,8 @@ def test_db_find_one(user_to_find: Dict) -> None:
 
 
 @pytest.mark.parametrize(
-    "expected_result", [
+    "expected_result",
+    [
         [
             {
                 "_id": 1,
@@ -68,9 +66,9 @@ def test_db_find_one(user_to_find: Dict) -> None:
                 "_id": 3,
                 "user": "george",
                 "hashedPassword": "$2b$12$jwzb6rl2uspKNkJqNhv.z.kC36N.F3tQ5JzfywEgp422hufoHc7/C",
-            }
+            },
         ]
-    ]
+    ],
 )
 def test_db_find_all(expected_result: List) -> None:
     result = []

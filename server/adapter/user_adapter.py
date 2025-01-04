@@ -28,15 +28,13 @@ def _bson_user_to_object(bson_document: Any) -> User:
     except Exception as e:
         logging.error(e)
         raise HTTPException(status_code=400, detail=e)
-    
+
     return User(username=username, password=password)
 
 
 def get_user(username: Username) -> Optional[User]:
     collection = db_client.db_connection(db_collection_name)
 
-    user = db_client.db_find_one(collection, {
-        "user": username
-    })
+    user = db_client.db_find_one(collection, {"user": username})
 
     return _bson_user_to_object(bson_document=user) if user else None

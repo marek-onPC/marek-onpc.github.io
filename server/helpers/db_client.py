@@ -12,56 +12,52 @@ class DatabaseClient:
         self.db_uri = db_uri
         self.db_name = db_name
 
-
     def db_connection(self, collection_name: str) -> Collection:
-        client = MongoClient(self.db_uri,  tls=True, tlsAllowInvalidCertificates=True)
+        client = MongoClient(self.db_uri, tls=True, tlsAllowInvalidCertificates=True)
         database = client[self.db_name]
         collection = database[collection_name]
 
         return collection
-
 
     def db_find_one(self, collection: Collection, item_to_find: Dict) -> Any:
         result = collection.find_one(item_to_find)
 
         return result
 
-
     def db_find_all(self, collection: Collection, filters: dict) -> Any:
         result = collection.find(filters)
 
         return result
 
-
     def db_add(self, collection: Collection, cheat_sheet_data: dict) -> MongoInsert:
-        result = collection.insert_one({
-            "title" : cheat_sheet_data.get("title"),
-            "language" : cheat_sheet_data.get("language", None),
-            "is_published" : cheat_sheet_data.get("is_published", None)
-        })
+        result = collection.insert_one(
+            {
+                "title": cheat_sheet_data.get("title"),
+                "language": cheat_sheet_data.get("language", None),
+                "is_published": cheat_sheet_data.get("is_published", None),
+            }
+        )
 
         return MongoInsert(id=str(result.inserted_id))
 
-
-    def db_update(self, collection: Collection, id: str, cheat_sheet_data: dict) -> MongoUpdate:
+    def db_update(
+        self, collection: Collection, id: str, cheat_sheet_data: dict
+    ) -> MongoUpdate:
         result = collection.update_one(
-            { "_id" : ObjectId(id) },
-            { "$set" : 
-                {
-                    "title" : cheat_sheet_data.get("title"),
-                    "language" : cheat_sheet_data.get("language", None),
-                    "cards" : cheat_sheet_data.get("cards", None),
-                    "is_published" : cheat_sheet_data.get("is_published")
+            {"_id": ObjectId(id)},
+            {
+                "$set": {
+                    "title": cheat_sheet_data.get("title"),
+                    "language": cheat_sheet_data.get("language", None),
+                    "cards": cheat_sheet_data.get("cards", None),
+                    "is_published": cheat_sheet_data.get("is_published"),
                 }
-            }
+            },
         )
 
         return MongoUpdate(acknowledged=result.acknowledged)
 
-
     def db_delete(self, collection: Collection, id: str) -> Any:
-        result = collection.delete_one(
-            { "_id" : ObjectId(id) }
-        )
+        result = collection.delete_one({"_id": ObjectId(id)})
 
         return MongoUpdate(acknowledged=result.acknowledged)

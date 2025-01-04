@@ -11,10 +11,7 @@ load_dotenv()
 db_uri = os.environ["DB_URI"]
 db_name = os.environ["DB_NAME"]
 
-origins = [
-    "https://marek-onpc.github.io",
-    "http://localhost:3000"
-]
+origins = ["https://marek-onpc.github.io", "http://localhost:3000"]
 
 app = FastAPI()
 

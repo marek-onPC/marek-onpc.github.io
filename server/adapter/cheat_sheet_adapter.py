@@ -5,9 +5,16 @@ from bson.objectid import ObjectId
 from dotenv import load_dotenv
 
 from helpers.db_client import DatabaseClient
-from schemas import (CheatSheetContent, CheatSheetID, CheatSheetSchema,
-                     MongoDelete, MongoInsert, MongoUpdate,
-                     UnsavedCheatSheetSchema, UpdateCheatSheetSchema)
+from schemas import (
+    CheatSheetContent,
+    CheatSheetID,
+    CheatSheetSchema,
+    MongoDelete,
+    MongoInsert,
+    MongoUpdate,
+    UnsavedCheatSheetSchema,
+    UpdateCheatSheetSchema,
+)
 
 load_dotenv()
 
@@ -21,20 +28,18 @@ def _serialize_cards(cards: list[CheatSheetContent]) -> list[dict]:
     serialized = []
 
     for card in cards:
-        serialized.append({
-            "subtitle": card.subtitle,
-            "content": card.content
-        })
+        serialized.append({"subtitle": card.subtitle, "content": card.content})
 
     return serialized
 
-def _fiters_to_bson(is_published__list: Optional[list[Literal[True, False]]] = None) -> dict:
+
+def _fiters_to_bson(
+    is_published__list: Optional[list[Literal[True, False]]] = None
+) -> dict:
     bson_filters = []
 
     if is_published__list:
-        is_published_bson = {
-            "is_published": {"$in": is_published__list}
-        }
+        is_published_bson = {"is_published": {"$in": is_published__list}}
         bson_filters.append(is_published_bson)
 
     if bson_filters:
@@ -43,7 +48,9 @@ def _fiters_to_bson(is_published__list: Optional[list[Literal[True, False]]] = N
         return {}
 
 
-def get_cheat_sheets(is_published__list: Optional[list[Literal[True, False]]] = None) -> list[CheatSheetSchema] | None:
+def get_cheat_sheets(
+    is_published__list: Optional[list[Literal[True, False]]] = None
+) -> list[CheatSheetSchema] | None:
     filters = _fiters_to_bson(is_published__list=is_published__list)
     cheat_sheets = []
     collection = db_client.db_connection(db_collection_name)
@@ -62,7 +69,7 @@ def get_cheat_sheets(is_published__list: Optional[list[Literal[True, False]]] = 
         )
 
         cheat_sheets.append(cheat_sheet)
-    
+
     cheat_sheets.reverse()
 
     return cheat_sheets
@@ -70,9 +77,7 @@ def get_cheat_sheets(is_published__list: Optional[list[Literal[True, False]]] = 
 
 def get_cheat_sheet(cheat_sheet_id: CheatSheetID) -> CheatSheetSchema | None:
     collection = db_client.db_connection(db_collection_name)
-    result = db_client.db_find_one(collection, {
-        "_id" : ObjectId(cheat_sheet_id)
-    })
+    result = db_client.db_find_one(collection, {"_id": ObjectId(cheat_sheet_id)})
 
     if result == None:
         return None
@@ -90,11 +95,14 @@ def get_cheat_sheet(cheat_sheet_id: CheatSheetID) -> CheatSheetSchema | None:
 
 def create_cheat_sheet(cheat_sheet_data: UnsavedCheatSheetSchema) -> MongoInsert:
     collection = db_client.db_connection(db_collection_name)
-    inserted = db_client.db_add(collection, {
-        "title": cheat_sheet_data.title,
-        "language": cheat_sheet_data.language,
-        "is_published": cheat_sheet_data.is_published,
-    })
+    inserted = db_client.db_add(
+        collection,
+        {
+            "title": cheat_sheet_data.title,
+            "language": cheat_sheet_data.language,
+            "is_published": cheat_sheet_data.is_published,
+        },
+    )
 
     return inserted
 
@@ -102,14 +110,18 @@ def create_cheat_sheet(cheat_sheet_data: UnsavedCheatSheetSchema) -> MongoInsert
 def patch_cheat_sheet(id: str, cheat_sheet_data: UpdateCheatSheetSchema) -> MongoUpdate:
     collection = db_client.db_connection(db_collection_name)
     result = db_client.db_update(
-        collection, 
+        collection,
         id,
         {
             "title": cheat_sheet_data.title,
             "language": cheat_sheet_data.language,
-            "cards": _serialize_cards(cheat_sheet_data.cards) if cheat_sheet_data.cards else [],
+            "cards": (
+                _serialize_cards(cheat_sheet_data.cards)
+                if cheat_sheet_data.cards
+                else []
+            ),
             "is_published": cheat_sheet_data.is_published,
-        }
+        },
     )
 
     return result
@@ -118,7 +130,7 @@ def patch_cheat_sheet(id: str, cheat_sheet_data: UpdateCheatSheetSchema) -> Mong
 def delete_cheat_sheet(id: str) -> MongoDelete:
     collection = db_client.db_connection(db_collection_name)
     result = db_client.db_delete(
-        collection, 
+        collection,
         id,
     )
 
