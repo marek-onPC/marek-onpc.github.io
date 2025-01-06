@@ -25,6 +25,9 @@ flake8 = "^7.1.1"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
 
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

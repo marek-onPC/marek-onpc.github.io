@@ -61,7 +61,7 @@ def get_cheat_sheets(
 
     for entry in result:
         cheat_sheet = CheatSheetSchema(
-            id=CheatSheetID(entry.get("_id")),
+            id=CheatSheetID(str(entry.get("_id"))),
             cards=entry.get("cards", None),
             title=entry.get("title"),
             language=entry.get("language", None),
@@ -83,7 +83,7 @@ def get_cheat_sheet(cheat_sheet_id: CheatSheetID) -> CheatSheetSchema | None:
         return None
 
     cheat_sheet = CheatSheetSchema(
-        id=CheatSheetID(result.get("_id")),
+        id=CheatSheetID(str(result.get("_id"))),
         cards=result.get("cards", None),
         title=result.get("title"),
         language=result.get("language", None),
