@@ -1,23 +1,26 @@
-from datetime import datetime
-from unittest import mock
-from unittest.mock import Mock
-
 import pytest
 
 from helpers.authentication import Authentication
+from schemas import Password, Username
 
 authentication = Authentication()
 
 
-@pytest.mark.parametrize("password", ["uhhs6hsbja", "AHg%&JNhsjkdnh&89sh", "7262hskdd"])
-def test_hash_and_verify_password(password: str) -> None:
+@pytest.mark.parametrize(
+    "password",
+    [Password("uhhs6hsbja"), Password("AHg%&JNhsjkdnh&89sh"), Password("7262hskdd")],
+)
+def test_hash_and_verify_password(password: Password) -> None:
     hashed_password = authentication.hash_password(password)
 
-    assert authentication.verify_password(password, hashed_password) == True
+    assert authentication.verify_password(password, hashed_password) is True
 
 
-@pytest.mark.parametrize("username", ["new0user", "user@name.com", "test56@user.com"])
-def test_encode_and_decode_jwt(username: str) -> None:
+@pytest.mark.parametrize(
+    "username",
+    [Username("new0user"), Username("user@name.com"), Username("test56@user.com")],
+)
+def test_encode_and_decode_jwt(username: Username) -> None:
     jwt, _ = authentication.encode_jwt(username)
     decoded_jwt = authentication.decode_jwt(jwt)
 

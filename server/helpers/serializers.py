@@ -7,7 +7,7 @@ def bool_list_serializer(
     is_published__list: Optional[str] = Query(default="true", description="")
 ) -> list[Literal[True, False]]:
     serialized_filters = []
-    raw_filters = is_published__list.split(",")
+    raw_filters = is_published__list.split(",") if is_published__list else []
 
     for raw_val in raw_filters:
         if raw_val.lower() == "true":

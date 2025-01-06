@@ -1,5 +1,3 @@
-from typing import Dict
-
 from fastapi import APIRouter, Body
 
 from domain import login_domain

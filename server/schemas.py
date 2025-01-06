@@ -1,12 +1,12 @@
-from typing import Any, Optional, TypeVar
+from typing import NewType, Optional
 
 from pydantic import BaseModel
 
-Username = TypeVar("Username", bound=str)
-Password = TypeVar("Password", bound=str)
-HashedPassword = TypeVar("HashedPassword", bound=str)
-Token = TypeVar("Token", bound=str)
-CheatSheetID = TypeVar("CheatSheetID", bound=str)
+Username = NewType("Username", str)
+Password = NewType("Password", str)
+HashedPassword = NewType("HashedPassword", str)
+Token = NewType("Token", str)
+CheatSheetID = NewType("CheatSheetID", str)
 
 
 class AuthDetails(BaseModel):

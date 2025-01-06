@@ -56,12 +56,12 @@ def get_cheat_sheets(
     collection = db_client.db_connection(db_collection_name)
     result = db_client.db_find_all(collection, filters)
 
-    if result == None:
+    if result is None:
         return None
 
     for entry in result:
         cheat_sheet = CheatSheetSchema(
-            id=str(entry.get("_id")),
+            id=CheatSheetID(entry.get("_id")),
             cards=entry.get("cards", None),
             title=entry.get("title"),
             language=entry.get("language", None),
@@ -79,11 +79,11 @@ def get_cheat_sheet(cheat_sheet_id: CheatSheetID) -> CheatSheetSchema | None:
     collection = db_client.db_connection(db_collection_name)
     result = db_client.db_find_one(collection, {"_id": ObjectId(cheat_sheet_id)})
 
-    if result == None:
+    if result is None:
         return None
 
     cheat_sheet = CheatSheetSchema(
-        id=str(result.get("_id")),
+        id=CheatSheetID(result.get("_id")),
         cards=result.get("cards", None),
         title=result.get("title"),
         language=result.get("language", None),

@@ -19,6 +19,8 @@ gunicorn = "^23.0.0"
 isort = "^5.13.2"
 black = "^24.10.0"
 mypy = "^1.14.1"
+types-passlib = "^1.7.7.20241221"
+flake8 = "^7.1.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"

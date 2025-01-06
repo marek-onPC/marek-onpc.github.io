@@ -2,6 +2,7 @@ from typing import Dict, List
 
 import mongomock
 import pytest
+from mongomock import Collection
 
 from helpers.db_client import DatabaseClient
 
@@ -10,7 +11,7 @@ db_name = "DB_NAME"
 db_client = DatabaseClient(db_uri, db_name)
 
 # DATABASE MOCK PREPARATION ------------------------------
-mock_collection = mongomock.MongoClient().db.collections
+mock_collection: Collection = mongomock.MongoClient().db.collections
 documents = [
     {
         "_id": 1,

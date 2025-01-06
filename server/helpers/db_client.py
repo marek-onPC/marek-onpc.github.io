@@ -13,7 +13,9 @@ class DatabaseClient:
         self.db_name = db_name
 
     def db_connection(self, collection_name: str) -> Collection:
-        client = MongoClient(self.db_uri, tls=True, tlsAllowInvalidCertificates=True)
+        client: MongoClient = MongoClient(
+            self.db_uri, tls=True, tlsAllowInvalidCertificates=True
+        )
         database = client[self.db_name]
         collection = database[collection_name]
 

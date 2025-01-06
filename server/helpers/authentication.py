@@ -20,7 +20,7 @@ class Authentication:
     secret_key = os.environ["JWT_SECRET"]
 
     def hash_password(self, password: Password) -> HashedPassword:
-        return self.password_context.hash(password)
+        return HashedPassword(self.password_context.hash(password))
 
     def verify_password(
         self, password: Password, hashed_password: HashedPassword
@@ -32,9 +32,12 @@ class Authentication:
 
         payload = {"exp": expiry_date, "iat": datetime.now(timezone.utc), "sub": user}
 
-        return (jwt.encode(payload, self.secret_key, algorithm="HS256"), expiry_date)
+        return (
+            Token(jwt.encode(payload, self.secret_key, algorithm="HS256")),
+            expiry_date,
+        )
 
-    def decode_jwt(self, token: Token) -> Username:
+    def decode_jwt(self, token: str) -> Username:
         try:
             payload = jwt.decode(token, self.secret_key, algorithms=["HS256"])
 
