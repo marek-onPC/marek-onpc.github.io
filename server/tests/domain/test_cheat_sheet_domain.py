@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import List
 from unittest import mock
 
 import mongomock
@@ -49,14 +49,6 @@ mock_collection.insert_many(documents)
 def _clear_test_db() -> None:
     mock_collection.delete_many({})
     mock_collection.insert_many(documents)
-
-
-def _remove_objectid(doc: Any) -> Any:
-    """Remove the ObjectId field from the document."""
-    doc_copy = doc.copy()  # To avoid modifying the original document
-    if "_id" in doc_copy:
-        del doc_copy["_id"]
-    return doc_copy
 
 
 @pytest.mark.parametrize(
