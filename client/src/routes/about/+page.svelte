@@ -58,7 +58,11 @@
     align-items: center;
     width: 100%;
     max-width: 1200px;
-    margin: 50px;
+    margin: 10px;
+
+    @media (min-width: 600px) {
+      margin: 50px;
+    }
 
     p {
       font-size: 20px;
@@ -87,17 +91,26 @@
       list-style: none;
       counter-reset: list-number;
       padding: 0px;
-      margin-left: 35px;
+
       position: relative;
+
+      @media (min-width: 600px) {
+        margin-left: 35px;
+      }
 
       &::after {
         content: '';
+        display: none;
         height: 150px;
         width: 2px;
         background-color: #42b883;
         position: absolute;
         top: 15px;
         left: 12.5px;
+
+        @media (min-width: 500px) {
+          display: block;
+        }
       }
 
       &-item {
@@ -107,6 +120,12 @@
         color: #fff;
         margin-bottom: 25px;
         z-index: 100;
+        padding-left: 30px;
+        font-size: 16px;
+
+        @media (min-width: 500px) {
+          font-size: 20px;
+        }
 
         &:before {
           content: counter(list-number);
@@ -120,6 +139,7 @@
           margin-right: 45px;
           background-color: #42b883;
           border-radius: 50%;
+          margin-left: -30px;
         }
       }
     }
