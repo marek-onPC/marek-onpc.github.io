@@ -10,8 +10,8 @@
   onMount(() => {
     title = cheatSheetData.title;
 
-    if (title.length > 14) {
-      title = title.slice(0, 14);
+    if (title.length > 25) {
+      title = title.slice(0, 25);
       title += '...';
     }
   });
@@ -30,7 +30,8 @@
 
 <style lang="scss">
   .card {
-    width: 200px;
+    width: auto;
+    max-width: 300px;
     background-color: #fff;
     padding: 15px;
     margin: 0 10px 20px 10px;
@@ -69,7 +70,7 @@
       opacity: 0.75;
       position: absolute;
       right: 15px;
-      top: 12px;
+      bottom: 0px;
       transition: 0.25s ease-in-out;
     }
 

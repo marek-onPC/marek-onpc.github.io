@@ -36,11 +36,14 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-content: flex-start;
 
     a {
       text-decoration: inherit;
       color: inherit;
       cursor: auto;
+      width: 100%;
+      max-width: 300px;
     }
   }
 </style>

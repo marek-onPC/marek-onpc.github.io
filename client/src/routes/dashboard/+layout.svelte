@@ -87,7 +87,7 @@
     display: flex;
     flex-direction: column;
     width: calc(100% - 10px);
-    max-width: 1200px;
+    max-width: 1440px;
     padding: 10px;
     margin: 0 auto;
   }

@@ -46,6 +46,8 @@
       text-decoration: inherit;
       color: inherit;
       cursor: auto;
+      width: 100%;
+      max-width: 300px;
     }
   }
 </style>
