@@ -12,6 +12,10 @@
     }, 125);
 </script>
 
+<svelte:head>
+  <title>marek-onpc</title>
+</svelte:head>
+
 <div class="layout">
   <div class={`${!isNavDisabled ? 'cheat-sheets' : 'home'}`}>
     <nav
