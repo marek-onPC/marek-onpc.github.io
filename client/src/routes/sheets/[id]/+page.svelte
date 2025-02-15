@@ -18,6 +18,8 @@
   import 'prismjs/components/prism-swift.js';
   import 'prismjs/components/prism-css.js';
   import 'prismjs/components/prism-scss.js';
+  import 'prismjs/components/prism-go.js';
+  import 'prismjs/components/prism-java.js';
   import 'prism-svelte';
 
   const cheatSheetId = $page.params.id;
