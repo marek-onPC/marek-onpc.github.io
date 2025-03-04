@@ -8,6 +8,8 @@
   import Modal from '../../../../components/Modal.svelte';
   import { goto } from '$app/navigation';
   import Checkbox from '../../../../components/Checkbox.svelte';
+  import { switchPlaces } from '$lib/arrays';
+  import { flip } from 'svelte/animate';
 
   const cheatSheetId = $page.params.id;
   let isOpenedDeleteModal: boolean = false;
@@ -108,12 +110,12 @@
         <label for="language">language</label>
       </div>
       <Checkbox title="Publish" bind:isChecked={updatedCheatSheetData.is_published} />
-      <button class="button update__delete" on:click={() => (isOpenedDeleteModal = true)}>🗑</button
+      <button class="button update__delete" on:click={() => (isOpenedDeleteModal = true)}>♻</button
       >
     </div>
     {#if updatedCheatSheetData.cards}
-      {#each updatedCheatSheetData.cards as card, index}
-        <div class="update__edit-card-wrapper">
+      {#each updatedCheatSheetData.cards as card, index (card)}
+        <div class="update__edit-card-wrapper" animate:flip={{ duration: 250 }}>
           <input
             class="update__edit-card-title"
             name={`${updatedCheatSheetData.id}_${index}_title`}
@@ -122,7 +124,7 @@
           />
           <label for={`${updatedCheatSheetData.id}_${index}_title`}>subtitle</label>
           <button class="update__remove-card" on:click={() => removeCheatSheetCard(index)}
-            >🗑</button
+            >♻</button
           >
           <div class="update__edit-card-divider"></div>
           <textarea
@@ -134,6 +136,31 @@
           <label class="update__edit-card-label" for={`${updatedCheatSheetData.id}_${index}`}
             >cheat-sheet content</label
           >
+          {#if updatedCheatSheetData.cards}
+            {#if index > 0}
+              <button
+                class="update__move-up-card arrow-up"
+                on:click={() =>
+                  (updatedCheatSheetData.cards = switchPlaces(
+                    updatedCheatSheetData.cards || [],
+                    index,
+                    index - 1
+                  ))}>▲</button
+              >
+            {/if}
+
+            {#if index < updatedCheatSheetData.cards.length - 1}
+              <button
+                class="update__move-down-card"
+                on:click={() =>
+                  (updatedCheatSheetData.cards = switchPlaces(
+                    updatedCheatSheetData.cards || [],
+                    index,
+                    index + 1
+                  ))}>▼</button
+              >
+            {/if}
+          {/if}
         </div>
       {/each}
     {/if}
@@ -194,13 +221,14 @@
       height: 60px !important;
       width: 65px;
       font-weight: 800;
-      font-size: 30px;
+      font-size: 40px;
       line-height: 22px;
       transition: 0.25s ease-in-out;
       cursor: pointer;
       border-width: 0px;
       border-radius: 5px;
       margin-left: 15px;
+      padding-top: 3px;
 
       &:hover {
         background-color: rgb(107, 9, 9);
@@ -210,7 +238,7 @@
     &__edit-card-title {
       font-weight: 600;
       text-align: center;
-      padding: 25px 10px 10px 10px;
+      padding: 25px 35px 10px 35px;
       border-radius: 5px;
       border: 2px solid #fff;
       transition: 0.25s ease-in-out;
@@ -253,16 +281,42 @@
       left: 0;
       color: #fff;
       background-color: rgb(165, 2, 2);
-      height: 24px !important;
-      width: 20px;
+      height: 32px !important;
+      width: 24px;
+      font-size: 24px;
       font-weight: 800;
       line-height: 22px;
-      padding: 0px 5px;
+      padding: 0px 0px 5px 0;
       border-top-left-radius: 5px;
       border-bottom-right-radius: 5px;
       transition: 0.25s ease-in-out;
       cursor: pointer;
       border-width: 0px;
+    }
+
+    &__move-up-card,
+    &__move-down-card {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: #fff;
+      background-color: #42b883;
+      height: 23px !important;
+      width: 23px;
+      font-weight: 800;
+      line-height: 22px;
+      padding: 0px 5px;
+      transition: 0.25s ease-in-out;
+      cursor: pointer;
+      border-width: 0px;
+
+      &.arrow-up {
+        border-top-right-radius: 5px;
+      }
+    }
+
+    &__move-down-card {
+      top: 28px;
     }
 
     &__title-wrapper,
@@ -310,13 +364,13 @@
 
       label {
         top: 5px;
-        left: 25px;
+        left: 29px;
       }
 
       &:focus-within {
         label {
           top: 3.5px;
-          left: 22.5px;
+          left: 23px;
         }
 
         .update__edit-card-label {
@@ -338,7 +392,7 @@
 
         .update__edit-card-content,
         .update__edit-card-title {
-          padding: 20px 10px 10px 10px;
+          padding: 20px 35px 10px 10px;
           outline: none;
           border: 2px solid #42b883;
         }
@@ -358,6 +412,10 @@
           padding: 10px 10px 10px;
           min-height: 300px;
           border-top: none;
+        }
+
+        .update__move-down-card {
+          top: 23px;
         }
       }
     }
