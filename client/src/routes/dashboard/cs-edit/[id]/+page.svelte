@@ -309,7 +309,9 @@
       transition: 0.25s ease-in-out;
       cursor: pointer;
       border-width: 0px;
+    }
 
+    &__move-up-card {
       &.arrow-up {
         border-top-right-radius: 5px;
       }
