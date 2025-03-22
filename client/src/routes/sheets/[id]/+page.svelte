@@ -2,7 +2,7 @@
   import { page } from '$app/stores';
   import { fetchClientGetWithoutToken } from '$lib/fetchClient';
   import { onMount } from 'svelte';
-  import type { CheatSheetWithContentType } from '../../../types.js';
+  import type { CheatSheetContent, CheatSheetWithContentType } from '../../../types.js';
   import Loader from '../../../components/Loader.svelte';
 
   // Prism
@@ -21,10 +21,13 @@
   import 'prismjs/components/prism-go.js';
   import 'prismjs/components/prism-java.js';
   import 'prism-svelte';
+  import FullCheatSheet from '../../../components/FullCheatSheet.svelte';
 
   const cheatSheetId = $page.params.id;
   let cheatSheetData: CheatSheetWithContentType;
   let language: string = 'markup';
+  let showFullCheatSheet: boolean = false;
+  let fullCheatSheetData: CheatSheetContent = { subtitle: '', content: '' };
 
   const loadCheatSheet = async () => {
     try {
@@ -34,6 +37,22 @@
     } catch (e) {
       console.log(e);
     }
+  };
+
+  const openFullCheatSheetModal = ({ subtitle, content }: CheatSheetContent) => {
+    fullCheatSheetData = {
+      subtitle,
+      content
+    };
+    showFullCheatSheet = true;
+  };
+
+  const closeFullCheatSheetModal = () => {
+    fullCheatSheetData = {
+      subtitle: '',
+      content: ''
+    };
+    showFullCheatSheet = false;
   };
 
   onMount(async () => {
@@ -53,12 +72,25 @@
             <h3 class="sheet__card-title">
               {card.subtitle}
             </h3>
+            <button
+              on:click={() =>
+                openFullCheatSheetModal({ subtitle: card.subtitle, content: card.content })}
+              >MAGNI</button
+            >
             <pre class={`language-${language}`}><code class={`language-${language}`}
                 >{@html Prism.highlight(card.content, Prism.languages[language], language)}</code
               ></pre>
           </div>
         {/each}
       </div>
+      {#if showFullCheatSheet}
+        <FullCheatSheet
+          title={fullCheatSheetData.subtitle}
+          content={fullCheatSheetData.content}
+          {language}
+          closeCallback={closeFullCheatSheetModal}
+        />
+      {/if}
     {/if}
   {:else}
     <Loader />
