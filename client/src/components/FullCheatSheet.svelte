@@ -5,17 +5,22 @@
   export let closeCallback: () => void;
 
   import Prism from 'prismjs';
+  import { fade, scale } from 'svelte/transition';
 </script>
 
-<div class="full-cs__outer">
-  <div class="full-cs__inner">
+<div class="full-cs__outer" in:fade={{ duration: 350 }} out:fade={{ duration: 350, delay: 250 }}>
+  <div
+    class="full-cs__inner"
+    in:scale={{ duration: 350, delay: 250 }}
+    out:scale={{ duration: 350 }}
+  >
     <h3 class="full-cs__title">
       {title}
     </h3>
     <pre class={`language-${language}`}><code class={`language-${language}`}
         >{@html Prism.highlight(content, Prism.languages[language], language)}</code
       ></pre>
-    <button on:click={closeCallback}>Close</button>
+    <button class="button full-cs__button" on:click={closeCallback}>Close</button>
   </div>
 </div>
 
@@ -25,7 +30,7 @@
       position: fixed;
       top: 0;
       left: 0;
-      background-color: rgba(0, 0, 0, 0.227);
+      background-color: rgba(0, 0, 0, 0.5);
       height: 100vh;
       width: 100vw;
       display: flex;
@@ -40,6 +45,8 @@
       width: calc(100vw - 100px);
       box-sizing: border-box;
       background-color: white;
+      border: 2px solid #42b883;
+      border-radius: 5px;
 
       pre {
         min-height: calc(100% - 200px) !important;
@@ -65,6 +72,10 @@
       @media (min-width: 1200px) {
         font-size: 3rem;
       }
+    }
+
+    &__button {
+      margin: auto;
     }
   }
 </style>

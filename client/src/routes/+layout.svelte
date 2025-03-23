@@ -46,6 +46,10 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  :global(.--no-scroll) {
+    overflow: hidden;
+  }
+
   .cheat-sheets {
     display: flex;
     flex-direction: column;
