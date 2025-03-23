@@ -2,7 +2,7 @@
   import { page } from '$app/stores';
   import { fetchClientGetWithoutToken } from '$lib/fetchClient';
   import { onMount } from 'svelte';
-  import type { CheatSheetWithContentType } from '../../../types.js';
+  import type { CheatSheetContent, CheatSheetWithContentType } from '../../../types.js';
   import Loader from '../../../components/Loader.svelte';
 
   // Prism
@@ -21,10 +21,13 @@
   import 'prismjs/components/prism-go.js';
   import 'prismjs/components/prism-java.js';
   import 'prism-svelte';
+  import FullCheatSheet from '../../../components/FullCheatSheet.svelte';
 
   const cheatSheetId = $page.params.id;
   let cheatSheetData: CheatSheetWithContentType;
   let language: string = 'markup';
+  let showFullCheatSheet: boolean = false;
+  let fullCheatSheetData: CheatSheetContent = { subtitle: '', content: '' };
 
   const loadCheatSheet = async () => {
     try {
@@ -34,6 +37,24 @@
     } catch (e) {
       console.log(e);
     }
+  };
+
+  const openFullCheatSheetModal = ({ subtitle, content }: CheatSheetContent) => {
+    fullCheatSheetData = {
+      subtitle,
+      content
+    };
+    showFullCheatSheet = true;
+    document.body.classList.add('--no-scroll');
+  };
+
+  const closeFullCheatSheetModal = () => {
+    fullCheatSheetData = {
+      subtitle: '',
+      content: ''
+    };
+    showFullCheatSheet = false;
+    document.body.classList.remove('--no-scroll');
   };
 
   onMount(async () => {
@@ -50,15 +71,30 @@
       <div class="sheet__cards">
         {#each cheatSheetData.cards as card}
           <div class="sheet__card-wrapper">
-            <h3 class="sheet__card-title">
-              {card.subtitle}
-            </h3>
+            <div class="sheet__card-title">
+              <h3>{card.subtitle}</h3>
+              <button
+                class="button sheet__card-button"
+                on:click={() =>
+                  openFullCheatSheetModal({ subtitle: card.subtitle, content: card.content })}
+                >❏</button
+              >
+            </div>
+
             <pre class={`language-${language}`}><code class={`language-${language}`}
                 >{@html Prism.highlight(card.content, Prism.languages[language], language)}</code
               ></pre>
           </div>
         {/each}
       </div>
+      {#if showFullCheatSheet}
+        <FullCheatSheet
+          title={fullCheatSheetData.subtitle}
+          content={fullCheatSheetData.content}
+          {language}
+          closeCallback={closeFullCheatSheetModal}
+        />
+      {/if}
     {/if}
   {:else}
     <Loader />
@@ -128,13 +164,29 @@
     }
 
     &__card-title {
-      font-weight: 400;
-      font-size: 20px;
-      margin-top: 0;
-      margin-bottom: 10px;
-      padding-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
       border-bottom: 1px solid #42b883;
-      transition: 0.25s ease-in-out;
+
+      h3 {
+        width: 100%;
+        font-weight: 400;
+        font-size: 20px;
+        margin-top: 0;
+        margin-bottom: 10px;
+        margin-right: 15px;
+        padding-bottom: 10px;
+        transition: 0.25s ease-in-out;
+      }
+    }
+
+    &__card-button {
+      height: 32px !important;
+      width: 34px;
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 22px;
+      padding: 0px 0px 8px 0;
     }
   }
 </style>
