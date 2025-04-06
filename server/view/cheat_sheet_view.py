@@ -1,6 +1,6 @@
 from typing import Literal, Optional
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 
 from domain import cheat_sheet_domain
 from helpers.authentication import Authentication
@@ -21,7 +21,7 @@ authentication = Authentication()
 
 
 @router.get("/cheat_sheets")
-def cheat_sheets(
+def get_cheat_sheets(
     is_published__list: list[Literal[True, False]] = Depends(bool_list_serializer),
     username: Optional[Username] = Depends(authentication.optional_auth_wrapper),
 ) -> list[CheatSheetSchema] | None:
@@ -47,33 +47,24 @@ def get_cheat_sheet_by_id(
 @router.post("/cheat_sheets")
 def post_cheat_sheet(
     cheat_sheet_data: UnsavedCheatSheetSchema,
-    username: Username = Depends(authentication.auth_wrapper),
+    _: Username = Depends(authentication.auth_wrapper),
 ) -> MongoInsert:
-    if username:
-        return cheat_sheet_domain.create_cheat_sheet(cheat_sheet_data=cheat_sheet_data)
-    else:
-        raise HTTPException(status_code=401, detail="Non authenticated")
+    return cheat_sheet_domain.create_cheat_sheet(cheat_sheet_data=cheat_sheet_data)
 
 
 @router.patch("/cheat_sheets/{id}")
 def patch_cheat_sheet(
     id: str,
     cheat_sheet_data: UpdateCheatSheetSchema,
-    username: Username = Depends(authentication.auth_wrapper),
+    _: Username = Depends(authentication.auth_wrapper),
 ) -> MongoUpdate:
-    if username:
-        return cheat_sheet_domain.patch_cheat_sheet(
-            id=id, cheat_sheet_data=cheat_sheet_data
-        )
-    else:
-        raise HTTPException(status_code=401, detail="Non authenticated")
+    return cheat_sheet_domain.patch_cheat_sheet(
+        id=id, cheat_sheet_data=cheat_sheet_data
+    )
 
 
 @router.delete("/cheat_sheets/{id}")
 def delete_cheat_sheet(
-    id: str, username: Username = Depends(authentication.auth_wrapper)
+    id: str, _: Username = Depends(authentication.auth_wrapper)
 ) -> MongoDelete:
-    if username:
-        return cheat_sheet_domain.delete_cheat_sheet(id=id)
-    else:
-        raise HTTPException(status_code=401, detail="Non authenticated")
+    return cheat_sheet_domain.delete_cheat_sheet(id=id)
