@@ -1,13 +1,22 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
 
 from domain import login_domain
 from helpers.authentication import Authentication
-from schemas import AuthenticationDetails, LoginToken
+from schemas import AuthenticationDetails, AuthToken
 
 router = APIRouter(prefix="/api")
 authentication = Authentication()
 
 
-@router.post("/login")
-def login(auth_details: AuthenticationDetails) -> LoginToken:
-    return login_domain.login(auth_details=auth_details)
+@router.post("/login", response_model=AuthToken)
+def login(auth_details: AuthenticationDetails) -> Response:
+    token = login_domain.login(auth_details=auth_details).model_dump_json()
+
+    response = Response(
+        content=token,
+        media_type="application/json",
+        status_code=200,
+        headers={"cache-control": "no-store"},
+    )
+
+    return response

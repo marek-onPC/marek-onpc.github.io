@@ -1,5 +1,5 @@
 from enum import StrEnum
-from typing import NewType, Optional
+from typing import Literal, NewType, Optional
 
 from pydantic import BaseModel
 
@@ -25,9 +25,27 @@ class User(BaseModel):
     password: HashedPassword
 
 
-class LoginToken(BaseModel):
-    token: Token
-    expiry: float
+class AuthToken(BaseModel):
+    access_token: str
+    token_type: Literal["Bearer"]
+    expires_in: int
+    refresh_token: Optional[str] = None
+
+
+class AccessToken(BaseModel):
+    iss: str
+    sub: str
+    aud: list[str]
+    exp: float
+    iat: float
+
+
+class RefreshToken(BaseModel):
+    iss: str
+    sub: str
+    aud: list[str]
+    exp: float
+    iat: float
 
 
 class CheatSheetContent(BaseModel):

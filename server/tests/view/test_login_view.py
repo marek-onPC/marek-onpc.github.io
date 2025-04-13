@@ -6,7 +6,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from main import app
-from schemas import LoginToken, Token
+from schemas import AuthToken, Token
 
 client = TestClient(app)
 
@@ -22,14 +22,14 @@ EXIRY = datetime.now(timezone.utc) + timedelta(days=0, hours=8)
                 "username": "user@test.com",
                 "password": "password",
             },
-            LoginToken(token=Token("xxx.yyy.zzz"), expiry=EXIRY.timestamp()),
+            AuthToken(token=Token("xxx.yyy.zzz"), expiry=EXIRY.timestamp()),
             {"token": "xxx.yyy.zzz", "expiry": EXIRY.timestamp()},
         ),
     ],
 )
 @mock.patch("domain.login_domain.login")
 def test_login(
-    mock_domain_login: MagicMock, payload: dict, token: LoginToken, expected_token: dict
+    mock_domain_login: MagicMock, payload: dict, token: AuthToken, expected_token: dict
 ) -> None:
     mock_domain_login.return_value = token
 

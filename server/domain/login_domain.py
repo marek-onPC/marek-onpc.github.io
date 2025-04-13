@@ -7,7 +7,7 @@ from fastapi import HTTPException
 
 from helpers.authentication import Authentication
 from helpers.db_client import DatabaseClient
-from schemas import AuthenticationDetails, LoginToken, User, Username
+from schemas import AuthenticationDetails, AuthToken, User, Username
 
 load_dotenv()
 
@@ -41,7 +41,7 @@ def get_user(username: Username) -> Optional[User]:
     return _bson_user_to_object(bson_document=user) if user else None
 
 
-def login(auth_details: AuthenticationDetails) -> LoginToken:
+def login(auth_details: AuthenticationDetails) -> AuthToken:
     if auth_details.grant_type != "password":
         raise HTTPException(status_code=400, detail="Invalid grant type")
 
@@ -55,6 +55,4 @@ def login(auth_details: AuthenticationDetails) -> LoginToken:
     ):
         raise HTTPException(status_code=401, detail="Wrong password")
 
-    token, expiry = authentication.encode_jwt(user.username)
-
-    return LoginToken(token=token, expiry=expiry.timestamp())
+    return authentication.encode_jwt(user.username)

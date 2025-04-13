@@ -13,7 +13,7 @@ from helpers.authentication import Authentication
 from schemas import (
     AllowedGrandTypes,
     AuthenticationDetails,
-    LoginToken,
+    AuthToken,
     Password,
     User,
     Username,
@@ -135,7 +135,7 @@ def test_login(
     )
     result = login(auth_details)
 
-    assert isinstance(result, LoginToken)
+    assert isinstance(result, AuthToken)
     assert isinstance(result.token, str)
     assert result.expiry < expired_token_date.timestamp()
 
