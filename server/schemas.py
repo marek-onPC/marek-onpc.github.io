@@ -1,3 +1,4 @@
+from enum import StrEnum
 from typing import NewType, Optional
 
 from pydantic import BaseModel
@@ -9,7 +10,12 @@ Token = NewType("Token", str)
 CheatSheetID = NewType("CheatSheetID", str)
 
 
-class AuthDetails(BaseModel):
+class AllowedGrandTypes(StrEnum):
+    PASSWORD = "password"
+
+
+class AuthenticationDetails(BaseModel):
+    grant_type: AllowedGrandTypes
     username: Username
     password: Password
 

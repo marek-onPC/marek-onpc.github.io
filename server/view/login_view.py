@@ -1,15 +1,13 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter
 
 from domain import login_domain
 from helpers.authentication import Authentication
-from schemas import AuthDetails, LoginToken, Password, Username
+from schemas import AuthenticationDetails, LoginToken
 
 router = APIRouter(prefix="/api")
 authentication = Authentication()
 
 
 @router.post("/login")
-def login(username: Username = Body(...), password: Password = Body(...)) -> LoginToken:
-    auth_details = AuthDetails(username=username, password=password)
-
+def login(auth_details: AuthenticationDetails) -> LoginToken:
     return login_domain.login(auth_details=auth_details)

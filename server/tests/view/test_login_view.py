@@ -17,7 +17,11 @@ EXIRY = datetime.now(timezone.utc) + timedelta(days=0, hours=8)
     "payload, token, expected_token",
     [
         pytest.param(
-            {"username": "user@test.com", "password": "password"},
+            {
+                "grant_type": "password",
+                "username": "user@test.com",
+                "password": "password",
+            },
             LoginToken(token=Token("xxx.yyy.zzz"), expiry=EXIRY.timestamp()),
             {"token": "xxx.yyy.zzz", "expiry": EXIRY.timestamp()},
         ),
@@ -42,7 +46,20 @@ def test_login(
             {
                 "detail": [
                     {
-                        "input": None,
+                        "input": {
+                            "password": "password",
+                        },
+                        "loc": [
+                            "body",
+                            "grant_type",
+                        ],
+                        "msg": "Field required",
+                        "type": "missing",
+                    },
+                    {
+                        "input": {
+                            "password": "password",
+                        },
                         "loc": [
                             "body",
                             "username",
@@ -58,7 +75,49 @@ def test_login(
             {
                 "detail": [
                     {
-                        "input": None,
+                        "input": {
+                            "username": "user@test.com",
+                        },
+                        "loc": [
+                            "body",
+                            "grant_type",
+                        ],
+                        "msg": "Field required",
+                        "type": "missing",
+                    },
+                    {
+                        "input": {
+                            "username": "user@test.com",
+                        },
+                        "loc": [
+                            "body",
+                            "password",
+                        ],
+                        "msg": "Field required",
+                        "type": "missing",
+                    },
+                ],
+            },
+        ),
+        pytest.param(
+            {"grant_type": "password"},
+            {
+                "detail": [
+                    {
+                        "input": {
+                            "grant_type": "password",
+                        },
+                        "loc": [
+                            "body",
+                            "username",
+                        ],
+                        "msg": "Field required",
+                        "type": "missing",
+                    },
+                    {
+                        "input": {
+                            "grant_type": "password",
+                        },
                         "loc": [
                             "body",
                             "password",

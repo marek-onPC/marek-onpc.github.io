@@ -10,7 +10,14 @@ from mongomock import Collection
 
 from domain.login_domain import _bson_user_to_object, get_user, login
 from helpers.authentication import Authentication
-from schemas import AuthDetails, LoginToken, Password, User, Username
+from schemas import (
+    AllowedGrandTypes,
+    AuthenticationDetails,
+    LoginToken,
+    Password,
+    User,
+    Username,
+)
 
 db_name = "DB_NAME"
 db_name = "DB_COLL"
@@ -110,13 +117,19 @@ def test_get_user(username: Username, expected_user_object: User | None) -> None
     "auth_details, expected_username",
     [
         pytest.param(
-            AuthDetails(username=Username("user@test.com"), password=raw_password),
+            AuthenticationDetails(
+                grant_type=AllowedGrandTypes.PASSWORD,
+                username=Username("user@test.com"),
+                password=raw_password,
+            ),
             Username("user@test.com"),
         ),
     ],
 )
 @mock.patch("domain.login_domain.db_client", mock_collection)
-def test_login(auth_details: AuthDetails, expected_username: User | None) -> None:
+def test_login(
+    auth_details: AuthenticationDetails, expected_username: User | None
+) -> None:
     expired_token_date = datetime.now(timezone.utc) + timedelta(
         days=0, hours=8, minutes=1
     )
@@ -135,19 +148,27 @@ def test_login(auth_details: AuthDetails, expected_username: User | None) -> Non
     "auth_details, expected_error",
     [
         pytest.param(
-            AuthDetails(
-                username=Username("non_exists@test.com"), password=raw_password
+            AuthenticationDetails(
+                grant_type=AllowedGrandTypes.PASSWORD,
+                username=Username("non_exists@test.com"),
+                password=raw_password,
             ),
             "Wrong user",
         ),
         pytest.param(
-            AuthDetails(username=Username("user@test.com"), password="wrong_pass"),
+            AuthenticationDetails(
+                grant_type=AllowedGrandTypes.PASSWORD,
+                username=Username("user@test.com"),
+                password="wrong_pass",
+            ),
             "Wrong password",
         ),
     ],
 )
 @mock.patch("domain.login_domain.db_client", mock_collection)
-def test_login__erorrs(auth_details: AuthDetails, expected_error: str) -> None:
+def test_login__erorrs(
+    auth_details: AuthenticationDetails, expected_error: str
+) -> None:
     with pytest.raises(HTTPException) as error:
         login(auth_details)
 
