@@ -78,7 +78,9 @@
       <div transition:fade={{ delay: 750 }} class="content__right">
         <a href="/sheets" class="button">Cheat sheets</a>
         <a href="/about" class="button">About</a>
-        <a href="https://github.com/marek-onPC" target="_blank" class="button"><FontAwesomeIcon icon={faGithub} size="2x" /></a>
+        <a href="https://github.com/marek-onPC" target="_blank" class="button"
+          ><FontAwesomeIcon icon={faGithub} size="2x" /></a
+        >
       </div>
     {/if}
   </div>
