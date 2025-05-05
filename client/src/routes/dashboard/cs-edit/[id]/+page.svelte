@@ -19,8 +19,8 @@
 
   const loadCheatSheet = async () => {
     try {
-      const cheetSheet = await fetchClientGet(`/cheat_sheets/${cheatSheetId}`, $sessionToken.token);
-      initCheatSheetData = cheetSheet.data as CheatSheetWithContentType;
+      const cheatSheet = await fetchClientGet(`/cheat_sheets/${cheatSheetId}`, $sessionToken.token);
+      initCheatSheetData = cheatSheet.data as CheatSheetWithContentType;
       updatedCheatSheetData = structuredClone(initCheatSheetData);
     } catch (e) {
       console.log(e);

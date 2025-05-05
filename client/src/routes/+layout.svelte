@@ -22,7 +22,7 @@
       class={`navigation ${!data.url.match(URL) ? '--faded' : ''} ${isNavDisabled ? '--disabled' : ''}`}
     >
       <a class="button navigation__button" href="/">Home</a>
-      <a class="button navigation__button" href="/sheets">Cheet sheets</a>
+      <a class="button navigation__button" href="/sheets">Cheat sheets</a>
       <a class="button navigation__button" href="/about">About</a>
     </nav>
     {#key data.url}
@@ -98,6 +98,7 @@
 
     &__transition {
       display: flex;
+      flex-direction: column;
       width: 100%;
       min-height: calc(100vh - 10px);
       overflow: hidden;
@@ -105,7 +106,7 @@
       &.--nav-on {
         width: 100%;
         min-height: calc(100vh - 145px);
-        justify-content: center;
+        justify-content: start;
       }
 
       &.--nav-off {
