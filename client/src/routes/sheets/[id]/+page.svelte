@@ -31,8 +31,8 @@
 
   const loadCheatSheet = async () => {
     try {
-      const cheetSheet = await fetchClientGetWithoutToken(`/cheat_sheets/${cheatSheetId}`);
-      cheatSheetData = cheetSheet.data as CheatSheetWithContentType;
+      const cheatSheet = await fetchClientGetWithoutToken(`/cheat_sheets/${cheatSheetId}`);
+      cheatSheetData = cheatSheet.data as CheatSheetWithContentType;
       language = cheatSheetData.language ? cheatSheetData.language : 'markup';
     } catch (e) {
       console.log(e);
