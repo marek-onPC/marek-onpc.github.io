@@ -5,7 +5,7 @@
   </p>
   <p>
     I am currently working as a <span style="color: #42b883; font-weight: 400"
-      >Lead Software Engineer</span
+      >Software Engineering Team Lead</span
     >.
   </p>
   <p>
