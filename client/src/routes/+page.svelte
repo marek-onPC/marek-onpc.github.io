@@ -3,10 +3,10 @@
     faJs,
     faReact,
     faPython,
-    faNode,
     faSass,
-    faPhp,
-    faGithub
+    faDocker,
+    faGithub,
+    faGit
   } from '@fortawesome/free-brands-svg-icons';
   import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
   import { fade } from 'svelte/transition';
@@ -28,16 +28,12 @@
       color: '#4B8BBE'
     },
     {
-      icon: faNode,
-      color: '#6CC24A'
-    },
-    {
-      icon: faPhp,
-      color: '#B0B3D6'
-    },
-    {
       icon: faSass,
       color: '#CC6699'
+    },
+    {
+      icon: faDocker,
+      color: '#0DB7ED'
     }
   ];
 
@@ -69,7 +65,7 @@
         <div transition:fade={{ delay: 1000 }} class="content__border"></div>
         <div transition:fade={{ delay: 1500 }}>
           {#each ICONS as icon}
-            <div style="display: inline-block; padding-right: 10px; color: {icon.color}">
+            <div style="display: inline-block; padding-right: 25px; color: {icon.color}">
               <FontAwesomeIcon icon={icon.icon} color={icon.color} pull="left" size="3x" />
             </div>
           {/each}
@@ -219,7 +215,7 @@
 
     &__border {
       width: 100%;
-      max-width: 435px;
+      max-width: 415px;
       height: 1px;
       margin-top: 60px;
       margin-bottom: 25px;
