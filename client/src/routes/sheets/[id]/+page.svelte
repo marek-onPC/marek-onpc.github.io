@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { fetchClientGetWithoutToken } from '$lib/fetchClient';
+  import { fetchClientGet } from '$lib/fetchClient';
   import { onMount } from 'svelte';
   import type { CheatSheetContent, CheatSheetWithContentType } from '../../../types.js';
   import Loader from '../../../components/Loader.svelte';
@@ -22,6 +22,7 @@
   import 'prismjs/components/prism-java.js';
   import 'prism-svelte';
   import FullCheatSheet from '../../../components/FullCheatSheet.svelte';
+  import { sessionToken } from '../../../stores.js';
 
   const cheatSheetId = $page.params.id;
   let cheatSheetData: CheatSheetWithContentType;
@@ -31,7 +32,7 @@
 
   const loadCheatSheet = async () => {
     try {
-      const cheatSheet = await fetchClientGetWithoutToken(`/cheat_sheets/${cheatSheetId}`);
+      const cheatSheet = await fetchClientGet(`/cheat_sheets/${cheatSheetId}`, $sessionToken.token);
       cheatSheetData = cheatSheet.data as CheatSheetWithContentType;
       language = cheatSheetData.language ? cheatSheetData.language : 'markup';
     } catch (e) {

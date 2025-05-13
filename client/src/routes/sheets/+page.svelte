@@ -1,10 +1,11 @@
 <script lang="ts">
-  import { fetchClientGetWithoutToken } from '$lib/fetchClient';
+  import { fetchClientGet, fetchClientGetWithoutToken } from '$lib/fetchClient';
   import { onMount } from 'svelte';
   import type { CheatSheetWithContentType } from '../../types';
   import Card from '../../components/Card.svelte';
   import Loader from '../../components/Loader.svelte';
   import { slide } from 'svelte/transition';
+  import { sessionToken } from '../../stores';
 
   let cheatSheetsData: Array<CheatSheetWithContentType>;
   let isLongLoading = false;
@@ -12,6 +13,18 @@
   const loadCheatSheets = async () => {
     try {
       const raw = await fetchClientGetWithoutToken('/cheat_sheets');
+      cheatSheetsData = raw.data as Array<CheatSheetWithContentType>;
+      isLongLoading = false;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const loadAllCheatSheets = async () => {
+    try {
+      const raw = await fetchClientGet('/cheat_sheets', $sessionToken.token, {
+        is_published__list: [true, false]
+      });
       cheatSheetsData = raw.data as Array<CheatSheetWithContentType>;
       isLongLoading = false;
     } catch (e) {
@@ -28,7 +41,11 @@
   };
 
   onMount(() => {
-    loadCheatSheets();
+    if (!$sessionToken.token || $sessionToken.expiry < new Date()) {
+      loadCheatSheets();
+    } else {
+      loadAllCheatSheets();
+    }
     setTimeout(() => {
       checkLoading();
     }, 3000);
