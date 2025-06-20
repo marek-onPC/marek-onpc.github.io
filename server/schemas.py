@@ -6,7 +6,6 @@ from pydantic import BaseModel
 Username = NewType("Username", str)
 Password = NewType("Password", str)
 HashedPassword = NewType("HashedPassword", str)
-Token = NewType("Token", str)
 CheatSheetID = NewType("CheatSheetID", str)
 
 

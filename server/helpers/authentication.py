@@ -79,8 +79,12 @@ class Authentication:
 
     def decode_jwt(self, token: str) -> Username:
         try:
-            payload = jwt.decode(token, self.secret_key, algorithms=["HS256"])
-
+            payload = jwt.decode(
+                jwt=token,
+                key=self.secret_key,
+                algorithms=[self.algorithm],
+                audience=[self.audience],
+            )
             return payload["sub"]
         except jwt.ExpiredSignatureError:
             raise HTTPException(status_code=401, detail="Signature expired")
