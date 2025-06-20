@@ -32,7 +32,10 @@
 
   const loadCheatSheet = async () => {
     try {
-      const cheatSheet = await fetchClientGet(`/cheat_sheets/${cheatSheetId}`, $sessionToken.token);
+      const cheatSheet = await fetchClientGet(
+        `/cheat_sheets/${cheatSheetId}`,
+        $sessionToken.accessToken
+      );
       cheatSheetData = cheatSheet.data as CheatSheetWithContentType;
       language = cheatSheetData.language ? cheatSheetData.language : 'markup';
     } catch (e) {

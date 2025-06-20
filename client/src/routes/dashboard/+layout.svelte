@@ -17,7 +17,7 @@
       isLoadingNewCheatSheet = true;
       isError = false;
 
-      const newCheatSheetID = await fetchClientPost('/cheat_sheets', $sessionToken.token, {
+      const newCheatSheetID = await fetchClientPost('/cheat_sheets', $sessionToken.accessToken, {
         title: 'New cheat sheet',
         is_published: false
       });
@@ -31,12 +31,12 @@
 
   const logoutHandler = () => {
     removeTokenInMemory();
-    sessionToken.set({ token: '', expiry: new Date() });
+    sessionToken.set({ accessToken: '', refreshToken: '', expiry: new Date(), tokenType: '' });
     goto('/login');
   };
 
   onMount(() => {
-    if (!$sessionToken.token || $sessionToken.expiry < new Date()) {
+    if (!$sessionToken.accessToken || $sessionToken.expiry < new Date()) {
       goto('/login');
       return;
     }
@@ -57,7 +57,7 @@
 </script>
 
 <div class="dashboard">
-  {#if !$sessionToken.token || $sessionToken.expiry < new Date()}
+  {#if !$sessionToken.accessToken || $sessionToken.expiry < new Date()}
     <Loader />
   {:else}
     {#if hasTokenExpired}
