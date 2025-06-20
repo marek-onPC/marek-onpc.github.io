@@ -136,10 +136,12 @@ def test_login(
     result = login(auth_details)
 
     assert isinstance(result, AuthToken)
-    assert isinstance(result.token, str)
-    assert result.expiry < expired_token_date.timestamp()
+    assert isinstance(result.access_token, str)
+    assert isinstance(result.refresh_token, str)
+    assert isinstance(result.token_type, str)
+    assert result.expires_in < expired_token_date.timestamp()
 
-    decoded_jwt = authentication.decode_jwt(result.token)
+    decoded_jwt = authentication.decode_jwt(result.access_token)
 
     assert decoded_jwt == expected_username
 

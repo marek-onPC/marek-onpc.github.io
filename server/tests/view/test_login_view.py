@@ -6,7 +6,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from main import app
-from schemas import AuthToken, Token
+from schemas import AuthToken
 
 client = TestClient(app)
 
@@ -22,8 +22,18 @@ EXIRY = datetime.now(timezone.utc) + timedelta(days=0, hours=8)
                 "username": "user@test.com",
                 "password": "password",
             },
-            AuthToken(token=Token("xxx.yyy.zzz"), expiry=EXIRY.timestamp()),
-            {"token": "xxx.yyy.zzz", "expiry": EXIRY.timestamp()},
+            AuthToken(
+                access_token="xxx.yyy.zzz",
+                token_type="Bearer",
+                expires_in=EXIRY.timestamp().as_integer_ratio()[0],
+                refresh_token="xxx.yyy.zzz",
+            ),
+            {
+                "access_token": "xxx.yyy.zzz",
+                "token_type": "Bearer",
+                "expires_in": EXIRY.timestamp().as_integer_ratio()[0],
+                "refresh_token": "xxx.yyy.zzz",
+            },
         ),
     ],
 )
