@@ -1,16 +1,33 @@
 import type { IconDefinition } from '@fortawesome/free-brands-svg-icons';
 
-export type AuthTokenResponse = {
-  token: string;
-  expiry: number;
+// Camel case to snake_case conversion
+export type CamelToSnakeKeys<KeyToConvert extends string | number | symbol> =
+  KeyToConvert extends `${infer FirstPartOfKey}${infer SecondPartOfKey}`
+    ? `${FirstPartOfKey extends Capitalize<FirstPartOfKey> ? '_' : ''}${Lowercase<FirstPartOfKey>}${CamelToSnakeKeys<SecondPartOfKey>}`
+    : KeyToConvert;
+
+export type CamelCaseObjectToDeepSnake<CamelCaseObject> = {
+  [ObjectsKey in keyof CamelCaseObject as CamelToSnakeKeys<ObjectsKey>]: CamelCaseObjectToDeepSnake<
+    CamelCaseObject[ObjectsKey]
+  >;
 };
+// Camel case to snake_case conversion
 
 export type AuthToken = {
-  token: string;
+  accessToken: string;
+  tokenType: string;
   expiry: Date;
+  refreshToken: string;
 };
 
+// export type AuthTokenResponse = CamelCaseObjectToDeepSnake<AuthToken> | { expires_in: number };
+
+export interface AuthTokenResponse extends CamelCaseObjectToDeepSnake<Omit<AuthToken, 'expiry'>> {
+  expires_in: number;
+}
+
 export type AuthCredentials = {
+  grant_type: string;
   username: string;
   password: string;
 };
