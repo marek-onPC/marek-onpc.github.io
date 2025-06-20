@@ -1,15 +1,20 @@
-from typing import NewType, Optional
+from enum import StrEnum
+from typing import Literal, NewType, Optional
 
 from pydantic import BaseModel
 
 Username = NewType("Username", str)
 Password = NewType("Password", str)
 HashedPassword = NewType("HashedPassword", str)
-Token = NewType("Token", str)
 CheatSheetID = NewType("CheatSheetID", str)
 
 
-class AuthDetails(BaseModel):
+class AllowedGrandTypes(StrEnum):
+    PASSWORD = "password"
+
+
+class AuthenticationDetails(BaseModel):
+    grant_type: AllowedGrandTypes
     username: Username
     password: Password
 
@@ -19,9 +24,27 @@ class User(BaseModel):
     password: HashedPassword
 
 
-class LoginToken(BaseModel):
-    token: Token
-    expiry: float
+class AuthToken(BaseModel):
+    access_token: str
+    token_type: Literal["Bearer"]
+    expires_in: int
+    refresh_token: Optional[str] = None
+
+
+class AccessToken(BaseModel):
+    iss: str
+    sub: str
+    aud: list[str]
+    exp: float
+    iat: float
+
+
+class RefreshToken(BaseModel):
+    iss: str
+    sub: str
+    aud: list[str]
+    exp: float
+    iat: float
 
 
 class CheatSheetContent(BaseModel):

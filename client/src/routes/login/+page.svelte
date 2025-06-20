@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fetchClientPostWithoutToken } from '$lib/fetchClient';
-  import type { AuthCredentials, AuthTokenResponse } from '../../types';
+  import type { AuthCredentials, AuthToken, AuthTokenResponse } from '../../types';
   import { sessionToken } from '../../stores';
   import { getTokenFromMemory, removeTokenInMemory, setTokenInMemory } from '$lib/memory';
   import { onMount } from 'svelte';
@@ -8,6 +8,7 @@
   import Loader from '../../components/Loader.svelte';
 
   let user: AuthCredentials = {
+    grant_type: 'password',
     username: '',
     password: ''
   };
@@ -23,10 +24,18 @@
     try {
       const response = await fetchClientPostWithoutToken('/login', user);
       const data = response.data as AuthTokenResponse;
-      const expiry = data.expiry * 1000; // Convertion from seconds to miliseconds
 
-      setTokenInMemory({ token: data.token, expiry: new Date(expiry) });
-      sessionToken.set({ token: data.token, expiry: new Date(expiry) });
+      const expiry = new Date(Date.now() + data.expires_in * 1000); // Convert seconds to milliseconds
+
+      const loginToken: AuthToken = {
+        accessToken: data.access_token,
+        tokenType: data.token_type,
+        expiry: expiry,
+        refreshToken: data.refresh_token
+      };
+
+      setTokenInMemory(loginToken);
+      sessionToken.set(loginToken);
 
       setTimeout(() => {
         goto('/dashboard');
@@ -40,11 +49,11 @@
   onMount(() => {
     const currentToken = getTokenFromMemory();
 
-    if (currentToken.token && currentToken.expiry > new Date()) {
+    if (currentToken.accessToken && currentToken.expiry > new Date()) {
       goto('/dashboard');
     } else {
       removeTokenInMemory();
-      sessionToken.set({ token: '', expiry: new Date() });
+      sessionToken.set({ accessToken: '', refreshToken: '', expiry: new Date(), tokenType: '' });
     }
   });
 </script>

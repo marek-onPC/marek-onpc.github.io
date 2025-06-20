@@ -22,7 +22,7 @@
 
   const loadAllCheatSheets = async () => {
     try {
-      const raw = await fetchClientGet('/cheat_sheets', $sessionToken.token, {
+      const raw = await fetchClientGet('/cheat_sheets', $sessionToken.accessToken, {
         is_published__list: [true, false]
       });
       cheatSheetsData = raw.data as Array<CheatSheetWithContentType>;
@@ -41,7 +41,7 @@
   };
 
   onMount(() => {
-    if (!$sessionToken.token || $sessionToken.expiry < new Date()) {
+    if (!$sessionToken.accessToken || $sessionToken.expiry < new Date()) {
       loadCheatSheets();
     } else {
       loadAllCheatSheets();

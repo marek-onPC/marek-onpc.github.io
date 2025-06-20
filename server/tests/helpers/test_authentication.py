@@ -21,7 +21,7 @@ def test_hash_and_verify_password(password: Password) -> None:
     [Username("new0user"), Username("user@name.com"), Username("test56@user.com")],
 )
 def test_encode_and_decode_jwt(username: Username) -> None:
-    jwt, _ = authentication.encode_jwt(username)
-    decoded_jwt = authentication.decode_jwt(jwt)
+    jwt = authentication.encode_jwt(username)
+    decoded_jwt = authentication.decode_jwt(jwt.access_token)
 
     assert decoded_jwt == username
