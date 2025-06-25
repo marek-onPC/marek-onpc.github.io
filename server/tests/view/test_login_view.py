@@ -61,6 +61,7 @@ def test_login(
                         },
                         "loc": [
                             "body",
+                            "PasswordAuthentication",
                             "grant_type",
                         ],
                         "msg": "Field required",
@@ -72,7 +73,32 @@ def test_login(
                         },
                         "loc": [
                             "body",
+                            "PasswordAuthentication",
                             "username",
+                        ],
+                        "msg": "Field required",
+                        "type": "missing",
+                    },
+                    {
+                        "input": {
+                            "password": "password",
+                        },
+                        "loc": [
+                            "body",
+                            "RefreshTokenAuthentication",
+                            "grant_type",
+                        ],
+                        "msg": "Field required",
+                        "type": "missing",
+                    },
+                    {
+                        "input": {
+                            "password": "password",
+                        },
+                        "loc": [
+                            "body",
+                            "RefreshTokenAuthentication",
+                            "refresh_token",
                         ],
                         "msg": "Field required",
                         "type": "missing",
@@ -90,6 +116,7 @@ def test_login(
                         },
                         "loc": [
                             "body",
+                            "PasswordAuthentication",
                             "grant_type",
                         ],
                         "msg": "Field required",
@@ -101,7 +128,32 @@ def test_login(
                         },
                         "loc": [
                             "body",
+                            "PasswordAuthentication",
                             "password",
+                        ],
+                        "msg": "Field required",
+                        "type": "missing",
+                    },
+                    {
+                        "input": {
+                            "username": "user@test.com",
+                        },
+                        "loc": [
+                            "body",
+                            "RefreshTokenAuthentication",
+                            "grant_type",
+                        ],
+                        "msg": "Field required",
+                        "type": "missing",
+                    },
+                    {
+                        "input": {
+                            "username": "user@test.com",
+                        },
+                        "loc": [
+                            "body",
+                            "RefreshTokenAuthentication",
+                            "refresh_token",
                         ],
                         "msg": "Field required",
                         "type": "missing",
@@ -119,6 +171,7 @@ def test_login(
                         },
                         "loc": [
                             "body",
+                            "PasswordAuthentication",
                             "username",
                         ],
                         "msg": "Field required",
@@ -130,7 +183,34 @@ def test_login(
                         },
                         "loc": [
                             "body",
+                            "PasswordAuthentication",
                             "password",
+                        ],
+                        "msg": "Field required",
+                        "type": "missing",
+                    },
+                    {
+                        "ctx": {
+                            "expected": "<AllowedGrandTypes.REFRESH_TOKEN: 'refresh_token'>",
+                        },
+                        "input": "password",
+                        "loc": [
+                            "body",
+                            "RefreshTokenAuthentication",
+                            "grant_type",
+                        ],
+                        "msg": "Input should be <AllowedGrandTypes.REFRESH_TOKEN: "
+                        "'refresh_token'>",
+                        "type": "literal_error",
+                    },
+                    {
+                        "input": {
+                            "grant_type": "password",
+                        },
+                        "loc": [
+                            "body",
+                            "RefreshTokenAuthentication",
+                            "refresh_token",
                         ],
                         "msg": "Field required",
                         "type": "missing",

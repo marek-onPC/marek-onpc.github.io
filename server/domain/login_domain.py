@@ -7,7 +7,14 @@ from fastapi import HTTPException
 
 from helpers.authentication import Authentication
 from helpers.db_client import DatabaseClient
-from schemas import AuthenticationDetails, AuthToken, User, Username
+from schemas import (
+    AuthenticationDetails,
+    AuthToken,
+    PasswordAuthentication,
+    RefreshTokenAuthentication,
+    User,
+    Username,
+)
 
 load_dotenv()
 
@@ -41,10 +48,13 @@ def get_user(username: Username) -> Optional[User]:
 
 
 def login(auth_details: AuthenticationDetails) -> AuthToken:
-    if auth_details.grant_type != "password":
-        raise HTTPException(status_code=400, detail="Invalid grant type")
+    if isinstance(auth_details, PasswordAuthentication):
+        user = get_user(username=auth_details.username)
 
-    user = get_user(username=auth_details.username)
+    if isinstance(auth_details, RefreshTokenAuthentication):
+        raise HTTPException(
+            status_code=422, detail="Refresh token auth is not implemented yet"
+        )
 
     if user is None:
         raise HTTPException(status_code=401, detail="Wrong user")

@@ -11,12 +11,21 @@ CheatSheetID = NewType("CheatSheetID", str)
 
 class AllowedGrandTypes(StrEnum):
     PASSWORD = "password"
+    REFRESH_TOKEN = "refresh_token"
 
 
-class AuthenticationDetails(BaseModel):
-    grant_type: AllowedGrandTypes
+class PasswordAuthentication(BaseModel):
+    grant_type: Literal[AllowedGrandTypes.PASSWORD]
     username: Username
     password: Password
+
+
+class RefreshTokenAuthentication(BaseModel):
+    grant_type: Literal[AllowedGrandTypes.REFRESH_TOKEN]
+    refresh_token: str
+
+
+AuthenticationDetails = PasswordAuthentication | RefreshTokenAuthentication
 
 
 class User(BaseModel):
