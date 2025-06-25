@@ -21,7 +21,7 @@ load_dotenv()
 db_uri = os.environ["DB_URI"]
 db_name = os.environ["DB_NAME"]
 db_collection_name = os.environ["DB_COLL_CHEAT_SHEETS"]
-db_client = DatabaseClient(db_uri, db_name, db_collection_name).connection()
+db_client = DatabaseClient(db_uri, db_name).connection()[db_collection_name]
 
 
 def _serialize_cards(cards: list[CheatSheetContent]) -> list[dict]:
