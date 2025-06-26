@@ -1,6 +1,6 @@
 import pytest
 
-from helpers.authentication import Authentication
+from helpers.authentication import Authentication, get_username_from_token
 from schemas import Password, Username
 
 authentication = Authentication()
@@ -25,3 +25,16 @@ def test_encode_and_decode_jwt(username: Username) -> None:
     decoded_jwt = authentication.decode_jwt(jwt.access_token)
 
     assert decoded_jwt == username
+
+
+@pytest.mark.parametrize(
+    "expected_username",
+    [Username("new0user"), Username("user@name.com"), Username("test56@user.com")],
+)
+def test_get_username_from_token(expected_username: Username) -> None:
+    jwt = authentication.encode_jwt(expected_username)
+    decoded_username = get_username_from_token(
+        authentication=authentication, refresh_token=jwt.access_token
+    )
+
+    assert decoded_username == expected_username

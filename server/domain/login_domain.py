@@ -5,7 +5,7 @@ from typing import Any, Optional
 from dotenv import load_dotenv
 from fastapi import HTTPException
 
-from helpers.authentication import Authentication
+from helpers.authentication import Authentication, get_username_from_token
 from helpers.db_client import DatabaseClient
 from schemas import (
     AuthenticationDetails,
@@ -47,14 +47,10 @@ def get_user(username: Username) -> Optional[User]:
     return _bson_user_to_object(bson_document=user) if user else None
 
 
-def login(auth_details: AuthenticationDetails) -> AuthToken:
-    if isinstance(auth_details, PasswordAuthentication):
-        user = get_user(username=auth_details.username)
-
-    if isinstance(auth_details, RefreshTokenAuthentication):
-        raise HTTPException(
-            status_code=422, detail="Refresh token auth is not implemented yet"
-        )
+def _credentials_flow(
+    auth_details: PasswordAuthentication,
+) -> AuthToken:
+    user = get_user(username=auth_details.username)
 
     if user is None:
         raise HTTPException(status_code=401, detail="Wrong user")
@@ -65,3 +61,25 @@ def login(auth_details: AuthenticationDetails) -> AuthToken:
         raise HTTPException(status_code=401, detail="Wrong password")
 
     return authentication.encode_jwt(user.username)
+
+
+def _refresh_token_flow(
+    auth_details: RefreshTokenAuthentication,
+) -> AuthToken:
+    username = get_username_from_token(
+        authentication=authentication, refresh_token=auth_details.refresh_token
+    )
+    user = get_user(username=username)
+
+    if user is None:
+        raise HTTPException(status_code=401, detail="Wrong user")
+
+    return authentication.encode_jwt(user.username)
+
+
+def get_token(auth_details: AuthenticationDetails) -> AuthToken:
+    if isinstance(auth_details, PasswordAuthentication):
+        return _credentials_flow(auth_details)
+
+    if isinstance(auth_details, RefreshTokenAuthentication):
+        return _refresh_token_flow(auth_details)

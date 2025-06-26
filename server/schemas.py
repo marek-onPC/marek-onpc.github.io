@@ -37,7 +37,7 @@ class AuthToken(BaseModel):
     access_token: str
     token_type: Literal["Bearer"]
     expires_in: int
-    refresh_token: Optional[str] = None
+    refresh_token: str
 
 
 class AccessToken(BaseModel):
