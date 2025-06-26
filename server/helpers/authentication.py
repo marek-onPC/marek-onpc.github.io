@@ -1,3 +1,4 @@
+import logging
 import os
 from datetime import datetime, timezone
 from typing import Optional
@@ -103,3 +104,15 @@ class Authentication:
             return self.decode_jwt(auth.credentials)
         else:
             return None
+
+
+def get_username_from_token(
+    authentication: Authentication, refresh_token: str
+) -> Username:
+    try:
+        username = authentication.decode_jwt(refresh_token)
+    except Exception as e:
+        logging.error(e)
+        raise HTTPException(status_code=401, detail="Invalid token")
+
+    return username
