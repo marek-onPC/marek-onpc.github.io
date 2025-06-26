@@ -128,7 +128,7 @@ def test_get_user(username: Username, expected_user_object: User | None) -> None
     ],
 )
 @mock.patch("domain.login_domain.db_client", mock_collection)
-def test_login(
+def test_login_via_credentials(
     auth_details: PasswordAuthentication, expected_username: User | None
 ) -> None:
     expired_token_date = datetime.now(timezone.utc) + timedelta(
@@ -180,23 +180,36 @@ def test_login__erorrs(
 
 
 @pytest.mark.parametrize(
-    "auth_details, expected_error",
+    "auth_details, expected_username",
     [
         pytest.param(
             RefreshTokenAuthentication(
                 grant_type=AllowedGrandTypes.REFRESH_TOKEN,
                 refresh_token="some_refresh_token",
             ),
-            "Refresh token auth is not implemented yet",
+            Username("user@test.com"),
         ),
     ],
 )
 @mock.patch("domain.login_domain.db_client", mock_collection)
-def test_login__refresh_token_grant_type_error(
-    auth_details: PasswordAuthentication, expected_error: str
+def test_login_via_refresh_token(
+    auth_details: RefreshTokenAuthentication, expected_username: User | None
 ) -> None:
-    with pytest.raises(HTTPException) as error:
-        get_token(auth_details)
+    expired_token_date = datetime.now(timezone.utc) + timedelta(
+        days=0, hours=8, minutes=1
+    )
+    auth_details.refresh_token = authentication.encode_jwt(
+        Username("user@test.com")
+    ).refresh_token
 
-    assert error.value.status_code == 422
-    assert error.value.detail == expected_error
+    result = get_token(auth_details)
+
+    assert isinstance(result, AuthToken)
+    assert isinstance(result.access_token, str)
+    assert isinstance(result.refresh_token, str)
+    assert isinstance(result.token_type, str)
+    assert result.expires_in < expired_token_date.timestamp()
+
+    decoded_jwt = authentication.decode_jwt(result.access_token)
+
+    assert decoded_jwt == expected_username
