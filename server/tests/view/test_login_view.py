@@ -37,7 +37,7 @@ EXIRY = datetime.now(timezone.utc) + timedelta(days=0, hours=8)
         ),
     ],
 )
-@mock.patch("domain.login_domain.login")
+@mock.patch("domain.login_domain.get_token")
 def test_login(
     mock_domain_login: MagicMock, payload: dict, token: AuthToken, expected_token: dict
 ) -> None:

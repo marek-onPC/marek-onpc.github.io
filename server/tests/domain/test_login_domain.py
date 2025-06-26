@@ -8,7 +8,7 @@ from bson import ObjectId
 from fastapi import HTTPException
 from mongomock import Collection
 
-from domain.login_domain import _bson_user_to_object, get_user, login
+from domain.login_domain import _bson_user_to_object, get_token, get_user
 from helpers.authentication import Authentication
 from schemas import (
     AllowedGrandTypes,
@@ -134,7 +134,7 @@ def test_login(
     expired_token_date = datetime.now(timezone.utc) + timedelta(
         days=0, hours=8, minutes=1
     )
-    result = login(auth_details)
+    result = get_token(auth_details)
 
     assert isinstance(result, AuthToken)
     assert isinstance(result.access_token, str)
@@ -173,7 +173,7 @@ def test_login__erorrs(
     auth_details: PasswordAuthentication, expected_error: str
 ) -> None:
     with pytest.raises(HTTPException) as error:
-        login(auth_details)
+        get_token(auth_details)
 
     assert error.value.status_code == 401
     assert error.value.detail == expected_error
@@ -196,7 +196,7 @@ def test_login__refresh_token_grant_type_error(
     auth_details: PasswordAuthentication, expected_error: str
 ) -> None:
     with pytest.raises(HTTPException) as error:
-        login(auth_details)
+        get_token(auth_details)
 
     assert error.value.status_code == 422
     assert error.value.detail == expected_error
