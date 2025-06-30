@@ -2,10 +2,11 @@
   import { goto } from '$app/navigation';
   import { onDestroy, onMount } from 'svelte';
   import { sessionToken } from '../../stores';
-  import { removeTokenInMemory } from '$lib/memory';
+  import { removeTokenInMemory, setTokenInMemory } from '$lib/memory';
   import Loader from '../../components/Loader.svelte';
-  import { fetchClientPost } from '$lib/fetchClient';
+  import { fetchClientPost, fetchClientPostWithoutToken } from '$lib/fetchClient';
   import Modal from '../../components/Modal.svelte';
+  import { AuthGrantType, type AuthToken, type AuthTokenResponse } from '../../types';
 
   let isLoadingNewCheatSheet: boolean = false;
   let isError: boolean = false;
@@ -27,6 +28,33 @@
       isError = true;
     }
     isLoadingNewCheatSheet = false;
+  };
+
+  const refreshTokenLogin = async () => {
+    const currentRefreshToken = $sessionToken.refreshToken;
+
+    try {
+      const response = await fetchClientPostWithoutToken('/login', {
+        grant_type: AuthGrantType.REFRESH_TOKEN,
+        refresh_token: currentRefreshToken
+      });
+      const data = response.data as AuthTokenResponse;
+
+      const expiry = new Date(Date.now() + data.expires_in * 1000); // Convert seconds to milliseconds
+
+      const loginToken: AuthToken = {
+        accessToken: data.access_token,
+        tokenType: data.token_type,
+        expiry: expiry,
+        refreshToken: data.refresh_token
+      };
+
+      setTokenInMemory(loginToken);
+      sessionToken.set(loginToken);
+      hasTokenExpired = false;
+    } catch (error) {
+      logoutHandler();
+    }
   };
 
   const logoutHandler = () => {
@@ -52,7 +80,7 @@
 
   $: hasTokenExpired &&
     setTimeout(() => {
-      logoutHandler();
+      refreshTokenLogin();
     }, 1500);
 </script>
 
@@ -61,7 +89,7 @@
     <Loader />
   {:else}
     {#if hasTokenExpired}
-      <Modal isOpened={hasTokenExpired} text="Token expired, logging out" hasLoader={true} />
+      <Modal isOpened={hasTokenExpired} text="Token expired, reauthenticating" hasLoader={true} />
     {/if}
     <nav class="navigation">
       <button
