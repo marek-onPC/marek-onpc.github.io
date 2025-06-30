@@ -20,16 +20,24 @@ export type AuthToken = {
   refreshToken: string;
 };
 
-// export type AuthTokenResponse = CamelCaseObjectToDeepSnake<AuthToken> | { expires_in: number };
-
 export interface AuthTokenResponse extends CamelCaseObjectToDeepSnake<Omit<AuthToken, 'expiry'>> {
   expires_in: number;
 }
 
-export type AuthCredentials = {
-  grant_type: string;
+export enum AuthGrantType {
+  PASSWORD = 'password',
+  REFRESH_TOKEN = 'refresh_token'
+}
+
+export type PasswordAuthCredentials = {
+  grant_type: AuthGrantType.PASSWORD;
   username: string;
   password: string;
+};
+
+export type RefreshTokenAuthCredentials = {
+  grant_type: AuthGrantType.REFRESH_TOKEN;
+  refresh_token: string;
 };
 
 export type DynamicContext = {

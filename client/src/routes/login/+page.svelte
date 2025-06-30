@@ -1,14 +1,19 @@
 <script lang="ts">
   import { fetchClientPostWithoutToken } from '$lib/fetchClient';
-  import type { AuthCredentials, AuthToken, AuthTokenResponse } from '../../types';
+  import {
+    type PasswordAuthCredentials,
+    type AuthToken,
+    type AuthTokenResponse,
+    AuthGrantType
+  } from '../../types';
   import { sessionToken } from '../../stores';
   import { getTokenFromMemory, removeTokenInMemory, setTokenInMemory } from '$lib/memory';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import Loader from '../../components/Loader.svelte';
 
-  let user: AuthCredentials = {
-    grant_type: 'password',
+  let user: PasswordAuthCredentials = {
+    grant_type: AuthGrantType.PASSWORD,
     username: '',
     password: ''
   };
