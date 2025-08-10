@@ -2,7 +2,7 @@
   import { page } from '$app/stores';
   import { fetchClientDelete, fetchClientGet, fetchClientPatch } from '$lib/fetchClient';
   import { onMount } from 'svelte';
-  import { sessionToken } from '../../../../stores';
+  import { isSafari, sessionToken } from '../../../../stores';
   import type { CheatSheetWithContentType } from '../../../../types.js';
   import Loader from '../../../../components/Loader.svelte';
   import Modal from '../../../../components/Modal.svelte';
@@ -113,7 +113,7 @@
         <label for="language">language</label>
       </div>
       <Checkbox title="Publish" bind:isChecked={updatedCheatSheetData.is_published} />
-      <button class="button update__delete" on:click={() => (isOpenedDeleteModal = true)}>♻</button
+      <button class={`button update__delete ${$isSafari ? '--safari' : ''}`} on:click={() => (isOpenedDeleteModal = true)}>♻</button
       >
     </div>
     {#if updatedCheatSheetData.cards}
@@ -126,7 +126,7 @@
             bind:value={card.subtitle}
           />
           <label for={`${updatedCheatSheetData.id}_${index}_title`}>subtitle</label>
-          <button class="update__remove-card" on:click={() => removeCheatSheetCard(index)}
+          <button class={`update__remove-card ${$isSafari ? '--safari' : ''}`} on:click={() => removeCheatSheetCard(index)}
             >♻</button
           >
           <div class="update__edit-card-divider"></div>
@@ -224,17 +224,21 @@
       height: 60px !important;
       width: 65px;
       font-weight: 800;
-      font-size: 40px;
+      font-size: 24px;
       line-height: 22px;
       transition: 0.25s ease-in-out;
       cursor: pointer;
       border-width: 0px;
       border-radius: 5px;
       margin-left: 15px;
-      padding-top: 3px;
 
       &:hover {
         background-color: rgb(107, 9, 9);
+      }
+
+      &.--safari {
+        font-size: 40px;
+        padding-top: 2px;
       }
     }
 
@@ -286,15 +290,20 @@
       background-color: rgb(165, 2, 2);
       height: 32px !important;
       width: 24px;
-      font-size: 24px;
+      font-size: 14px;
       font-weight: 800;
       line-height: 22px;
-      padding: 0px 0px 5px 0;
+      padding: 0px 0px 0px 0px;
       border-top-left-radius: 5px;
       border-bottom-right-radius: 5px;
       transition: 0.25s ease-in-out;
       cursor: pointer;
       border-width: 0px;
+
+      &.--safari {
+        font-size: 24px;
+        padding: 0px 0px 5px 0px;
+      }
     }
 
     &__move-up-card,

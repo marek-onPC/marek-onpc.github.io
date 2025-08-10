@@ -22,7 +22,7 @@
   import 'prismjs/components/prism-java.js';
   import 'prism-svelte';
   import FullCheatSheet from '../../../components/FullCheatSheet.svelte';
-  import { sessionToken } from '../../../stores.js';
+  import { isSafari, sessionToken } from '../../../stores.js';
 
   const cheatSheetId = $page.params.id;
   let cheatSheetData: CheatSheetWithContentType;
@@ -63,6 +63,7 @@
 
   onMount(async () => {
     await loadCheatSheet();
+    console.log(isSafari)
   });
 </script>
 
@@ -78,7 +79,7 @@
             <div class="sheet__card-title">
               <h3>{card.subtitle}</h3>
               <button
-                class="button sheet__card-button"
+                class={`button sheet__card-button ${$isSafari ? '--safari' : ''}`}
                 on:click={() =>
                   openFullCheatSheetModal({ subtitle: card.subtitle, content: card.content })}
                 >❏</button
@@ -187,10 +188,15 @@
     &__card-button {
       height: 32px !important;
       width: 34px;
-      font-size: 32px;
+      font-size: 24px;
       font-weight: 800;
       line-height: 22px;
-      padding: 0px 0px 8px 0;
+      padding: 0px 0px 0px 0;
+
+      &.--safari {
+        font-size: 32px;
+        padding: 0px 0px 8px 0;
+      }
     }
   }
 </style>
