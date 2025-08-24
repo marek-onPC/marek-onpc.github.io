@@ -7,7 +7,7 @@ I'm always trying to modify and improve the codebase. If I can, I will add new f
 **Architecture overview:**
 <details>
     <summary><strong>Login flow</strong></summary>
-    <img src="architecture/architecture.svg" alt="architecture overview"/>
+    <img src="architecture/login.svg" alt="architecture overview - login flow"/>
 </details>
 
 <br>
