@@ -9,6 +9,10 @@ I'm always trying to modify and improve the codebase. If I can, I will add new f
     <summary><strong>Login flow</strong></summary>
     <img src="architecture/login.svg" alt="architecture overview - login flow"/>
 </details>
+<details>
+    <summary><strong>Cheat-sheet flow</strong></summary>
+    <img src="architecture/cheat-sheet.svg" alt="architecture overview - cheat-sheet flow"/>
+</details>
 
 <br>
 
