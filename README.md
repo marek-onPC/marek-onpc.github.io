@@ -20,6 +20,7 @@ I'm always trying to modify and improve the codebase. If I can, I will add new f
 -  **<span style="color:green">DONE</span>** ~~Refactor authentication flow (to cover password and refresh token login)~~
 -  **<span style="color:green">DONE</span>** ~~Adjust client to reauthenticate with refresh token~~
 - **<span style="color:orange">IN PROGRESS</span>** Create a full architecture and data flow diagrams
+- **<span style="color:blue">PLANNED</span>** Optimise REST API endpoints (reduce number of calls, batch requests)
 - **<span style="color:blue">PLANNED</span>** Create `docker-compose` setup for local development (server, database)
 - **<span style="color:blue">PLANNED</span>** Add hot-reloading for the server (during development)
 - **<span style="color:blue">PLANNED</span>** Add test coverage reports (server)
