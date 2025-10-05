@@ -43,6 +43,9 @@ Run those from the `./server` directory.
 #### Run server
 `poetry run uvicorn main:app --host 0.0.0.0 --port 8000`
 
+#### Run server (in dev mode - reload on changes)
+`poetry run fastapi dev main.py`
+
 #### Tests
 `poetry run python -m pytest . -vv`
 
