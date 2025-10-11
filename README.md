@@ -48,10 +48,10 @@ brew install --cask docker
 Run those from the `./server` directory.
 
 #### Run server
-`poetry run uvicorn main:app --host 0.0.0.0 --port 8000`
+`APP_TYPE=fastapi poetry run uvicorn main:app --host 0.0.0.0 --port 8000`
 
 #### Run server (in dev mode - reload on changes)
-`poetry run fastapi dev main.py`
+`APP_TYPE=fastapi poetry run fastapi dev main.py`
 
 #### Run RabbitMQ (via Docker)
 `docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4-management`
