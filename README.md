@@ -35,6 +35,13 @@ I'm always trying to modify and improve the codebase. If I can, I will add new f
 
 <br>
 
+## Docker setup
+
+Instal docker via homebrew (this provides everything - the daemon, GUI dashboard, and Docker CLI integration):
+```bash
+brew install --cask docker
+```
+
 ## Commands
 ### Server
 
@@ -45,6 +52,9 @@ Run those from the `./server` directory.
 
 #### Run server (in dev mode - reload on changes)
 `poetry run fastapi dev main.py`
+
+#### Run RabbitMQ (via Docker)
+`docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4-management`
 
 #### Tests
 `poetry run python -m pytest . -vv`
