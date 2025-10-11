@@ -19,15 +19,15 @@ COPY ./server .
 # For Heroku
 # CMD ["sh", "-c", "gunicorn -k uvicorn.workers.UvicornWorker main:app"]
 
-ARG SERVERTYPE
+ARG APP_TYPE
 
 # Use shell logic to determine which server to install
-CMD if [ "$SERVERTYPE" = "fastapi" ]; then \
+CMD if [ "$APP_TYPE" = "fastapi" ]; then \
       echo "Starting FastAPI server..." && \
       gunicorn -k uvicorn.workers.UvicornWorker main:app; \
-    elif [ "$SERVERTYPE" = "celery" ]; then \
+    elif [ "$APP_TYPE" = "celery" ]; then \
       echo "Starting Celery worker..." && \
       poetry run celery -A main worker --loglevel=info; \
     else \
-      echo "Unknown SERVERTYPE: $SERVERTYPE" && exit 1; \
+      echo "Unknown APP_TYPE: $APP_TYPE" && exit 1; \
     fi
