@@ -23,6 +23,11 @@ ARG SERVERTYPE
 
 # Use shell logic to determine which server to install
 CMD if [ "$SERVERTYPE" = "fastapi" ]; then \
-        ["APP_TYPE='fastapi'", "sh", "-c", "gunicorn -k uvicorn.workers.UvicornWorker main:app"] \
+      echo "Starting FastAPI server..." && \
+      gunicorn -k uvicorn.workers.UvicornWorker main:app; \
     elif [ "$SERVERTYPE" = "celery" ]; then \
-        ["APP_TYPE='celery'", "poetry", "run", "celery", "-A", "main", "worker", "--loglevel=info"] \
+      echo "Starting Celery worker..." && \
+      poetry run celery -A main worker --loglevel=info; \
+    else \
+      echo "Unknown SERVERTYPE: $SERVERTYPE" && exit 1; \
+    fi
