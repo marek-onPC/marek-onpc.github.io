@@ -10,17 +10,22 @@ load_dotenv()
 
 db_uri = os.environ["DB_URI"]
 db_name = os.environ["DB_NAME"]
+amqp_url = os.environ["AMQP_URL"]
 
 origins = ["https://marek-onpc.github.io", "http://localhost:3000"]
 
-app = FastAPI()
+if os.environ.get("APP_TYPE") == "celery":
+    print("Celery worker - to be implemented")
+        
+if os.environ.get("APP_TYPE") == "fastapi":
+    app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-app.include_router(login_view.router)
-app.include_router(cheat_sheet_view.router)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+    app.include_router(login_view.router)
+    app.include_router(cheat_sheet_view.router)

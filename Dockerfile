@@ -17,4 +17,12 @@ COPY ./server .
 # CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 # For Heroku
-CMD ["sh", "-c", "gunicorn -k uvicorn.workers.UvicornWorker main:app"]
+# CMD ["sh", "-c", "gunicorn -k uvicorn.workers.UvicornWorker main:app"]
+
+ARG SERVERTYPE
+
+# Use shell logic to determine which server to install
+CMD if [ "$SERVERTYPE" = "fastapi" ]; then \
+        ["APP_TYPE='fastapi'", "sh", "-c", "gunicorn -k uvicorn.workers.UvicornWorker main:app"] \
+    elif [ "$SERVERTYPE" = "celery" ]; then \
+        ["APP_TYPE='celery'", "poetry", "run", "celery", "-A", "main", "worker", "--loglevel=info"] \
