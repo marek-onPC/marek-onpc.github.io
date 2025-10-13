@@ -3,6 +3,7 @@ from fastapi import APIRouter, Response
 from domain import login_domain
 from helpers.authentication import Authentication
 from schemas import AuthenticationDetails, AuthToken
+from helpers.events import log_event
 
 router = APIRouter(prefix="/api")
 authentication = Authentication()
@@ -10,6 +11,8 @@ authentication = Authentication()
 
 @router.post("/login", response_model=AuthToken)
 def login(auth_details: AuthenticationDetails) -> Response:
+    log_event(event_type="login_attempt", description=f"Login attempt for user {auth_details.username}")
+
     token = login_domain.get_token(auth_details=auth_details).model_dump_json()
 
     response = Response(

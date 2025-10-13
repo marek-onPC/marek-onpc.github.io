@@ -53,11 +53,17 @@ Run those from the `./server` directory.
 #### Run server (in dev mode - reload on changes)
 `APP_TYPE=fastapi poetry run fastapi dev main.py`
 
+#### Run message broker worker (Celery)
+`APP_TYPE=celery poetry run celery -A main worker --loglevel=info`
+
 #### Run RabbitMQ (via Docker)
 `docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4-management`
 
+#### Run MongoDB (via Docker)
+`docker run -d --name mongodb -p 27017:27017 mongo`
+
 #### Tests
-`poetry run python -m pytest . -vv`
+`APP_TYPE=fastapi poetry run python -m pytest . -vv`
 
 #### Formatting, types, imports
 `isort . && black . && flake8 . && mypy .`
