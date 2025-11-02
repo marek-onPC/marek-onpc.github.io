@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from view import cheat_sheet_view, login_view
 from helpers.events import celery
+from view import cheat_sheet_view, login_view
 
 load_dotenv()
 
@@ -17,7 +17,7 @@ origins = ["https://marek-onpc.github.io", "http://localhost:3000"]
 
 if os.environ.get("APP_TYPE") == "celery":
     celery
-        
+
 if os.environ.get("APP_TYPE") == "fastapi":
     app = FastAPI()
 
