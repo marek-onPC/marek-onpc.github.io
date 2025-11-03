@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from helpers.events import celery
 from view import cheat_sheet_view, login_view
 
 load_dotenv()
@@ -15,8 +16,8 @@ amqp_url = os.environ["AMQP_URL"]
 origins = ["https://marek-onpc.github.io", "http://localhost:3000"]
 
 if os.environ.get("APP_TYPE") == "celery":
-    print("Celery worker - to be implemented")
-        
+    celery
+
 if os.environ.get("APP_TYPE") == "fastapi":
     app = FastAPI()
 
