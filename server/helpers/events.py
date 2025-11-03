@@ -15,7 +15,7 @@ db_name = os.environ["DB_NAME"]
 db_collection_name = os.environ["DB_COLL_LOGGING"]
 db_client = DatabaseClient(db_uri, db_name).connection()[db_collection_name]
 
-celery = Celery("logger", broker=amqp_url, backend=celery_backend_db_url)
+celery = Celery("logger", broker=amqp_url)
 
 EVENT_LOG_EVENT = "server.tasks.log_event"
 
