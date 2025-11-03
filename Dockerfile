@@ -3,6 +3,7 @@ FROM python:3.11.0
 WORKDIR /server
 
 COPY ./server/pyproject.toml /server/pyproject.toml
+COPY ./start.sh /server/start.sh
 
 RUN pip install poetry==1.8.3
 RUN apt-get update && apt-get install libgl1 -y
@@ -22,4 +23,4 @@ COPY ./server .
 ARG APP_TYPE
 
 # Use shell logic to determine which server to install
-CMD ["./start.sh"]
+CMD ["/server/start.sh"]
