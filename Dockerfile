@@ -5,6 +5,7 @@ WORKDIR /server
 COPY ./server/pyproject.toml /server/pyproject.toml
 COPY ./start.sh /server/start.sh
 
+RUN chmod +x /server/start.sh
 RUN pip install poetry==1.8.3
 RUN apt-get update && apt-get install libgl1 -y
 
