@@ -1,11 +1,11 @@
 <div class="about">
   <p>
-    <span class="highlight">Hello! I'm Marek</span>, a Software Engineer with more than four years
+    <span class="highlight">Hello! I'm Marek</span>, a software engineer with more than four years
     of professional experience, based in Japan.
   </p>
   <p>
     I am currently working as a <span style="color: #42b883; font-weight: 400"
-      >Software Engineering Team Lead</span
+      >Senior Software Engineer</span
     >.
   </p>
   <p>
@@ -21,8 +21,8 @@
   <p>
     Currently, it’s built with <span style="color: #EC4D29; font-weight: 400">Svelte</span>
     (front-end), <span style="color: #4B8BBE; font-weight: 400">Python</span> with the FastAPI
-    framework (back-end), and <span style="color: #4DB33B; font-weight: 400">MongoDB</span> as the
-    database.<br /> Additionally, it's containerized with
+    framework (back-end), <span style="color: #4DB33B; font-weight: 400">MongoDB</span> as the
+    database, and <span style="color: #FF6600; font-weight: 400">RabbitMQ</span> to handle async operations.<br /> Additionally, it's containerized with
     <span style="color: #0DB7ED; font-weight: 400">Docker</span>, tested with
     <span style="color: #FFE873; font-weight: 400">pytest</span>, and deployed with
     <span style="color: #C9C3E6; font-weight: 400">Heroku</span>.

@@ -28,7 +28,7 @@ I'm always trying to modify and improve the codebase. If I can, I will add new f
 - **<span style="color:blue">PLANNED</span>** Create `docker-compose` setup for local development (server, database)
 - **<span style="color:green">DONE</span>** ~~Add hot-reloading for the server (during development)~~
 - **<span style="color:green">DONE</span>** ~~Add test coverage reports (server)~~
-- **<span style="color:blue">PLANNED</span>** Create a async logging/history system based on AMQP
+- **<span style="color:yellow">IN PROGRESS</span>** Create a async logging/history system based on AMQP
 - **<span style="color:blue">PLANNED</span>** Add Github Actions for CI/CD (test flows)
 - **<span style="color:blue">PLANNED</span>** Fully test client codebase
 - **<span style="color:blue">PLANNED</span>** Add a search engine for the cheat sheets (based on content)
