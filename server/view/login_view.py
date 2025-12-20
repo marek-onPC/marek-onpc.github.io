@@ -18,7 +18,7 @@ def login(auth_details: AuthenticationDetails) -> Response:
     )
 
     send_log_event(
-        event_type=EventTypes.LOGIN_ATTEMPT,
+        event_type=EventTypes.LOGIN_OPERATION,
         message=log_message,
         user=(
             auth_details.username
@@ -32,7 +32,7 @@ def login(auth_details: AuthenticationDetails) -> Response:
         token = login_domain.get_token(auth_details=auth_details).model_dump_json()
     except Exception as e:
         send_log_event(
-            event_type=EventTypes.LOGIN_ATTEMPT,
+            event_type=EventTypes.LOGIN_OPERATION,
             message=log_message,
             user=(
                 auth_details.username
@@ -55,7 +55,7 @@ def login(auth_details: AuthenticationDetails) -> Response:
     )
 
     send_log_event(
-        event_type=EventTypes.LOGIN_ATTEMPT,
+        event_type=EventTypes.LOGIN_OPERATION,
         message=log_message,
         user=(
             auth_details.username
