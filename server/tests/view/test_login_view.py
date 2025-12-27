@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 import pytest
 from fastapi.testclient import TestClient
-
+from helpers.events import EventTypes
 from main import app
 from schemas import AuthToken
 
@@ -38,14 +38,34 @@ EXIRY = datetime.now(timezone.utc) + timedelta(days=0, hours=8)
     ],
 )
 @mock.patch("domain.login_domain.get_token")
+@mock.patch("view.login_view.send_log_event")
 def test_login(
-    mock_domain_login: MagicMock, payload: dict, token: AuthToken, expected_token: dict
+    mock_send_log_event: MagicMock, mock_domain_login: MagicMock, payload: dict, token: AuthToken, expected_token: dict
 ) -> None:
+    mock_send_log_event.return_value = None
     mock_domain_login.return_value = token
 
     response = client.post("/api/login", json=payload)
     assert response.status_code == 200
     assert response.json() == expected_token
+
+    assert mock_send_log_event.call_count == 2
+    mock_send_log_event.assert_has_calls(
+        [
+            mock.call(
+                event_type=EventTypes.LOGIN_OPERATION,
+                message="Login attempt via password",
+                user="user@test.com",
+                context={"status": "started", "grant_type": "password"},
+            ),
+            mock.call(
+                event_type=EventTypes.LOGIN_OPERATION,
+                message="Login attempt via password",
+                user="user@test.com",
+                context={"status": "successful", "grant_type": "password"},
+            ),
+        ]
+    )
 
 
 @pytest.mark.parametrize(
@@ -220,7 +240,14 @@ def test_login(
         ),
     ],
 )
-def test_login__errors(payload: dict, expected_error: dict) -> None:
+@mock.patch("view.login_view.send_log_event")
+def test_login__errors(
+    mock_send_log_event: MagicMock,
+    payload: dict, expected_error: dict) -> None:
+    mock_send_log_event.return_value = None
+
     response = client.post("/api/login", json=payload)
     assert response.status_code == 422
     assert response.json() == expected_error
+
+    assert mock_send_log_event.call_count == 0

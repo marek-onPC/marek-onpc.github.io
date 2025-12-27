@@ -11,8 +11,10 @@ from schemas import (
     UnsavedCheatSheetSchema,
     UpdateCheatSheetSchema,
     Username,
+    MongoInsert
 )
 from view.cheat_sheet_view import authentication
+from helpers.events import EventTypes
 
 client = TestClient(app)
 
@@ -131,7 +133,9 @@ def _mock_auth_wrapper() -> Username:
     ],
 )
 @mock.patch("domain.cheat_sheet_domain.get_cheat_sheets")
+@mock.patch("view.cheat_sheet_view.send_log_event")
 def test_get_cheat_sheets__non_authorized(
+    mock_send_log_event: MagicMock,
     mock_get_cheat_sheets: MagicMock,
     cheat_sheets: list[CheatSheetSchema],
     expected_cheat_sheets: list[dict],
@@ -139,12 +143,24 @@ def test_get_cheat_sheets__non_authorized(
     expected_filter: list[bool],
 ) -> None:
     mock_get_cheat_sheets.return_value = cheat_sheets
+    mock_send_log_event.return_value = None
 
     response = client.get("/api/cheat_sheets", params=filter)
     assert response.status_code == 200
     assert response.json() == expected_cheat_sheets
     mock_get_cheat_sheets.assert_called_with(is_published__list=expected_filter)
 
+    assert mock_send_log_event.call_count == 1
+    mock_send_log_event.assert_has_calls(
+        [
+            mock.call(
+                event_type=EventTypes.CHEAT_SHEET_OPERATION,
+                message=f"Fetched all ( {len(cheat_sheets)}) cheat sheets",
+                user=None,
+                context={"status": "success", "method": "GET"},
+            ),
+        ]
+    )
 
 @pytest.mark.parametrize(
     "cheat_sheets, expected_cheat_sheets, filter, expected_filter",
@@ -274,7 +290,9 @@ def test_get_cheat_sheets__non_authorized(
     ],
 )
 @mock.patch("domain.cheat_sheet_domain.get_cheat_sheets")
+@mock.patch("view.cheat_sheet_view.send_log_event")
 def test_get_cheat_sheets__authorized(
+    mock_send_log_event: MagicMock,
     mock_get_cheat_sheets: MagicMock,
     cheat_sheets: list[CheatSheetSchema],
     expected_cheat_sheets: list[dict],
@@ -290,6 +308,18 @@ def test_get_cheat_sheets__authorized(
     mock_get_cheat_sheets.assert_called_with(is_published__list=expected_filter)
 
     app.dependency_overrides = {}
+
+    assert mock_send_log_event.call_count == 1
+    mock_send_log_event.assert_has_calls(
+        [
+            mock.call(
+                event_type=EventTypes.CHEAT_SHEET_OPERATION,
+                message=f"Fetched all ( {len(cheat_sheets)}) cheat sheets",
+                user="test_user",
+                context={"status": "success", "method": "GET"},
+            ),
+        ]
+    )
 
 
 @pytest.mark.parametrize(
@@ -330,18 +360,32 @@ def test_get_cheat_sheets__authorized(
     ],
 )
 @mock.patch("domain.cheat_sheet_domain.get_cheat_sheet")
+@mock.patch("view.cheat_sheet_view.send_log_event")
 def test_get_cheat_sheet_by_id__non_authorized(
+    mock_send_log_event: MagicMock,
     mock_get_cheat_sheet: MagicMock,
     cheat_sheet: CheatSheetSchema,
     expected_cheat_sheet: dict,
 ) -> None:
     mock_get_cheat_sheet.return_value = cheat_sheet
+    mock_send_log_event.return_value = None
 
     response = client.get("/api/cheat_sheets/62edd29215f7ccf1b7a44b87")
     assert response.status_code == 200
     assert response.json() == expected_cheat_sheet
     mock_get_cheat_sheet.assert_called_with(cheat_sheet_id="62edd29215f7ccf1b7a44b87")
 
+    assert mock_send_log_event.call_count == 1
+    mock_send_log_event.assert_has_calls(
+        [
+            mock.call(
+                event_type=EventTypes.CHEAT_SHEET_OPERATION,
+                message=f"Fetched single cheat sheet - {expected_cheat_sheet.get('id') if expected_cheat_sheet else 'None'}",
+                user=None,
+                context={"status": "success", "method": "GET"},
+            ),
+        ]
+    )
 
 @pytest.mark.parametrize(
     "cheat_sheet, expected_cheat_sheet",
@@ -387,13 +431,16 @@ def test_get_cheat_sheet_by_id__non_authorized(
     ],
 )
 @mock.patch("domain.cheat_sheet_domain.get_cheat_sheet")
+@mock.patch("view.cheat_sheet_view.send_log_event")
 def test_get_cheat_sheet_by_id__authorized(
+    mock_send_log_event: MagicMock,
     mock_get_cheat_sheet: MagicMock,
     cheat_sheet: CheatSheetSchema,
     expected_cheat_sheet: dict,
 ) -> None:
     app.dependency_overrides[authentication.optional_auth_wrapper] = _mock_auth_wrapper
     mock_get_cheat_sheet.return_value = cheat_sheet
+    mock_send_log_event.return_value = None
 
     response = client.get("/api/cheat_sheets/62edd29215f7ccf1b7a44b87")
     assert response.status_code == 200
@@ -401,6 +448,18 @@ def test_get_cheat_sheet_by_id__authorized(
     mock_get_cheat_sheet.assert_called_with(cheat_sheet_id="62edd29215f7ccf1b7a44b87")
 
     app.dependency_overrides = {}
+
+    assert mock_send_log_event.call_count == 1
+    mock_send_log_event.assert_has_calls(
+        [
+            mock.call(
+                event_type=EventTypes.CHEAT_SHEET_OPERATION,
+                message="Fetched single cheat sheet - 62edd29215f7ccf1b7a44b87",
+                user="test_user",
+                context={"status": "success", "method": "GET"},
+            ),
+        ]
+    )
 
 
 def test_post_cheat_sheet__non_authorized() -> None:
@@ -429,26 +488,41 @@ def test_post_cheat_sheet__non_authorized() -> None:
                     CheatSheetContent(subtitle="card_subtitle", content="card_content")
                 ],
             ),
-            {"id": "62edd29215f7ccf1b7a44b87"},
+            MongoInsert(id="62edd29215f7ccf1b7a44b87"),
             id="Create cheat sheet",
         ),
     ],
 )
 @mock.patch("domain.cheat_sheet_domain.create_cheat_sheet")
+@mock.patch("view.cheat_sheet_view.send_log_event")
 def test_post_cheat_sheet__authorized(
+    mock_send_log_event: MagicMock,
     mock_create_cheat_sheet: MagicMock,
     unsaved_cheat_sheet: UnsavedCheatSheetSchema,
-    expected_cheat_sheet_id: dict,
+    expected_cheat_sheet_id: MongoInsert,
 ) -> None:
     app.dependency_overrides[authentication.auth_wrapper] = _mock_auth_wrapper
     mock_create_cheat_sheet.return_value = expected_cheat_sheet_id
+    mock_send_log_event.return_value = None
 
     response = client.post("/api/cheat_sheets", json=unsaved_cheat_sheet.model_dump())
     assert response.status_code == 200
-    assert response.json() == expected_cheat_sheet_id
+    assert response.json() == expected_cheat_sheet_id.model_dump()
     mock_create_cheat_sheet.assert_called_with(cheat_sheet_data=unsaved_cheat_sheet)
 
     app.dependency_overrides = {}
+
+    assert mock_send_log_event.call_count == 1
+    mock_send_log_event.assert_has_calls(
+        [
+            mock.call(
+                event_type=EventTypes.CHEAT_SHEET_OPERATION,
+                message=f"Created cheat sheet - {expected_cheat_sheet_id.id}",
+                user="test_user",
+                context={"status": "success", "method": "POST"},
+            ),
+        ]
+    )
 
 
 def test_patch_cheat_sheet__non_authorized() -> None:
@@ -483,13 +557,16 @@ def test_patch_cheat_sheet__non_authorized() -> None:
     ],
 )
 @mock.patch("domain.cheat_sheet_domain.patch_cheat_sheet")
+@mock.patch("view.cheat_sheet_view.send_log_event")
 def test_patch_cheat_sheet__authorized(
+    mock_send_log_event: MagicMock,
     mock_patch_cheat_sheet: MagicMock,
     cheat_sheet_data: UpdateCheatSheetSchema,
     expected_cheat_sheet: dict,
 ) -> None:
     app.dependency_overrides[authentication.auth_wrapper] = _mock_auth_wrapper
     mock_patch_cheat_sheet.return_value = expected_cheat_sheet
+    mock_send_log_event.return_value = None
 
     response = client.patch(
         "/api/cheat_sheets/62edd29215f7ccf1b7a44b87",
@@ -502,6 +579,18 @@ def test_patch_cheat_sheet__authorized(
     )
 
     app.dependency_overrides = {}
+
+    assert mock_send_log_event.call_count == 1
+    mock_send_log_event.assert_has_calls(
+        [
+            mock.call(
+                event_type=EventTypes.CHEAT_SHEET_OPERATION,
+                message="Updated cheat sheet - 62edd29215f7ccf1b7a44b87",
+                user="test_user",
+                context={"status": "success", "method": "PATCH"},
+            ),
+        ]
+    )
 
 
 def test_delete_cheat_sheet__non_authorized() -> None:
@@ -517,12 +606,15 @@ def test_delete_cheat_sheet__non_authorized() -> None:
     ],
 )
 @mock.patch("domain.cheat_sheet_domain.delete_cheat_sheet")
+@mock.patch("view.cheat_sheet_view.send_log_event")
 def test_delete_cheat_sheet__authorized(
+    mock_send_log_event: MagicMock,
     mock_delete_cheat_sheet: MagicMock,
     expected_result: dict,
 ) -> None:
     app.dependency_overrides[authentication.auth_wrapper] = _mock_auth_wrapper
     mock_delete_cheat_sheet.return_value = expected_result
+    mock_send_log_event.return_value = None
 
     response = client.delete("/api/cheat_sheets/62edd29215f7ccf1b7a44b87")
     assert response.status_code == 200
@@ -530,3 +622,15 @@ def test_delete_cheat_sheet__authorized(
     mock_delete_cheat_sheet.assert_called_with(id="62edd29215f7ccf1b7a44b87")
 
     app.dependency_overrides = {}
+
+    assert mock_send_log_event.call_count == 1
+    mock_send_log_event.assert_has_calls(
+        [
+            mock.call(
+                event_type=EventTypes.CHEAT_SHEET_OPERATION,
+                message="deleted cheat sheet - 62edd29215f7ccf1b7a44b87",
+                user="test_user",
+                context={"status": "success", "method": "DELETE"},
+            ),
+        ]
+    )
