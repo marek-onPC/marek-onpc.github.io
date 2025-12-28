@@ -1,7 +1,8 @@
 from typing import Literal, Optional
 
-from domain import cheat_sheet_domain
 from fastapi import APIRouter, Depends
+
+from domain import cheat_sheet_domain
 from helpers.authentication import Authentication
 from helpers.events import EventTypes, send_log_event
 from helpers.serializers import bool_list_serializer
@@ -34,7 +35,7 @@ def get_cheat_sheets(
 
     send_log_event(
         event_type=EventTypes.CHEAT_SHEET_OPERATION,
-        message=f"Fetched all ( {len(cheat_sheets)}) cheat sheets",
+        message=f"Fetched all ( {len(cheat_sheets) if cheat_sheets else 0}) cheat sheets",
         user=(username if username else None),
         context={"status": "success", "method": "GET"},
     )

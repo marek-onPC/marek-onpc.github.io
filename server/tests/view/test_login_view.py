@@ -4,6 +4,7 @@ from unittest.mock import MagicMock
 
 import pytest
 from fastapi.testclient import TestClient
+
 from helpers.events import EventTypes
 from main import app
 from schemas import AuthToken
@@ -40,7 +41,11 @@ EXIRY = datetime.now(timezone.utc) + timedelta(days=0, hours=8)
 @mock.patch("domain.login_domain.get_token")
 @mock.patch("view.login_view.send_log_event")
 def test_login(
-    mock_send_log_event: MagicMock, mock_domain_login: MagicMock, payload: dict, token: AuthToken, expected_token: dict
+    mock_send_log_event: MagicMock,
+    mock_domain_login: MagicMock,
+    payload: dict,
+    token: AuthToken,
+    expected_token: dict,
 ) -> None:
     mock_send_log_event.return_value = None
     mock_domain_login.return_value = token
@@ -242,8 +247,8 @@ def test_login(
 )
 @mock.patch("view.login_view.send_log_event")
 def test_login__errors(
-    mock_send_log_event: MagicMock,
-    payload: dict, expected_error: dict) -> None:
+    mock_send_log_event: MagicMock, payload: dict, expected_error: dict
+) -> None:
     mock_send_log_event.return_value = None
 
     response = client.post("/api/login", json=payload)

@@ -4,17 +4,17 @@ from unittest.mock import MagicMock
 import pytest
 from fastapi.testclient import TestClient
 
+from helpers.events import EventTypes
 from main import app
 from schemas import (
     CheatSheetContent,
     CheatSheetSchema,
+    MongoInsert,
     UnsavedCheatSheetSchema,
     UpdateCheatSheetSchema,
     Username,
-    MongoInsert
 )
 from view.cheat_sheet_view import authentication
-from helpers.events import EventTypes
 
 client = TestClient(app)
 
@@ -161,6 +161,7 @@ def test_get_cheat_sheets__non_authorized(
             ),
         ]
     )
+
 
 @pytest.mark.parametrize(
     "cheat_sheets, expected_cheat_sheets, filter, expected_filter",
@@ -376,16 +377,19 @@ def test_get_cheat_sheet_by_id__non_authorized(
     mock_get_cheat_sheet.assert_called_with(cheat_sheet_id="62edd29215f7ccf1b7a44b87")
 
     assert mock_send_log_event.call_count == 1
+
+    expected_id = expected_cheat_sheet.get("id") if expected_cheat_sheet else "None"
     mock_send_log_event.assert_has_calls(
         [
             mock.call(
                 event_type=EventTypes.CHEAT_SHEET_OPERATION,
-                message=f"Fetched single cheat sheet - {expected_cheat_sheet.get('id') if expected_cheat_sheet else 'None'}",
+                message=f"Fetched single cheat sheet - {expected_id}",
                 user=None,
                 context={"status": "success", "method": "GET"},
             ),
         ]
     )
+
 
 @pytest.mark.parametrize(
     "cheat_sheet, expected_cheat_sheet",
