@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends
 
 from domain import cheat_sheet_domain
 from helpers.authentication import Authentication
+from helpers.events import EventTypes, send_log_event
 from helpers.serializers import bool_list_serializer
 from schemas import (
     CheatSheetID,
@@ -28,7 +29,18 @@ def get_cheat_sheets(
     if username is None:
         is_published__list = [True]
 
-    return cheat_sheet_domain.get_cheat_sheets(is_published__list=is_published__list)
+    cheat_sheets = cheat_sheet_domain.get_cheat_sheets(
+        is_published__list=is_published__list
+    )
+
+    send_log_event(
+        event_type=EventTypes.CHEAT_SHEET_OPERATION,
+        message=f"Fetched all ( {len(cheat_sheets) if cheat_sheets else 0}) cheat sheets",
+        user=(username if username else None),
+        context={"status": "success", "method": "GET"},
+    )
+
+    return cheat_sheets
 
 
 @router.get("/cheat_sheets/{cheat_sheet_id}")
@@ -39,7 +51,14 @@ def get_cheat_sheet_by_id(
     cheat_sheet = cheat_sheet_domain.get_cheat_sheet(cheat_sheet_id=cheat_sheet_id)
 
     if username is None and cheat_sheet and cheat_sheet.is_published is False:
-        return None
+        cheat_sheet = None
+
+    send_log_event(
+        event_type=EventTypes.CHEAT_SHEET_OPERATION,
+        message=f"Fetched single cheat sheet - {cheat_sheet.id if cheat_sheet else 'None'}",
+        user=(username if username else None),
+        context={"status": "success", "method": "GET"},
+    )
 
     return cheat_sheet
 
@@ -47,24 +66,51 @@ def get_cheat_sheet_by_id(
 @router.post("/cheat_sheets")
 def post_cheat_sheet(
     cheat_sheet_data: UnsavedCheatSheetSchema,
-    _: Username = Depends(authentication.auth_wrapper),
+    username: Username = Depends(authentication.auth_wrapper),
 ) -> MongoInsert:
-    return cheat_sheet_domain.create_cheat_sheet(cheat_sheet_data=cheat_sheet_data)
+    created = cheat_sheet_domain.create_cheat_sheet(cheat_sheet_data=cheat_sheet_data)
+
+    send_log_event(
+        event_type=EventTypes.CHEAT_SHEET_OPERATION,
+        message=f"Created cheat sheet - {created.id}",
+        user=(username if username else None),
+        context={"status": "success", "method": "POST"},
+    )
+
+    return created
 
 
 @router.patch("/cheat_sheets/{id}")
 def patch_cheat_sheet(
     id: str,
     cheat_sheet_data: UpdateCheatSheetSchema,
-    _: Username = Depends(authentication.auth_wrapper),
+    username: Username = Depends(authentication.auth_wrapper),
 ) -> MongoUpdate:
-    return cheat_sheet_domain.patch_cheat_sheet(
+    updated = cheat_sheet_domain.patch_cheat_sheet(
         id=id, cheat_sheet_data=cheat_sheet_data
     )
+
+    send_log_event(
+        event_type=EventTypes.CHEAT_SHEET_OPERATION,
+        message=f"Updated cheat sheet - {id}",
+        user=(username if username else None),
+        context={"status": "success", "method": "PATCH"},
+    )
+
+    return updated
 
 
 @router.delete("/cheat_sheets/{id}")
 def delete_cheat_sheet(
-    id: str, _: Username = Depends(authentication.auth_wrapper)
+    id: str, username: Username = Depends(authentication.auth_wrapper)
 ) -> MongoDelete:
-    return cheat_sheet_domain.delete_cheat_sheet(id=id)
+    deleted = cheat_sheet_domain.delete_cheat_sheet(id=id)
+
+    send_log_event(
+        event_type=EventTypes.CHEAT_SHEET_OPERATION,
+        message=f"deleted cheat sheet - {id}",
+        user=(username if username else None),
+        context={"status": "success", "method": "DELETE"},
+    )
+
+    return deleted

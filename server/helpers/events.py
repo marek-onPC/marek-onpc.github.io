@@ -21,7 +21,8 @@ EVENT_LOG_EVENT = "server.tasks.log_event"
 
 
 class EventTypes(StrEnum):
-    LOGIN_ATTEMPT = "login_attempt"
+    LOGIN_OPERATION = "login_operation"
+    CHEAT_SHEET_OPERATION = "cheat_sheet_operation"
 
 
 # ----- LOG EVENT, asynchronous logging
@@ -30,7 +31,7 @@ def send_log_event(
 ):
     now = datetime.datetime.now(datetime.timezone.utc)
     celery.send_task(
-        EVENT_LOG_EVENT, args=[event_type, message, user, now.isoformat(), context]
+        EVENT_LOG_EVENT, args=[event_type, message, now.isoformat(), user, context]
     )
 
 
@@ -38,16 +39,16 @@ def send_log_event(
 def process_log_event(
     event_type: str,
     message: str,
-    user: str,
     timestamp: str,
+    user: str | None = None,
     context: dict | None = None,
 ):
     db_client.insert_one(
         {
             "event_type": event_type,
             "message": message,
-            "user": user,
             "timestamp": timestamp,
+            "user": user,
             "context": context,
         }
     )
