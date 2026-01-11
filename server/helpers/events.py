@@ -1,11 +1,11 @@
 import datetime
 import os
-from enum import StrEnum
 
 from celery import Celery
 from dotenv import load_dotenv
 
 from helpers.db_client import DatabaseClient
+from schemas import EventTypes
 
 load_dotenv()
 amqp_url = os.environ["AMQP_URL"]
@@ -18,11 +18,6 @@ db_client = DatabaseClient(db_uri, db_name).connection()[db_collection_name]
 celery = Celery("logger", broker=amqp_url)
 
 EVENT_LOG_EVENT = "server.tasks.log_event"
-
-
-class EventTypes(StrEnum):
-    LOGIN_OPERATION = "login_operation"
-    CHEAT_SHEET_OPERATION = "cheat_sheet_operation"
 
 
 # ----- LOG EVENT, asynchronous logging

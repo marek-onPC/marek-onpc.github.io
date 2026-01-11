@@ -5,9 +5,8 @@ from unittest.mock import MagicMock
 import pytest
 from fastapi.testclient import TestClient
 
-from helpers.events import EventTypes
 from main import app
-from schemas import AuthToken
+from schemas import AuthToken, EventTypes
 
 client = TestClient(app)
 
