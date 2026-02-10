@@ -4,11 +4,12 @@ from fastapi import APIRouter, Depends
 
 from domain import cheat_sheet_domain
 from helpers.authentication import Authentication
-from helpers.events import EventTypes, send_log_event
+from helpers.events import send_log_event
 from helpers.serializers import bool_list_serializer
 from schemas import (
     CheatSheetID,
     CheatSheetSchema,
+    EventTypes,
     MongoDelete,
     MongoInsert,
     MongoUpdate,

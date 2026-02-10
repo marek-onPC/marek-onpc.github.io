@@ -7,11 +7,17 @@ Username = NewType("Username", str)
 Password = NewType("Password", str)
 HashedPassword = NewType("HashedPassword", str)
 CheatSheetID = NewType("CheatSheetID", str)
+LogID = NewType("LogID", str)
 
 
 class AllowedGrandTypes(StrEnum):
     PASSWORD = "password"
     REFRESH_TOKEN = "refresh_token"
+
+
+class EventTypes(StrEnum):
+    LOGIN_OPERATION = "login_operation"
+    CHEAT_SHEET_OPERATION = "cheat_sheet_operation"
 
 
 class PasswordAuthentication(BaseModel):
@@ -85,3 +91,16 @@ class MongoUpdate(BaseModel):
 
 class MongoDelete(BaseModel):
     acknowledged: bool
+
+
+class MongoPagination(BaseModel):
+    skip: int = 0
+    limit: int = 10
+
+
+class LogEntry(BaseModel):
+    id: LogID
+    event_type: EventTypes
+    message: str
+    user: Optional[str] = None
+    context: dict
