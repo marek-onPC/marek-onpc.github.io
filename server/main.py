@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from helpers.events import celery
-from view import cheat_sheet_view, login_view
+from view import cheat_sheet_view, login_view, logs_view
 
 load_dotenv()
 
@@ -30,3 +30,4 @@ if os.environ.get("APP_TYPE") == "fastapi":
     )
     app.include_router(login_view.router)
     app.include_router(cheat_sheet_view.router)
+    app.include_router(logs_view.router)
