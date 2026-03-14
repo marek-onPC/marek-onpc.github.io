@@ -13,21 +13,23 @@ def mock_db_client():
 
 
 def test_get_logs_returns_logs(mock_db_client):
-    # Arrange
+    # Arrange: domain uses sort("timestamp", -1) so MongoDB returns newest first
     mock_db_client.find.return_value.sort.return_value = [
-        {
-            "_id": "1",
-            "event_type": "login_operation",
-            "message": "Test log 1",
-            "user": "user1",
-            "context": {"key": "value1"},
-        },
         {
             "_id": "2",
             "event_type": "cheat_sheet_operation",
             "message": "Test log 2",
             "user": "user2",
             "context": {"key": "value2"},
+            "timestamp": "2023-01-02T00:00:00Z",
+        },
+        {
+            "_id": "1",
+            "event_type": "login_operation",
+            "message": "Test log 1",
+            "user": "user1",
+            "context": {"key": "value1"},
+            "timestamp": "2023-01-01T00:00:00Z",
         },
     ]
     pagination = MongoPagination(skip=0, limit=2)
@@ -43,6 +45,7 @@ def test_get_logs_returns_logs(mock_db_client):
         message="Test log 2",
         user="user2",
         context={"key": "value2"},
+        timestamp="2023-01-02T00:00:00Z",
     )
     assert logs[1] == LogEntry(
         id=LogID("1"),
@@ -50,6 +53,7 @@ def test_get_logs_returns_logs(mock_db_client):
         message="Test log 1",
         user="user1",
         context={"key": "value1"},
+        timestamp="2023-01-01T00:00:00Z",
     )
 
 
