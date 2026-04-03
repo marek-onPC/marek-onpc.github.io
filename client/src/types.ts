@@ -83,6 +83,6 @@ export enum HTTPMethods {
   DELETE = 'DELETE'
 }
 
-export type CheatSheetGetFilters = {
+export type GetFilters = {
   is_published__list?: Array<boolean>;
 };
