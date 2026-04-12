@@ -86,3 +86,17 @@ export enum HTTPMethods {
 export type GetFilters = {
   is_published__list?: Array<boolean>;
 };
+
+export enum EventTypes {
+  LOGIN_OPERATION = 'login_operation',
+  CHEAT_SHEET_OPERATION = 'cheat_sheet_operation'
+}
+
+export interface LogEntry {
+  id: string;
+  event_type: EventTypes;
+  message: string;
+  user?: string;
+  context: Record<string, unknown>;
+  timestamp: string;
+}
