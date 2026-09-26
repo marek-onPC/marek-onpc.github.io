@@ -1,13 +1,13 @@
 import {
   HTTPMethods,
-  type CheatSheetGetFilters,
+  type GetFilters,
   type SavedCheatSheetResponseType,
   type UnsavedCheatSheetType,
   type UpdateCheatSheetType
 } from '../types';
 import { PUBLIC_APP_SERVER } from '$env/static/public';
 
-const _filter_serializer = (filters: CheatSheetGetFilters): URLSearchParams => {
+const _filter_serializer = (filters: GetFilters): URLSearchParams => {
   let serialized: Record<string, string> = {};
 
   if (filters.is_published__list) {
@@ -68,10 +68,20 @@ const fetchClientGetWithoutToken = async (url: string): Promise<any> => {
 const fetchClientGet = async (
   url: string,
   token: string,
-  filters?: CheatSheetGetFilters
+  filters?: GetFilters,
+  queryParams?: Record<string, string | number>
 ): Promise<any> => {
-  const raw_filters = filters ? _filter_serializer(filters) : '';
-  const response = await fetch(`${PUBLIC_APP_SERVER}/api${url}?${raw_filters}`, {
+  const queryString =
+    queryParams !== undefined
+      ? new URLSearchParams(
+          Object.fromEntries(
+            Object.entries(queryParams).map(([k, v]) => [k, String(v)])
+          )
+        ).toString()
+      : filters
+        ? _filter_serializer(filters).toString()
+        : '';
+  const response = await fetch(`${PUBLIC_APP_SERVER}/api${url}?${queryString}`, {
     method: HTTPMethods.GET,
     headers: {
       Authorization: `Bearer ${token}`,

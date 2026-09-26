@@ -104,3 +104,4 @@ class LogEntry(BaseModel):
     message: str
     user: Optional[str] = None
     context: dict
+    timestamp: str

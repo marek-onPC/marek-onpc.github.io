@@ -104,6 +104,7 @@
         {/if}
       </button>
       <a class="button navigation__button" href="/dashboard">All sheets</a>
+      <a class="button navigation__button" href="/dashboard/logs">Logs</a>
       <button class="button navigation__button" on:click={logoutHandler}>Logout</button>
     </nav>
     <slot />
