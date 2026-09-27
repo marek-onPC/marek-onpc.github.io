@@ -3,8 +3,7 @@ from fastapi import APIRouter, Response
 from domain import login_domain
 from helpers.authentication import Authentication
 from helpers.events import send_log_event
-from schemas import (AllowedGrandTypes, AuthenticationDetails, AuthToken,
-                     EventTypes)
+from schemas import AllowedGrandTypes, AuthenticationDetails, AuthToken, EventTypes
 
 router = APIRouter(prefix="/api")
 authentication = Authentication()

@@ -7,8 +7,14 @@ from fastapi import HTTPException
 
 from helpers.authentication import Authentication, get_username_from_token
 from helpers.db_client import DatabaseClient
-from schemas import (AuthenticationDetails, AuthToken, PasswordAuthentication,
-                     RefreshTokenAuthentication, User, Username)
+from schemas import (
+    AuthenticationDetails,
+    AuthToken,
+    PasswordAuthentication,
+    RefreshTokenAuthentication,
+    User,
+    Username,
+)
 
 load_dotenv()
 

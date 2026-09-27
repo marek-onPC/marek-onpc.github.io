@@ -16,14 +16,11 @@ db_client = DatabaseClient(db_uri, db_name).connection()[db_collection_name]
 def get_logs(paginaton: MongoPagination = MongoPagination()) -> list[LogEntry] | None:
     logs = []
 
-    result = (
-        db_client.find(
-            {},
-            skip=paginaton.skip,
-            limit=paginaton.limit,
-        )
-        .sort("timestamp", -1)
-    )
+    result = db_client.find(
+        {},
+        skip=paginaton.skip,
+        limit=paginaton.limit,
+    ).sort("timestamp", -1)
 
     if result is None:
         return None

@@ -26,6 +26,7 @@ pytest-cov = "^7.0.0"
 coverage = "^7.10.7"
 celery = "^5.5.3"
 celery-types = "^0.23.0"
+typing-extensions = "^4.16.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"

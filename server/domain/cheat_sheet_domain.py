@@ -5,9 +5,16 @@ from bson.objectid import ObjectId
 from dotenv import load_dotenv
 
 from helpers.db_client import DatabaseClient
-from schemas import (CheatSheetContent, CheatSheetID, CheatSheetSchema,
-                     MongoDelete, MongoInsert, MongoUpdate,
-                     UnsavedCheatSheetSchema, UpdateCheatSheetSchema)
+from schemas import (
+    CheatSheetContent,
+    CheatSheetID,
+    CheatSheetSchema,
+    MongoDelete,
+    MongoInsert,
+    MongoUpdate,
+    UnsavedCheatSheetSchema,
+    UpdateCheatSheetSchema,
+)
 
 load_dotenv()
 

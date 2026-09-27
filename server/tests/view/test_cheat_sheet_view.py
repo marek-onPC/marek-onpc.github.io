@@ -5,9 +5,15 @@ import pytest
 from fastapi.testclient import TestClient
 
 from main import app
-from schemas import (CheatSheetContent, CheatSheetSchema, EventTypes,
-                     MongoInsert, UnsavedCheatSheetSchema,
-                     UpdateCheatSheetSchema, Username)
+from schemas import (
+    CheatSheetContent,
+    CheatSheetSchema,
+    EventTypes,
+    MongoInsert,
+    UnsavedCheatSheetSchema,
+    UpdateCheatSheetSchema,
+    Username,
+)
 from view.cheat_sheet_view import authentication
 
 client = TestClient(app)

@@ -59,18 +59,18 @@ def test_get_logs_success(mock_get_logs: MagicMock):
             "timestamp": "2023-01-01T00:00:00Z",
         },
     ]
-    mock_get_logs.assert_called_once_with(paginaton=MongoPagination(**pagination_params))
+    mock_get_logs.assert_called_once_with(
+        paginaton=MongoPagination(**pagination_params)
+    )
     app.dependency_overrides = {}
+
 
 def test_get_logs_unauthorized():
     # Ensure no auth override so real auth runs and returns 403
     app.dependency_overrides.pop(authentication.auth_wrapper, None)
 
     # Define pagination parameters (MongoPagination uses skip/limit)
-    pagination_params = {
-        "skip": 0,
-        "limit": 10
-    }
+    pagination_params = {"skip": 0, "limit": 10}
 
     # Make the request and assert the exception
     response = client.get("/api/logs", params=pagination_params)

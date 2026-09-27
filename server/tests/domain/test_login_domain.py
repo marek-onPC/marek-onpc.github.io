@@ -10,9 +10,15 @@ from mongomock import Collection
 
 from domain.login_domain import _bson_user_to_object, get_token, get_user
 from helpers.authentication import Authentication
-from schemas import (AllowedGrandTypes, AuthToken, Password,
-                     PasswordAuthentication, RefreshTokenAuthentication, User,
-                     Username)
+from schemas import (
+    AllowedGrandTypes,
+    AuthToken,
+    Password,
+    PasswordAuthentication,
+    RefreshTokenAuthentication,
+    User,
+    Username,
+)
 
 db_name = "DB_NAME"
 db_name = "DB_COLL"
