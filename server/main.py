@@ -15,8 +15,13 @@ amqp_url = os.environ["AMQP_URL"]
 
 origins = ["https://marek-onpc.github.io", "http://localhost:3000"]
 
+FEATURE_ASYNC_LOGGING = os.environ.get("FEATURE_ASYNC_LOGGING", "False") == "True"
+
 if os.environ.get("APP_TYPE") == "celery":
-    celery
+    if FEATURE_ASYNC_LOGGING:
+        celery
+    else:
+        print("FEATURE_ASYNC_LOGGING flag is OFF, AMQP worker disabled.")
 
 if os.environ.get("APP_TYPE") == "fastapi":
     app = FastAPI()
