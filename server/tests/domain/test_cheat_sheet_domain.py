@@ -6,18 +6,10 @@ import pytest
 from bson import ObjectId
 from mongomock import Collection
 
-from domain.cheat_sheet_domain import (
-    create_cheat_sheet,
-    get_cheat_sheet,
-    get_cheat_sheets,
-    patch_cheat_sheet,
-)
-from schemas import (
-    CheatSheetContent,
-    CheatSheetSchema,
-    UnsavedCheatSheetSchema,
-    UpdateCheatSheetSchema,
-)
+from domain.cheat_sheet_domain import (create_cheat_sheet, get_cheat_sheet,
+                                       get_cheat_sheets, patch_cheat_sheet)
+from schemas import (CheatSheetContent, CheatSheetSchema,
+                     UnsavedCheatSheetSchema, UpdateCheatSheetSchema)
 
 db_name = "DB_NAME"
 db_name = "DB_COLL"

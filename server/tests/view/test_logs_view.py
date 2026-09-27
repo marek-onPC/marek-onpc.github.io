@@ -1,10 +1,10 @@
-from fastapi.testclient import TestClient
-from unittest.mock import patch
-from main import app
-from schemas import LogEntry, MongoPagination, EventTypes,LogID, Username
-from unittest.mock import MagicMock
-from view.logs_view import authentication
+from unittest.mock import MagicMock, patch
 
+from fastapi.testclient import TestClient
+
+from main import app
+from schemas import EventTypes, LogEntry, LogID, MongoPagination, Username
+from view.logs_view import authentication
 
 client = TestClient(app)
 
