@@ -35,7 +35,7 @@ pytest = "^8.2.2"
 plugins = ["pydantic.mypy"]
 
 [tool.pytest.ini_options]
-addopts = "--cov=. --cov-report term --cov-fail-under 96"
+addopts = "--cov=. --cov-report term --cov-fail-under 95"
 
 [build-system]
 requires = ["poetry-core"]

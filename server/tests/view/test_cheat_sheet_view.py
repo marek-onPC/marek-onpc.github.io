@@ -23,144 +23,23 @@ def _mock_auth_wrapper() -> Username:
     return Username("test_user")
 
 
-@pytest.mark.parametrize(
-    "cheat_sheets, expected_cheat_sheets, filter, expected_filter",
-    [
-        pytest.param(
-            [
-                CheatSheetSchema(
-                    title="Second entry",
-                    language="python",
-                    is_published=True,
-                    cards=[
-                        CheatSheetContent(
-                            subtitle="card_subtitle", content="card_content"
-                        )
-                    ],
-                    id="62edd29215f7ccf1b7a44b87",
-                ),
-            ],
-            [
-                {
-                    "title": "Second entry",
-                    "language": "python",
-                    "is_published": True,
-                    "cards": [{"subtitle": "card_subtitle", "content": "card_content"}],
-                    "id": "62edd29215f7ccf1b7a44b87",
-                },
-            ],
-            None,
-            [True],
-        ),
-        pytest.param(
-            [
-                CheatSheetSchema(
-                    title="Second entry",
-                    language="python",
-                    is_published=True,
-                    cards=[
-                        CheatSheetContent(
-                            subtitle="card_subtitle", content="card_content"
-                        )
-                    ],
-                    id="62edd29215f7ccf1b7a44b87",
-                ),
-            ],
-            [
-                {
-                    "title": "Second entry",
-                    "language": "python",
-                    "is_published": True,
-                    "cards": [{"subtitle": "card_subtitle", "content": "card_content"}],
-                    "id": "62edd29215f7ccf1b7a44b87",
-                },
-            ],
-            {"is_published__list": "true"},
-            [True],
-        ),
-        pytest.param(
-            [
-                CheatSheetSchema(
-                    title="Second entry",
-                    language="python",
-                    is_published=True,
-                    cards=[
-                        CheatSheetContent(
-                            subtitle="card_subtitle", content="card_content"
-                        )
-                    ],
-                    id="62edd29215f7ccf1b7a44b87",
-                ),
-            ],
-            [
-                {
-                    "title": "Second entry",
-                    "language": "python",
-                    "is_published": True,
-                    "cards": [{"subtitle": "card_subtitle", "content": "card_content"}],
-                    "id": "62edd29215f7ccf1b7a44b87",
-                },
-            ],
-            {"is_published__list": "false"},
-            [True],
-        ),
-        pytest.param(
-            [
-                CheatSheetSchema(
-                    title="Second entry",
-                    language="python",
-                    is_published=True,
-                    cards=[
-                        CheatSheetContent(
-                            subtitle="card_subtitle", content="card_content"
-                        )
-                    ],
-                    id="62edd29215f7ccf1b7a44b87",
-                ),
-            ],
-            [
-                {
-                    "title": "Second entry",
-                    "language": "python",
-                    "is_published": True,
-                    "cards": [{"subtitle": "card_subtitle", "content": "card_content"}],
-                    "id": "62edd29215f7ccf1b7a44b87",
-                },
-            ],
-            {"is_published__list": "false,true"},
-            [True],
-        ),
-    ],
-)
-@mock.patch("domain.cheat_sheet_domain.get_cheat_sheets")
-@mock.patch("view.cheat_sheet_view.send_log_event")
-def test_get_cheat_sheets__non_authorized(
-    mock_send_log_event: MagicMock,
-    mock_get_cheat_sheets: MagicMock,
-    cheat_sheets: list[CheatSheetSchema],
-    expected_cheat_sheets: list[dict],
-    filter: dict | None,
-    expected_filter: list[bool],
-) -> None:
-    mock_get_cheat_sheets.return_value = cheat_sheets
-    mock_send_log_event.return_value = None
+def test_get_cheat_sheets__non_authorized() -> None:
+    response = client.get("/api/cheat_sheets")
+    assert response.status_code == 403
+    # assert response.json() == expected_cheat_sheets
+    # mock_get_cheat_sheets.assert_called_with(is_published__list=expected_filter)
 
-    response = client.get("/api/cheat_sheets", params=filter)
-    assert response.status_code == 200
-    assert response.json() == expected_cheat_sheets
-    mock_get_cheat_sheets.assert_called_with(is_published__list=expected_filter)
-
-    assert mock_send_log_event.call_count == 1
-    mock_send_log_event.assert_has_calls(
-        [
-            mock.call(
-                event_type=EventTypes.CHEAT_SHEET_OPERATION,
-                message=f"Fetched all ( {len(cheat_sheets)}) cheat sheets",
-                user=None,
-                context={"status": "success", "method": "GET"},
-            ),
-        ]
-    )
+    # assert mock_send_log_event.call_count == 1
+    # mock_send_log_event.assert_has_calls(
+    #     [
+    #         mock.call(
+    #             event_type=EventTypes.CHEAT_SHEET_OPERATION,
+    #             message=f"Fetched all ( {len(cheat_sheets)}) cheat sheets",
+    #             user=None,
+    #             context={"status": "success", "method": "GET"},
+    #         ),
+    #     ]
+    # )
 
 
 @pytest.mark.parametrize(
@@ -300,7 +179,7 @@ def test_get_cheat_sheets__authorized(
     filter: dict | None,
     expected_filter: list[bool],
 ) -> None:
-    app.dependency_overrides[authentication.optional_auth_wrapper] = _mock_auth_wrapper
+    app.dependency_overrides[authentication.auth_wrapper] = _mock_auth_wrapper
     mock_get_cheat_sheets.return_value = cheat_sheets
 
     response = client.get("/api/cheat_sheets", params=filter)
@@ -323,72 +202,9 @@ def test_get_cheat_sheets__authorized(
     )
 
 
-@pytest.mark.parametrize(
-    "cheat_sheet, expected_cheat_sheet",
-    [
-        pytest.param(
-            CheatSheetSchema(
-                title="Second entry",
-                language="python",
-                is_published=True,
-                cards=[
-                    CheatSheetContent(subtitle="card_subtitle", content="card_content")
-                ],
-                id="62edd29215f7ccf1b7a44b87",
-            ),
-            {
-                "title": "Second entry",
-                "language": "python",
-                "is_published": True,
-                "cards": [{"subtitle": "card_subtitle", "content": "card_content"}],
-                "id": "62edd29215f7ccf1b7a44b87",
-            },
-            id="Published CS, return cheat sheet for non-authorized user",
-        ),
-        pytest.param(
-            CheatSheetSchema(
-                title="Second entry",
-                language="python",
-                is_published=False,
-                cards=[
-                    CheatSheetContent(subtitle="card_subtitle", content="card_content")
-                ],
-                id="62edd29215f7ccf1b7a44b87",
-            ),
-            None,
-            id="Unpublished CS, return None for non-authorized user",
-        ),
-    ],
-)
-@mock.patch("domain.cheat_sheet_domain.get_cheat_sheet")
-@mock.patch("view.cheat_sheet_view.send_log_event")
-def test_get_cheat_sheet_by_id__non_authorized(
-    mock_send_log_event: MagicMock,
-    mock_get_cheat_sheet: MagicMock,
-    cheat_sheet: CheatSheetSchema,
-    expected_cheat_sheet: dict,
-) -> None:
-    mock_get_cheat_sheet.return_value = cheat_sheet
-    mock_send_log_event.return_value = None
-
+def test_get_cheat_sheet_by_id__non_authorized() -> None:
     response = client.get("/api/cheat_sheets/62edd29215f7ccf1b7a44b87")
-    assert response.status_code == 200
-    assert response.json() == expected_cheat_sheet
-    mock_get_cheat_sheet.assert_called_with(cheat_sheet_id="62edd29215f7ccf1b7a44b87")
-
-    assert mock_send_log_event.call_count == 1
-
-    expected_id = expected_cheat_sheet.get("id") if expected_cheat_sheet else "None"
-    mock_send_log_event.assert_has_calls(
-        [
-            mock.call(
-                event_type=EventTypes.CHEAT_SHEET_OPERATION,
-                message=f"Fetched single cheat sheet - {expected_id}",
-                user=None,
-                context={"status": "success", "method": "GET"},
-            ),
-        ]
-    )
+    assert response.status_code == 403
 
 
 @pytest.mark.parametrize(
@@ -442,7 +258,7 @@ def test_get_cheat_sheet_by_id__authorized(
     cheat_sheet: CheatSheetSchema,
     expected_cheat_sheet: dict,
 ) -> None:
-    app.dependency_overrides[authentication.optional_auth_wrapper] = _mock_auth_wrapper
+    app.dependency_overrides[authentication.auth_wrapper] = _mock_auth_wrapper
     mock_get_cheat_sheet.return_value = cheat_sheet
     mock_send_log_event.return_value = None
 
