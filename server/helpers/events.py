@@ -9,8 +9,8 @@ from helpers.db_client import DatabaseClient
 from schemas import EventTypes
 
 load_dotenv()
-amqp_url = os.environ["AMQP_URL"]
-celery_backend_db_url = os.environ["CELERY_BACKEND_DB_URI"]
+amqp_url = os.environ.get("AMQP_URL")
+celery_backend_db_url = os.environ.get("CELERY_BACKEND_DB_URI")
 db_uri = os.environ["DB_URI"]
 db_name = os.environ["DB_NAME"]
 db_collection_name = os.environ["DB_COLL_LOGGING"]

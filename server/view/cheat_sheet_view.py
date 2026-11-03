@@ -25,11 +25,8 @@ authentication = Authentication()
 @router.get("/cheat_sheets")
 def get_cheat_sheets(
     is_published__list: list[Literal[True, False]] = Depends(bool_list_serializer),
-    username: Optional[Username] = Depends(authentication.optional_auth_wrapper),
+    username: Username = Depends(authentication.auth_wrapper),
 ) -> list[CheatSheetSchema] | None:
-    if username is None:
-        is_published__list = [True]
-
     cheat_sheets = cheat_sheet_domain.get_cheat_sheets(
         is_published__list=is_published__list
     )
@@ -47,12 +44,9 @@ def get_cheat_sheets(
 @router.get("/cheat_sheets/{cheat_sheet_id}")
 def get_cheat_sheet_by_id(
     cheat_sheet_id: CheatSheetID,
-    username: Optional[Username] = Depends(authentication.optional_auth_wrapper),
+    username: Username = Depends(authentication.auth_wrapper),
 ) -> CheatSheetSchema | None:
     cheat_sheet = cheat_sheet_domain.get_cheat_sheet(cheat_sheet_id=cheat_sheet_id)
-
-    if username is None and cheat_sheet and cheat_sheet.is_published is False:
-        cheat_sheet = None
 
     send_log_event(
         event_type=EventTypes.CHEAT_SHEET_OPERATION,

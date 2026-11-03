@@ -11,7 +11,7 @@ load_dotenv()
 
 db_uri = os.environ["DB_URI"]
 db_name = os.environ["DB_NAME"]
-amqp_url = os.environ["AMQP_URL"]
+amqp_url = os.environ.get("AMQP_URL")
 
 origins = ["https://marek-onpc.github.io", "http://localhost:3000"]
 
