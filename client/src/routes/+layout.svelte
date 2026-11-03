@@ -1,15 +1,22 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
+  import { sessionToken } from '../stores';
+  import { onMount } from 'svelte';
 
   export let data;
 
   const URL = '/about|/sheets';
   let isNavDisabled = !data.url.match(URL) ? true : false;
+  let isAuthenticated: boolean = false
 
   $: data.url &&
     setTimeout(() => {
       isNavDisabled = !data.url.match(URL) ? true : false;
     }, 125);
+
+  onMount(() => {
+    isAuthenticated = !!$sessionToken.accessToken || $sessionToken.expiry > new Date()
+  });
 </script>
 
 <svelte:head>
@@ -22,7 +29,9 @@
       class={`navigation ${!data.url.match(URL) ? '--faded' : ''} ${isNavDisabled ? '--disabled' : ''}`}
     >
       <a class="button navigation__button" href="/">Home</a>
-      <a class="button navigation__button" href="/sheets">Cheat sheets</a>
+      {#if isAuthenticated}
+        <a class="button navigation__button" href="/sheets">Cheat sheets</a>
+      {/if}
       <a class="button navigation__button" href="/about">About</a>
     </nav>
     {#key data.url}

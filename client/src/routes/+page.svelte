@@ -10,6 +10,7 @@
   } from '@fortawesome/free-brands-svg-icons';
   import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
   import { fade } from 'svelte/transition';
+  import { sessionToken } from '../stores';
 
   import type { IconSet } from '../types';
   import { onDestroy, onMount } from 'svelte';
@@ -37,10 +38,12 @@
     }
   ];
 
-  let mounted = false;
+  let mounted: boolean  = false;
+  let isAuthenticated: boolean = false
 
   onMount(() => {
     mounted = true;
+    isAuthenticated = !!$sessionToken.accessToken || $sessionToken.expiry > new Date()
   });
 
   onDestroy(() => {
@@ -72,7 +75,9 @@
         </div>
       </div>
       <div transition:fade={{ delay: 750 }} class="content__right">
-        <a href="/sheets" class="button">Cheat sheets</a>
+        {#if isAuthenticated}
+          <a href="/sheets" class="button">Cheat sheets</a>
+        {/if}
         <a href="/about" class="button">About</a>
         <a href="https://github.com/marek-onPC" target="_blank" class="button"
           ><FontAwesomeIcon icon={faGithub} size="2x" /></a
